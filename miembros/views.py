@@ -12,6 +12,7 @@ class RegistroUsuario(generic.CreateView):
     success_url = reverse_lazy('login')
 
 class LoginUsuario(generic.CreateView):
-    form_class = forms.FormularioLogin
+    authentication_form = forms.LoginForm
     template_name = 'registration/login.html'
     success_url = reverse_lazy('home')
+

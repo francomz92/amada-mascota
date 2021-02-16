@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %}{% endblock %}
+{% block title %}Login |{% endblock %}
 
 
 
@@ -16,7 +16,7 @@
             <div class="signin-content">
                 <div class="signin-image">
                     <figure><img src="{% static 'img/logo.png' %}" class="logo" alt=""></figure>
-                    <a href="#" class="signup-image-link">Create an account</a>
+                    <a href="{% url 'register' %}" class="signup-image-link">Registrarse</a>
                 </div>
 
                 <div class="signin-form">
@@ -24,14 +24,12 @@
                     <form method="POST" class="register-form" id="login-form">
                         {% csrf_token %}
                         <div class="form-group">
-                            {{ form.email }}
-                            {{ form.email.errors }}
+                            {{ form.username }}
                             <!--<label for="your_name"><i class="icofont-user"></i></label>
                             <input type="text" name="your_name" id="your_name" placeholder="Your Name"/>-->
                         </div>
                         <div class="form-group">
                             {{ form.password }}
-                            {{ form.password.errors }}
                             <!--<label for="your_pass"><i class="icofont-lock"></i></label>
                             <input type="password" name="your_pass" id="your_pass" placeholder="Password"/>-->
                         </div>
