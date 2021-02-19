@@ -59,7 +59,7 @@ class FormularioRegistro(UserCreationForm):
         self.fields['password '].widget.attrs['placeholder'] = 'password'
 """
 
-class PrettyAuthenticationForm(AuthenticationForm):
+"""class PrettyAuthenticationForm(AuthenticationForm):
     class Meta:
         widgets = {
             'username': forms.TextInput(attrs={'class': 'form-control', 'placeholder':'Nombre de usuario'}),
@@ -76,4 +76,12 @@ class LoginForm(AuthenticationForm):
     password = forms.CharField(widget=forms.PasswordInput(attrs={'class':'form-control'}))
 
     def __init__(self, *args, **kwargs):
-        super(LoginForm, self).__init__(*args, **kwargs)
+        super(LoginForm, self).__init__(*args, **kwargs)"""
+
+
+class LoginForm(AuthenticationForm):
+    def __init__(self, *args, **kwargs):
+        super(AuthenticationForm,self).__init__(*args,**kwargs)
+        print(self)
+        self.fields["username"].widget.attrs.update({'class' : 'form-control','placeholder' : "Nombre de usuario", 'type' : 'text'})
+        self.fields["password"].widget.attrs.update({'class' : 'form-control','placeholder' : "Contraseña", 'type' : 'text'})
