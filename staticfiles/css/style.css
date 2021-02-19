@@ -121,7 +121,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .get-started-btn:hover {
-  background: #3F1802;
+  background: #ff91b2;
   color: #fff;
 }
 
@@ -588,6 +588,11 @@ section {
   font-weight: 700;
   font-size: 34px;
   margin-bottom: 30px;
+  font-family: 'Fredoka One', cursive;
+}
+
+.about .content span {
+  color: #e53e6a;
 }
 
 .about .content p {
@@ -612,10 +617,10 @@ section {
   padding-left: 5px;
 }
 
-.about .content .about-btn:hover {
-  background: #ff91b2;
-  background: #e53e6a;
-}
+/*.about .content .about-btn:hover {
+  background: #444444;
+
+}*/
 
 .about .icon-boxes .icon-box {
   margin-top: 30px;
@@ -790,12 +795,12 @@ section {
   margin-bottom: 20px;
   padding: 30px;
   border-radius: 6px;
-  background: #3F1802;
+  background: #444444;
   transition: 0.3s;
 }
 
 .services .icon-box:hover {
-  background: #3F1802;
+  background: #444444;
 }
 
 .services .icon-box i {
@@ -1242,6 +1247,9 @@ section {
 /*--------------------------------------------------------------
 # Team
 --------------------------------------------------------------*/
+.team .row {
+  justify-content: center;
+}
 .team .member {
   margin-bottom: 20px;
   overflow: hidden;
@@ -1395,7 +1403,7 @@ section {
   width: 24px;
   height: 24px;
   margin: 0 10px -6px 0;
-  border: 3px solid #18d26e;
+  border: 3px solid #e53e6a;
   border-top-color: #eee;
   -webkit-animation: animate-loading 1s linear infinite;
   animation: animate-loading 1s linear infinite;
@@ -2107,7 +2115,7 @@ section {
 #footer .social-links a {
   font-size: 18px;
   display: inline-block;
-  background: #3F1802;
+  background: #444444;
   color: #fff;
   line-height: 1;
   padding: 8px 0;
