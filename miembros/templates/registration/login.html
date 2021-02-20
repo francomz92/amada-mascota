@@ -11,19 +11,19 @@
 <div class="main">
 
     <!-- Sing in  Form -->
-    <section class="sign-in">
-        <div class="containerr">
-            <div class="signin-content">
-                <div class="signin-image">
-                    <figure><img src="{% static 'img/logo.png' %}" class="logo" alt=""></figure>
+    <section class="sign-in" ">
+        <div class="containerr w-100 p-4 " >
+            <div class="signin-content" style="padding-top: 1em;">
+                <div class="signin-image ">
+                    <figure class="d-none d-md-block"><img src="{% static 'img/logo.png' %}" class="logo" alt=""></figure>
                     <a href="{% url 'register' %}" class="signup-image-link">Registrarse</a>
                 </div>
 
-                <div class="signin-form">
+                <div class="signin-form ">
                     <h2 class="form-title">Login</h2>
                     <form method="POST" class="register-form" id="login-form">
                         {% csrf_token %}
-                        <div class="form-group">
+                        <div class="form-group ">
                             {{ form.username }}
                             <!--<label for="your_name"><i class="icofont-user"></i></label>
                             <input type="text" name="your_name" id="your_name" placeholder="Your Name"/>-->
