@@ -53,15 +53,29 @@
       <nav id="navbar" class="navbar order-last order-lg-0">
         <ul>
           <li><a class="nav-link scrollto active" href="{% url 'home' %}">Home</a></li>
-          <li><a href="{% url 'perdidos' %}">Perdidos</a></li>
+          <li><a href="#">Perdidos</a></li>
           <li><a href="#">Encontrados</a></li>
           <li><a class="nav-link scrollto" href="{% url 'about' %}">Acerca de</a></li>
           <li><a class="nav-link scrollto" href="{% url 'about' %}#contact">Contactanos</a></li>
+          {% if user.is_authenticated %}
+          <li class="dropdown"><a href="#"><span>Hola, {{ user.first_name }}</span> <i class="bi bi-chevron-down"></i></a>
+            <ul>
+              <li><a href="#">Mi perfil</a></li>
+              <li><a href="#">Publicar mascota perdida</a></li>
+              <li><a href="#">Publicar mascota encontrada</a></li>
+              <li><a href="#">Dar en adopción</a></li>
+            </ul>
+          </li>
+          {% endif %}
         </ul>
         <i class="bi bi-list mobile-nav-toggle"></i>
       </nav><!-- .navbar -->
 
-      <a href="{% url 'login' %}" class="get-started-btn scrollto">Iniciar</a>
+      {% if user.is_authenticated %}
+        <a href="{% url 'logout' %}" class="get-started-btn scrollto">Salir</a>
+      {% else %}
+        <a href="{% url 'login' %}" class="get-started-btn scrollto">Iniciar</a>
+      {% endif %}
     </div>
   </header><!-- End Header -->
 
