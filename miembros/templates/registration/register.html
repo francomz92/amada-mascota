@@ -7,13 +7,13 @@
 
 <link href="{% static 'css/login.css' %}" rel="stylesheet">
 
-<div class="main">
+<div class="main" style="padding-top: 3em;padding-bottom: 0px;">
 
     <!-- Sign up form -->
-    <section class="signup">
+    <section class="signup" style="padding-bottom: 2em; padding-left: 2em; padding-right: 2em;margin-bottom: 0px;">
         <div class="containerr w-100 p-2">
             <div class="signup-content" style="padding-top: 1em;">
-                <div class="signup-form">
+                <div class="signup-form" >
                     <h2 class="form-title" >Registrarse</h2>
                     <form method="POST" class="register-form" id="register-form">
                         {% csrf_token %}
