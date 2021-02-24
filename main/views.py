@@ -12,7 +12,7 @@ def about(request):
         form = FormularioContacto(request.POST or None)
         if form.is_valid():
             form.save()
-            return HttpResponse('Tu mensaje ha sido enviado. Gracias! Vuelva prontos!')
+            return HttpResponse('Tu mensaje ha sido enviado. Gracias! Vuelva pronto!')
     else:
         form = FormularioContacto()
         context = {
