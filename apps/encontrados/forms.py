@@ -9,6 +9,7 @@ class PublicacionForm(forms.ModelForm):
       fields = [
          'observaciones'
       ]
+      help_texts = {'observaciones': ''}
 
 class MascotaForm(forms.ModelForm):
    
@@ -27,8 +28,10 @@ class MascotaForm(forms.ModelForm):
       #    'fotos',
       #    'color',
       #    'tamaño',
-      #    'otros_datos',
+      #    'otro_dato',
       # ]
+      help_texts = {field:'' for field in fields}
+      
       
 class UbicacionForm(forms.ModelForm):
    
