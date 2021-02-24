@@ -2,93 +2,182 @@ from django.db import models
 from django.contrib.auth.models import User
 from datetime import datetime, timedelta
 
-# Create your models here.
-
-listado_ciudades = (('res','resistencia'),('pal','las palmas'))
-
-class Ciudad(models.Model):
-    nombre = models.CharField(max_length=50)
+class Ubicacion(models.Model):
+    lista_localidades = (
+    ('Avia Terai','Avia Terai'),
+    ('Campo Largo','Campo Largo'),
+    ('Charata','Charata'),
+    ('Colonia Benítez','Colonia Benítez'),
+    ('Colonia Elisa','Colonia Elisa'),
+    ('Colonias Unida','Colonias Unidas'),
+    ('Comandancia Frías','Comandancia Frías'),
+    ('Concepción del Bermejo','Concepción del Bermejo'),
+    ('Coronel Du Graty','Coronel Du Graty'),
+    ('Corzuela','Corzuela'),
+    ('El Paranacito','El Paranacito'),
+    ('El Sauzalito','El Sauzalito'),
+    ('Fortín Belgrano','Fortín Belgrano'),
+    ('Gancedo','Gancedo'),
+    ('General José de San Martín','General José de San Martín'),
+    ('General Pinedo','General Pinedo'),
+    ('Hermoso Campo','Hermoso Campo'),
+    ('Isla Soto','Isla Soto'),
+    ('Juan José Castelli','Juan José Castelli'),
+    ('La Clotilde','La Clotilde'),
+    ('La Escondida','La Escondida'),
+    ('La Leonesa','La Leonesa'),
+    ('La Tigra','La Tigra'),
+    ('La Verde','La Verde'),
+    ('Las Breñas','Las Breñas'),
+    ('Las Garcitas','Las Garcitas'),
+    ('Las Hacheras','Las Hacheras'),
+    ('Las Palmas','Las Palmas'),
+    ('Los Frentones','Los Frentones'),
+    ('Machagai','Machagai'),
+    ('Makallé','Makallé'),
+    ('Margarita Belén','Margarita Belén'),
+    ('Miraflores','Miraflores'),
+    ('Misión Nueva Pompeya','Misión Nueva Pompeya'),
+    ('Napenay','Napenay'),
+    ('Pampa del Indio','Pampa del Indio'),
+    ('Pampa del Infierno','Pampa del Infierno'),
+    ('Presidencia de la Plaza','Presidencia de la Plaza'),
+    ('Presidencia Roca','Presidencia Roca'),
+    ('Puerto Bermejo','Puerto Bermejo'),
+    ('Puerto Las Palmas','Puerto Las Palmas'),
+    ('Puerto Tirol','Puerto Tirol'),
+    ('Quitilipi','Quitilipi'),
+    ('San Bernardo','San Bernardo'),
+    ('Paraje San Fernando','Paraje San Fernando'),
+    ('Santa Sylvina','Santa Sylvina'),
+    ('Taco Pozo','Taco Pozo'),
+    ('Tres Isletas','Tres Isletas'),
+    ('Villa Ángela','Villa Ángela'),
+    ('Villa Berthet','Villa Berthet'),
+    ('Villa Río Bermejito','Villa Río Bermejito')
+    )
+    localidad = models.CharField(max_length=30,choices=lista_localidades,null=False)
+    barrio = models.CharField(max_length=50,null=False)
+    entre_calles = models.CharField(max_length=50,null=True)
+    numero = models.CharField(max_length=5,default="S/N")
+    calle = models.CharField(max_length=50,null=False)
+    otros_datos = models.CharField(max_length=50,default="Sin particular")
 
     def __str__(self):
-        return self.nombre
-
-class Direccion(models.Model):
-    calle = models.CharField(max_length=50)
-    numero = models.CharField(max_length=4)
-    ciudad = models.ForeignKey(
-        Ciudad,
-        choices=listado_ciudades,
-        on_delete=models.RESTRICT)
-    descripcion = models.CharField(max_length=50)
+        return self.localidad+','+self.barrio+','+self.calle+','+self.numero
 
 class Persona(User):
-    direccion = models.OneToOneField(
-        Direccion,
-        on_delete=models.CASCADE) 
+    pass
 
-lista_especies = (
-        ('per','perro'),
-        ('gat','gato'),
-        ('eri','erizo')
+class Mascota(models.Model):    
+    lista_especies = (
+        ('Perro','Perro'),
+        ('Gallo','Gallo'),
+        ('Gato','Gato'),
+        ('Vaca','Vaca'),
+        ('Cerdo','Cerdo'),
+        ('Pato','Pato'),
+        ('Tortuga de tierra','Tortuga de tierra'),
+        ('Hámster','Hámster'),
+        ('Erizo de tierra','Erizo de tierra')
     )
-
-class Animal(models.Model):    
-   
+    sexos = (
+    ('Macho','Macho'),
+    ('Hembra','Hembra'),
+    ('Desconocido','Desconocido'),
+    )
+    tamanos = (
+    ('Enorme','Enorme'),
+    ('Grande','Grande'),
+    ('Mediano','Mediano'),
+    ('Chico','Chico'),
+    ('Diminuto','Diminuto'),
+    )
+    id_dueño = models.ForeignKey(
+        Persona,
+        default=models.SET_NULL,
+        on_delete = models.CASCADE,
+        )
     nombre = models.CharField(
         max_length=30,
         default="Desconocido",
-        help_text="Indica su nombre, si no lo conoces no te preocupes")
+        help_text="Indica su nombre si lo conoces",
+        )
+    familia = models.CharField(max_length=50,default="Desconocido")
+    raza = models.CharField(max_length=50,default="Desconocido")
     especie = models.CharField(
-        max_length=3,
+        max_length=17,
         choices=lista_especies,
         null=False,
-        help_text="Indica su especie")
+        help_text="Indica la especie")
+    edad = models.CharField(max_length=2,default="Desconocido")
+    sexo = models.CharField(max_length=11,choices=sexos,null=False)
     fotos = models.ImageField(upload_to ='./media') 
-    descripcion = models.CharField(max_length=200)
+    color = models.CharField(max_length=30,null=True)
+    tamaño = models.CharField(max_length=8,choices=tamanos)
+    otro_dato = models.CharField(max_length=200,default=models.SET_NULL)
 
     def __str__(self):
-        return self.especie+'/'+self.nombre
+        return self.especie+'-'+self.nombre
 
-class Mascota(Animal):
-    cuidado_especial = models.CharField(max_length=200)
-    edad = models.CharField(max_length=2)
-    dueño = models.ForeignKey(
+class Publicacion(models.Model):
+    id_usuario = models.ForeignKey(
         Persona,
-        on_delete=models.CASCADE
+        null=False,
+        on_delete = models.CASCADE,
         )
+    id_mascota = models.ForeignKey(
+        Mascota,
+        null=False,
+        on_delete = models.CASCADE,
+    )
+    id_ubicacion = models.ForeignKey(
+        Ubicacion,
+        null=False,
+        on_delete = models.DO_NOTHING
+    )
+    fecha_publicacion = models.DateField(auto_now_add=True)
+    fecha_evento = models.DateField(default = datetime.today())
+    fecha_entrega = models.DateField(null=True)
+    observaciones = models.CharField(max_length=100,default="Sin observaciones")
+
+    def __str__(self):
+        #Conformacion del titulo de la publicacion
+        especie = Mascota.objects.get(pk=self.id_mascota).only('especie')
+        fecha = self.fecha_evento.day+'/'+self.fecha_evento.month
+        ubicacion = Ubicacion.objects.get(pk=self.id_ubicacion).only('localidad','barrio')
+        return especie+'-'+fecha+'-'+ubicacion
+    
+    
 
 class Adopcion(models.Model):
-    titulo = models.CharField(
-        max_length=30,
-        help_text="Titulo llamativo para las personas")
-    reglas_de_adopcion = models.CharField(
-        max_length=200,
-        help_text="Bases para poder adoptar")
-    animal = models.ForeignKey(Animal,on_delete=models.CASCADE)
-    fecha_publicacion = models.DateTimeField(auto_now_add=True)
-    persona = models.ForeignKey(Persona,on_delete=models.RESTRICT)
-
-    def __str__(self):
-        return self.titulo
-
-        
-opciones_encontrado = (('Si',True),('No',False))
-class Perdido(models.Model):
-    fecha_hora = models.DateTimeField(auto_now_add=True)
-    valido_hasta = models.DateTimeField(default=datetime.now()+timedelta(days=5))
-    encontrado = models.CharField(choices=opciones_encontrado,max_length=2)
-    fecha_encontrado = models.DateTimeField()
-    ultima_ubicacion = models.ForeignKey(Direccion,on_delete=models.RESTRICT)
-    involucrado = models.OneToOneField(Mascota,on_delete=models.RESTRICT)
-    persona = models.ForeignKey(Persona,on_delete=models.RESTRICT)
-
-opcion = (
-        ('Notra','solo lo vi'),
-        ('trans','en transito')
+    id_publicacion = models.ForeignKey(
+        Publicacion,
+        null=False,
+        on_delete = models.CASCADE
     )
-class Avistamiento(models.Model):
+    condicion = models.CharField(max_length=300,default="Cuidar este hermoso ser vivo")
 
-    fecha_hora = models.DateTimeField(auto_now_add=True)
-    seleccion = models.CharField(choices=opcion,null=False,max_length=5)
-    visto_en = models.ForeignKey(Direccion,on_delete=models.RESTRICT)
-    animal =  models.OneToOneField(Animal,on_delete=models.RESTRICT)
+class Perdido(models.Model):
+    id_publicacion = models.ForeignKey(
+        Publicacion,
+        null=False,
+        on_delete = models.CASCADE
+    )
+    gratificacion = models.CharField(max_length=5,default="Sin gratificación")
+
+class Encontro(models.Model):
+    en_transito = (
+        ('Si','Si'),
+        ('No','No'),
+    )
+    id_publicacion = models.ForeignKey(
+            Publicacion,
+            null=False,
+            on_delete = models.CASCADE
+        )
+    cuida = models.CharField(max_length=2,choices = en_transito,null=False,help_text="Si tiene el animal y lo cuida indique Si, caso contrario No")
+    if cuida == 'Si':
+        fecha_limite = models.DateField(null=False,help_text="Si lo cuida,¿hasta cuando lo hara antes de ponerlo en adopción?")
+    else:
+        fecha_limite = models.DateField(null=True,default=models.SET_NULL)
