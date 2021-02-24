@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from datetime import datetime, timedelta
+from django.utils import timezone
 
 class Ubicacion(models.Model):
     lista_localidades = (
@@ -66,9 +67,6 @@ class Ubicacion(models.Model):
     def __str__(self):
         return self.localidad+','+self.barrio+','+self.calle+','+self.numero
 
-class Persona(User):
-    pass
-
 class Mascota(models.Model):    
     lista_especies = (
         ('Perro','Perro'),
@@ -94,14 +92,14 @@ class Mascota(models.Model):
     ('Diminuto','Diminuto'),
     )
     id_dueño = models.ForeignKey(
-        Persona,
-        default=models.SET_NULL,
+        User,
+        default=None,
         on_delete = models.CASCADE,
         )
     nombre = models.CharField(
         max_length=30,
         default="Desconocido",
-        help_text="Indica su nombre si lo conoces",
+        help_text="Indica su nombre si lo conoces"
         )
     familia = models.CharField(max_length=50,default="Desconocido")
     raza = models.CharField(max_length=50,default="Desconocido")
@@ -115,14 +113,14 @@ class Mascota(models.Model):
     fotos = models.ImageField(upload_to ='./media') 
     color = models.CharField(max_length=30,null=True)
     tamaño = models.CharField(max_length=8,choices=tamanos)
-    otro_dato = models.CharField(max_length=200,default=models.SET_NULL)
+    otro_dato = models.CharField(max_length=200,default=None)
 
     def __str__(self):
         return self.especie+'-'+self.nombre
 
 class Publicacion(models.Model):
     id_usuario = models.ForeignKey(
-        Persona,
+        User,
         null=False,
         on_delete = models.CASCADE,
         )
@@ -137,7 +135,7 @@ class Publicacion(models.Model):
         on_delete = models.DO_NOTHING
     )
     fecha_publicacion = models.DateField(auto_now_add=True)
-    fecha_evento = models.DateField(default = datetime.today())
+    fecha_evento = models.DateField(default=timezone.now)
     fecha_entrega = models.DateField(null=True)
     observaciones = models.CharField(max_length=100,default="Sin observaciones")
 
@@ -154,7 +152,7 @@ class Adopcion(models.Model):
     id_publicacion = models.ForeignKey(
         Publicacion,
         null=False,
-        on_delete = models.CASCADE
+        on_delete = models.CASCADE,
     )
     condicion = models.CharField(max_length=300,default="Cuidar este hermoso ser vivo")
 
@@ -162,7 +160,7 @@ class Perdido(models.Model):
     id_publicacion = models.ForeignKey(
         Publicacion,
         null=False,
-        on_delete = models.CASCADE
+        on_delete = models.CASCADE,
     )
     gratificacion = models.CharField(max_length=5,default="Sin gratificación")
 
@@ -174,10 +172,10 @@ class Encontro(models.Model):
     id_publicacion = models.ForeignKey(
             Publicacion,
             null=False,
-            on_delete = models.CASCADE
+            on_delete = models.CASCADE,
         )
     cuida = models.CharField(max_length=2,choices = en_transito,null=False,help_text="Si tiene el animal y lo cuida indique Si, caso contrario No")
     if cuida == 'Si':
         fecha_limite = models.DateField(null=False,help_text="Si lo cuida,¿hasta cuando lo hara antes de ponerlo en adopción?")
     else:
-        fecha_limite = models.DateField(null=True,default=models.SET_NULL)
+        fecha_limite = models.DateField(null=True,default=None)
