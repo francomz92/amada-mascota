@@ -3,8 +3,19 @@ from django.contrib.auth.models import User
 from datetime import datetime, timedelta
 from django.utils import timezone
 
-class Ubicacion(models.Model):
-    lista_localidades = (
+lista_especies = (
+        ('Perro','Perro'),
+        ('Gallo','Gallo'),
+        ('Gato','Gato'),
+        ('Vaca','Vaca'),
+        ('Cerdo','Cerdo'),
+        ('Pato','Pato'),
+        ('Tortuga de tierra','Tortuga de tierra'),
+        ('Hámster','Hámster'),
+        ('Erizo de tierra','Erizo de tierra')
+    )
+
+lista_localidades = (
     ('Avia Terai','Avia Terai'),
     ('Campo Largo','Campo Largo'),
     ('Charata','Charata'),
@@ -57,6 +68,8 @@ class Ubicacion(models.Model):
     ('Villa Berthet','Villa Berthet'),
     ('Villa Río Bermejito','Villa Río Bermejito')
     )
+
+class Ubicacion(models.Model):
     localidad = models.CharField(max_length=30,choices=lista_localidades,null=False)
     barrio = models.CharField(max_length=50,null=False)
     entre_calles = models.CharField(max_length=50,null=True)
@@ -68,17 +81,6 @@ class Ubicacion(models.Model):
         return self.localidad+','+self.barrio+','+self.calle+','+self.numero
 
 class Mascota(models.Model):    
-    lista_especies = (
-        ('Perro','Perro'),
-        ('Gallo','Gallo'),
-        ('Gato','Gato'),
-        ('Vaca','Vaca'),
-        ('Cerdo','Cerdo'),
-        ('Pato','Pato'),
-        ('Tortuga de tierra','Tortuga de tierra'),
-        ('Hámster','Hámster'),
-        ('Erizo de tierra','Erizo de tierra')
-    )
     sexos = (
     ('Macho','Macho'),
     ('Hembra','Hembra'),
@@ -137,14 +139,14 @@ class Publicacion(models.Model):
     fecha_publicacion = models.DateField(auto_now_add=True)
     fecha_evento = models.DateField(default=timezone.now)
     fecha_entrega = models.DateField(null=True)
-    observaciones = models.CharField(max_length=100,default="Sin observaciones")
+    observaciones = models.CharField(max_length=100,default="Sin observaciones")        
 
     def __str__(self):
         #Conformacion del titulo de la publicacion
         especie = Mascota.objects.get(pk=self.id_mascota).only('especie')
         fecha = self.fecha_evento.day+'/'+self.fecha_evento.month
-        ubicacion = Ubicacion.objects.get(pk=self.id_ubicacion).only('localidad','barrio')
-        return especie+'-'+fecha+'-'+ubicacion
+        localidad,barrio = Ubicacion.objects.get(pk=self.id_ubicacion).only('localidad','barrio')
+        return especie+'-'+fecha+'-'+localidad+','+barrio
     
     
 
@@ -179,3 +181,42 @@ class Encontro(models.Model):
         fecha_limite = models.DateField(null=False,help_text="Si lo cuida,¿hasta cuando lo hara antes de ponerlo en adopción?")
     else:
         fecha_limite = models.DateField(null=True,default=None)
+
+class Notificacion(models.Model):
+    tipo_notificacion = (
+        ('Adopcion','Adopcion'),
+        ('Encontro','Encontro'),
+        ('Perdio','Perdio')
+    )
+    id_usuario = models.ForeignKey(
+        User,
+        null=False,
+        on_delete = models.CASCADE,
+        )
+    tipo = models.CharField(choices = tipo_notificacion,null=False)
+    especie = models.CharField(choices=lista_especies,null=False)
+    localidad = models.CharField(max_length=30,choices=lista_localidades,null=False)
+    fecha_desde = models.DateField(default=timezone.now)
+    fecha_hasta = models.DateField(null=False)
+
+class tiene_notificacion(models.Model):
+    id_usuario = models.ForeignKey(
+        User,
+        null=False,
+        on_delete = models.CASCADE,
+        )
+    id_publicacion = models.ForeignKey(
+        Publicacion,
+        null=False
+        on_delete = models.CASCADE
+    )
+    id_notificacion = models.ForeignKey(
+        Notificacion,
+        null = False,
+        on_delete = models.CASCADE
+    )
+    leido = models.BooleanField(default=False)
+    
+    def __str__(self):
+        tipo,especie = Notificacion.objects.get(id = self.id_notificacion).only('tipo','especie')
+        return self.tipo_notificacion+':'+self.especie
