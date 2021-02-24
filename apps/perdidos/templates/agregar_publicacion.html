@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Agregar publicación |{% endblock %}
+
+{% block content %}
+
+{% if user.is_authenticated %}
+    <h1>Agregar Publicación</h1>
+
+    <br/>
+
+    <div class="container">
+        <div class="form-group">
+            <form method="POST">
+                {% csrf_token %}
+                {{ form.media }}
+                {{ form.as_p }}
+                <button class="btn btn-secondary">Publicar</button>
+        </div>
+    </div>
+{% endif %}
+
+{% endblock %}
