@@ -43,44 +43,46 @@
 
 <body>
 
-  <!-- ======= Header ======= -->
-  <header id="header" class="fixed-top d-flex align-items-center">
-    <div class="container d-flex align-items-center">
-      <h1 class="logo me-auto"><a href="{% url 'home' %}"><span>Amada</span>Mascota<span></span></a></h1>
-      <!-- Uncomment below if you prefer to use an image logo -->
-      <!-- <a href="index.html" class="logo me-auto"><img src="assets/img/logo.png" alt=""></a>-->
-
-      <nav id="navbar" class="navbar order-last order-lg-0">
-        <ul>
-          <li><a class="nav-link scrollto active" href="{% url 'home' %}">Home</a></li>
-          <li><a href="#">Perdidos</a></li>
-          <li><a href="#">Encontrados</a></li>
-          <li><a class="nav-link scrollto" href="{% url 'about' %}">Acerca de</a></li>
-          <li><a class="nav-link scrollto" href="{% url 'about' %}#contact">Contactanos</a></li>
-          {% if user.is_authenticated %}
-          <li class="dropdown"><a href="#"><span>Hola, {{ user.first_name }}</span> <i class="bi bi-chevron-down"></i></a>
-            <ul>
-              <li><a href="#">Mi perfil</a></li>
-              <li><a href="#">Publicar mascota perdida</a></li>
-              <li><a href="#">Publicar mascota encontrada</a></li>
-              <li><a href="#">Dar en adopción</a></li>
-            </ul>
-          </li>
-          {% endif %}
-        </ul>
-        <i class="bi bi-list mobile-nav-toggle"></i>
-      </nav><!-- .navbar -->
-
-      {% if user.is_authenticated %}
-        <a href="{% url 'logout' %}" class="get-started-btn scrollto">Salir</a>
-      {% else %}
-        <a href="{% url 'login' %}" class="get-started-btn scrollto">Iniciar</a>
-      {% endif %}
-    </div>
-  </header><!-- End Header -->
+    <!-- ======= Header ======= -->
+    <header id="header" class="fixed-top d-flex align-items-center">
+      <div class="container d-flex align-items-center">
+        <h1 class="logo me-auto"><a href="{% url 'home' %}"><span>Amada</span>Mascota<span></span></a></h1>
+        <!-- Uncomment below if you prefer to use an image logo -->
+        <!-- <a href="index.html" class="logo me-auto"><img src="assets/img/logo.png" alt=""></a>-->
+  
+        <nav id="navbar" class="navbar order-last order-lg-0">
+          <ul>
+            <li><a class="nav-link scrollto" href="{% url 'home' %}">Home</a></li>
+            <li><a href="#">Perdidos</a></li>
+            <li><a href="#">Encontrados</a></li>
+            <li><a class="nav-link scrollto" href="{% url 'about' %}">Acerca de</a></li>
+            <li><a class="nav-link scrollto" href="{% url 'about' %}#contact">Contactanos</a></li>
+            {% if user.is_authenticated %}
+            <li class="dropdown"><a href="#"><span>Hola, {{ user.first_name }}</span> <i class="bi bi-chevron-down"></i></a>
+              <ul>
+                <li><a href="#">Mi perfil</a></li>
+                <li><a href="#">Publicar mascota perdida</a></li>
+                <li><a href="#">Publicar mascota encontrada</a></li>
+                <li><a href="#">Dar en adopción</a></li>
+              </ul>
+            </li>
+            {% endif %}
+          </ul>
+          <i class="bi bi-list mobile-nav-toggle"></i>
+        </nav><!-- .navbar -->
+  
+        {% if user.is_authenticated %}
+          <a href="{% url 'logout' %}" class="get-started-btn scrollto">Salir</a>
+        {% else %}
+          <a href="{% url 'login' %}" class="get-started-btn scrollto">Iniciar</a>
+        {% endif %}
+      </div>
+    </header><!-- End Header -->
 
   {% block content %}
   {% endblock %}
+
+  
 
   <!-- ======= Footer ======= -->
   <footer id="footer">
@@ -91,15 +93,16 @@
 
           <div class="col-lg-3 col-md-6 footer-contact">
             <h3><span>Amada</span>Mascota</h3>
-            <p>
+             <!--<p>
               A108 Adam Street <br>
               New York, NY 535022<br>
               United States <br><br>
               <strong>Phone:</strong> +1 5589 55488 55<br>
               <strong>Email:</strong> info@example.com<br>
             </p>
+          -->
           </div>
-
+<!--
           <div class="col-lg-2 col-md-6 footer-links">
             <h4>Links</h4>
             <ul>
@@ -133,10 +136,10 @@
         </div>
       </div>
     </div>
-
+  -->
     <div class="container d-md-flex py-4">
 
-      <div class="me-md-auto text-center text-md-start">
+      <div class="me-md-auto text-center text-md-start" >
         <div class="copyright">
           &copy; Copyright <strong><span>Amada Mascota</span></strong>. All Rights Reserved
         </div>
@@ -144,13 +147,16 @@
           Designed by <a href="{% url 'about' %}#team">Zoe, Enzo, Franco, Mimi, Magui, David</a>
         </div>
       </div>
-      <div class="social-links text-center text-md-end pt-3 pt-md-0">
+      <!-- 
+         <div class="social-links text-center text-md-end pt-3 pt-md-0">
         <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
         <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
         <a href="#" class="instagram"><i class="bx bxl-instagram"></i></a>
         <a href="#" class="google-plus"><i class="bx bxl-skype"></i></a>
         <a href="#" class="linkedin"><i class="bx bxl-linkedin"></i></a>
       </div>
+      -->
+      
     </div>
   </footer><!-- End Footer -->
 
