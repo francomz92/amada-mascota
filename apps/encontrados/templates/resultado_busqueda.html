@@ -18,6 +18,9 @@
       <span>{{ res.fecha_publicacion }}</span>
       <span>{{ res.mascota.raza | title }}</span>
       <span>{{ res.mascota.sexo | capfirst }}</span>
+      {% if request.user.is_authenticated %}
+      <a href="{% url 'editar_publicacion' publicacion.id_publicacion %}"></a>
+      {% endif %}
    </div>
    {% endfor %}
 </section>

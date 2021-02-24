@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Publicacion
-from .forms import PublicacionForm, MascotaForm, UbicacionFomr
+from .models import Publicacion, 
+from .forms import PublicacionForm, MascotaForm, UbicacionForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
@@ -13,7 +13,7 @@ def lista_encontrados(request):
    }
    return render(request, 'lista_encontrados.html', ctx)
 
-
+@login_required
 def publicar(request):
    publicacion = PublicacionForm()
    mascota = MascotaForm()
@@ -44,7 +44,7 @@ def publicar(request):
 @login_required
 def editar_publicacion(request, id_publicacion):
    current_user = request.user
-   publicacion = get_object_or_404(Publicacion, id_producto=id_publicacion)
+   publicacion = get_object_or_404(Publicacion, id_producto=id_publicacion, id_usuario=current_user)
    mascota = get_object_or_404(Mascota, id_mascota=publicacion.id_mascota)
    ubicacion = get_object_or_404(Ubicacion, id_ubicacion=publicacion.id_ubicacion)
    ctx = {
@@ -80,6 +80,9 @@ def buscar(request):
             'resultado': resultado,
             'busqueda', mascota,
          }
-         return render(request, 'resultado_busqueda.html', ctx)
+         if resultado:
+            return render(request, 'resultado_busqueda.html', ctx)
+         else:
+            messages.info(request, message=f'No se encontro {mascota}')
       else:
-         messages.info(request, message=f'No se encontro {mascota}')
+         return redirect(to='encontrados:lista_encontrados')

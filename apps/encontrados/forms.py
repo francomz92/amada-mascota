@@ -1,5 +1,5 @@
 from django import forms
-from .models import Publicacion
+from .models import Publicacion, Mascota, Ubicacion
 
 
 class PublicacionForm(forms.Form):
@@ -12,27 +12,34 @@ class MascotaForm(forms.Form):
    
    class Meta:
       model = Mascota
-      fields = [
-         'nombre',
-         'familia',
-         'raza',
-         'edad',
-         'sexo',
-         'fotos',
-         'color',
-         'tamaño',
-         'otros_datos',
+      exclude = [
+         'id_mascota',
+         'id_usuario',
       ]
+      # fields = [
+      #    'nombre',
+      #    'familia',
+      #    'raza',
+      #    'edad',
+      #    'sexo',
+      #    'fotos',
+      #    'color',
+      #    'tamaño',
+      #    'otros_datos',
+      # ]
       
-class ubicacionForm(forms.Form):
+class UbicacionForm(forms.Form):
    
    class Meta:
       model = Ubicacion
-      fields = [
-         'localidad',
-         'barrio',
-         'entre_calles',
-         'numero',
-         'calle',
-         'otros_datos',
+      exclude = [
+         'id_ubicacion',
       ]
+      # fields = [
+      #    'localidad',
+      #    'barrio',
+      #    'entre_calles',
+      #    'numero',
+      #    'calle',
+      #    'otros_datos',
+      # ]
