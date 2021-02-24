@@ -1,20 +1,22 @@
 from django import forms
-from .models import Publicacion, Mascota, Ubicacion
+from apps.perdidos.models import Publicacion, Mascota, Ubicacion, Encontro
 
 
-class PublicacionForm(forms.Form):
+class PublicacionForm(forms.ModelForm):
    
    class Meta:
       model = Publicacion
-      fields = 'observaciones'
+      fields = [
+         'observaciones'
+      ]
 
-class MascotaForm(forms.Form):
+class MascotaForm(forms.ModelForm):
    
    class Meta:
       model = Mascota
       exclude = [
-         'id_mascota',
-         'id_usuario',
+         'id',
+         'id_dueño',
       ]
       # fields = [
       #    'nombre',
@@ -28,12 +30,12 @@ class MascotaForm(forms.Form):
       #    'otros_datos',
       # ]
       
-class UbicacionForm(forms.Form):
+class UbicacionForm(forms.ModelForm):
    
    class Meta:
       model = Ubicacion
       exclude = [
-         'id_ubicacion',
+         'id',
       ]
       # fields = [
       #    'localidad',
@@ -43,3 +45,12 @@ class UbicacionForm(forms.Form):
       #    'calle',
       #    'otros_datos',
       # ]
+
+class EncontroForm(forms.ModelForm):
+   
+   class Meta:
+      model = Encontro
+      fields = [
+         'cuida',
+         'fecha_limite',
+         ]

@@ -12,12 +12,15 @@
    <h5>En casa</h5>
    {% for publicacion in publicaciones %}
    <div>
-      <div>{{ publicacion.mascota.fotos }}</div>
-      <h6>{{ publicacion.mascota.nombre }}</h6>
+      <img src="{{ publicacion.id_mascota.fotos.url }}" alt="">
+      <!-- <div>{{ publicacion.id_mascota.fotos }}</div> -->
+      <h6>{{ publicacion.id_mascota.nombre }}</h6>
       <span>{{ publicacion.fecha_publicacion }}</span>
-      <span>{{ publicacion.mascota.raza }}</span>
-      <span>{{ publicacion.mascota.sexo }}</span>
-      <a href="{% url 'editar_publicacion' publicacion.id_publicacion %}"></a>
+      <span>{{ publicacion.id_mascota.raza }}</span>
+      <span>{{ publicacion.id_mascota.sexo }}</span>
+      {% if request.user.id == publicacion.id_usuario.id %}
+      <a href="{% url 'editar_publicacion' publicacion.id %}"></a>
+      {% endif %}
    </div>
    {% endfor %}
 </section>

@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from pathlib import Path
 import os
-import django_heroku
+# import django_heroku
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -27,7 +27,7 @@ SECRET_KEY = 'f#kee*3($c632ce8v@v#)426!2p7wrm=y+8o2f&9q3dpof+rie'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['amadamascota.herokuapp.com']
+ALLOWED_HOSTS = ['amadamascota.herokuapp.com', '*']
 
 
 # Application definition
@@ -142,4 +142,4 @@ LOGOUT_REDIRECT_URL = 'home'
 
 
 # Activate Django-Heroku.
-django_heroku.settings(locals())
+# django_heroku.settings(locals())

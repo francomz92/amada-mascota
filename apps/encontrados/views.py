@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Publicacion, 
-from .forms import PublicacionForm, MascotaForm, UbicacionForm
+from apps.perdidos.models import Publicacion, Mascota, Ubicacion, Encontro
+from .forms import PublicacionForm, MascotaForm, UbicacionForm, EncontroForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
@@ -17,23 +17,27 @@ def lista_encontrados(request):
 def publicar(request):
    publicacion = PublicacionForm()
    mascota = MascotaForm()
-   ubicacion = UbicacionFomr()
+   ubicacion = UbicacionForm()
+   encontro = EncontroForm()
    if request.method == 'GET':
       publicacion = PublicacionForm(data=request.GET)
-      mascota = MascotaForm(data=request.GET, files=request.GET)
-      ubicacion = UbicacionFomr(data=request.GET)
-      if publicacion.is_valid() and mascota.is_valid() and ubicacion.is_valid():
+      mascota = MascotaForm(data=request.GET, files=request.FILES)
+      ubicacion = UbicacionForm(data=request.GET)
+      encontro = EncontroForm(data=request.GET)
+      if publicacion.is_valid() and mascota.is_valid() and ubicacion.is_valid() and encontro.is_valid():
          publicacion.save()
          mascota.save()
          ubicacion.save()
-         vigencia = form.cleaned_data.get('fecha_vigencia')
+         encontro.save()
+         vigencia = encontro.cleaned_data['fecha_limite']
          messages.success(request, message=f'Su publicación ha sido un exito.!! Recuerda renovarla antes del {vigencia}')
          return redirect(to='encontrados:lista_encontrados')
       else:
          messages.error(request, message='Ups...parece que algo salió mal.!! Vuelve a intentarlo.')
          publicacion = PublicacionForm(data=request.GET)
-         mascota = MascotaForm(data=request.GET, files=request.GET)
-         ubicacion = UbicacionFomr(data=request.GET)
+         mascota = MascotaForm(data=request.GET, files=request.FILES)
+         ubicacion = UbicacionForm(data=request.GET)
+         encontro = EncontroForm(data=request.GET)
    ctx = {
       'publicacion': publicacion,
       'mascota': mascota,
@@ -44,22 +48,26 @@ def publicar(request):
 @login_required
 def editar_publicacion(request, id_publicacion):
    current_user = request.user
-   publicacion = get_object_or_404(Publicacion, id_producto=id_publicacion, id_usuario=current_user)
-   mascota = get_object_or_404(Mascota, id_mascota=publicacion.id_mascota)
-   ubicacion = get_object_or_404(Ubicacion, id_ubicacion=publicacion.id_ubicacion)
+   publicacion = get_object_or_404(Publicacion, id=id_publicacion, id_usuario=current_user)
+   mascota = get_object_or_404(Mascota, id=publicacion.id_mascota.id)
+   ubicacion = get_object_or_404(Ubicacion, id=publicacion.id_ubicacion.id)
+   encontro = get_object_or_404(Encontro, id_publicacion=id_publicacion)
    ctx = {
       'publicacion': PublicacionForm(instance=publicacion),
       'mascota': MascotaForm(instance=mascota),
-      'ubicacion': UbicacionFomr(instance=ubicacion),
+      'ubicacion': UbicacionForm(instance=ubicacion),
+      'encontro': EncontroForm(instance=encontro),
    }
    if request.method == 'GET':
       publicacion = PublicacionForm(data=request.GET, instance=publicacion)
       mascota = MascotaForm(data=request.GET, files=request.GET, instance=mascota)
-      ubicacion = UbicacionFomr(data=request.GET, instance=ubicacion)
-      if publicacion.is_valid() and mascota.is_valid() and ubicacion.is_valid():
+      ubicacion = UbicacionForm(data=request.GET, instance=ubicacion)
+      encontro = EncontroForm(data=request.GET, instance=encontro)
+      if publicacion.is_valid() and mascota.is_valid() and ubicacion.is_valid() and encontro.is_valid():
          publicacion.save()
          mascota.save()
          ubicacion.save()
+         encontro.save()
          messages.success(request, message='Guardado')
          return redirect(to='encontrados:lista_encontrados')
       else:
@@ -67,22 +75,23 @@ def editar_publicacion(request, id_publicacion):
    ctx = {
       'publicacion': PublicacionForm(instance=publicacion),
       'mascota': MascotaForm(instance=mascota),
-      'ubicacion': UbicacionFomr(instance=ubicacion),
+      'ubicacion': UbicacionForm(instance=ubicacion),
+      'encontro': EncontroForm(instance=encontro),
    }
    return render(request, 'editar_publicacion.html', ctx)
 
-def buscar(request):
-   if request.GET['buscar']:
-      mascota = request.GET['buscar']
-      if mascota is not None:
-         resultado = Publicacion.mascota.objects.filter(nombre__icontains=mascota)
-         ctx = {
-            'resultado': resultado,
-            'busqueda', mascota,
-         }
-         if resultado:
-            return render(request, 'resultado_busqueda.html', ctx)
-         else:
-            messages.info(request, message=f'No se encontro {mascota}')
-      else:
-         return redirect(to='encontrados:lista_encontrados')
+# def buscar(request):
+#    if request.GET['buscar']:
+#       mascota = request.GET['buscar']
+#       if mascota is not None:
+#          resultado = Publicacion.mascota.objects.filter(nombre__icontains=mascota)
+#          ctx = {
+#             'resultado': resultado,
+#             'busqueda': mascota,
+#          }
+#          if resultado:
+#             return render(request, 'resultado_busqueda.html', ctx)
+#          else:
+#             messages.info(request, message=f'No se encontro {mascota}')
+#       else:
+#          return redirect(to='encontrados:lista_encontrados')

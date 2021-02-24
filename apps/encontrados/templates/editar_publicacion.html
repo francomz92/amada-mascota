@@ -1,17 +1,19 @@
 {% extends 'base.html' %}
 
-{% block title %} | Editar {% endblock %}
+{% block title %} | Encontrados {% endblock %}
 
 {% block content %}
 
-{% if user.is_authenticated %}
+{% if request.user.is_authenticated %}
    <section>
+      <h5>Editando <strong>{{ mascota.nombre }}</strong></h5>
       <form action="" method="GET">
          {% csrf_token %}
          {{ publicacion.as_p }}
          {{ mascota.as_p }}
          {{ ubicacion.as_p }}
-         <input type="submit" value="Guardar">
+         {{ encontro.as_p }}
+         <input type="submit" value="Publicar">
       </form>
    </section>
 {% endif %}
