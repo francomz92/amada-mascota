@@ -133,8 +133,8 @@ class Notificacion(models.Model):
         null=False,
         on_delete = models.CASCADE,
         )
-    tipo = models.CharField(choices = tipo_notificacion,null=False)
-    especie = models.CharField(choices=lista_especies,null=False)
+    tipo = models.CharField(max_length = 8,choices = tipo_notificacion,null=False)
+    especie = models.CharField(max_length = 20,choices=lista_especies,null=False)
     localidad = models.CharField(max_length=30,choices=lista_localidades,null=False)
     fecha_desde = models.DateField(default=timezone.now)
     fecha_hasta = models.DateField(null=False)
@@ -182,19 +182,9 @@ class Publicacion(models.Model):
         return super(Publicacion, self).save( *args, **kwargs)
 
 class Adopcion(Publicacion):
-    id_publicacion = models.ForeignKey(
-        Publicacion,
-        null=False,
-        on_delete = models.CASCADE,
-    )
     condicion = models.CharField(max_length=300,default="Cuidar este hermoso ser vivo")
 
 class Perdido(Publicacion):
-    id_publicacion = models.ForeignKey(
-        Publicacion,
-        null=False,
-        on_delete = models.CASCADE,
-    )
     gratificacion = models.CharField(max_length=5,default="Sin gratificación")
 
 class Encontro(Publicacion):
@@ -202,11 +192,6 @@ class Encontro(Publicacion):
         ('Si','Si'),
         ('No','No'),
     )
-    id_publicacion = models.ForeignKey(
-            Publicacion,
-            null=False,
-            on_delete = models.CASCADE,
-        )
     cuida = models.CharField(max_length=2,choices = en_transito,null=False,help_text="Si tiene el animal y lo cuida indique Si, caso contrario No")
     if cuida == 'Si':
         fecha_limite = models.DateField(null=False,help_text="Si lo cuida,¿hasta cuando lo hara antes de ponerlo en adopción?")
