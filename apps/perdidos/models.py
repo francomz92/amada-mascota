@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from datetime import datetime, timedelta
 from django.utils import timezone
 
+global lista_especies
 lista_especies = (
         ('Perro','Perro'),
         ('Gallo','Gallo'),
@@ -15,6 +16,7 @@ lista_especies = (
         ('Erizo de tierra','Erizo de tierra')
     )
 
+global lista_localidades
 lista_localidades = (
     ('Avia Terai','Avia Terai'),
     ('Campo Largo','Campo Largo'),
@@ -120,6 +122,23 @@ class Mascota(models.Model):
     def __str__(self):
         return self.especie+'-'+self.nombre
 
+class Notificacion(models.Model):
+    tipo_notificacion = (
+        ('Adopcion','Adopcion'),
+        ('Encontro','Encontro'),
+        ('Perdido','Perdio')
+    )
+    id_usuario = models.ForeignKey(
+        User,
+        null=False,
+        on_delete = models.CASCADE,
+        )
+    tipo = models.CharField(choices = tipo_notificacion,null=False)
+    especie = models.CharField(choices=lista_especies,null=False)
+    localidad = models.CharField(max_length=30,choices=lista_localidades,null=False)
+    fecha_desde = models.DateField(default=timezone.now)
+    fecha_hasta = models.DateField(null=False)
+
 class Publicacion(models.Model):
     id_usuario = models.ForeignKey(
         User,
@@ -148,9 +167,21 @@ class Publicacion(models.Model):
         localidad,barrio = Ubicacion.objects.get(pk=self.id_ubicacion).only('localidad','barrio')
         return especie+'-'+fecha+'-'+localidad+','+barrio
     
-    
+    def save(self,*args,**kwargs):
+        """Cuando se instancia una publicacion, antes de guardarla, se revisara 
+        el listado de personas interesadas en el tipo de mascota de la publicacion,
+        tipo de publicacion y localidad para mostrarle su notificacion personalida"""
+        preferencia_notif_personal = list(Notificacion.objects.filter(tipo = self.__class__.__name__).filter(especie = self.especie).filter(localidad = Ubicacion.objects.get(pk=self.id_ubicacion).only('localidad')))
+        for interesado in preferencia_notif_personal:
+            nueva_notif_personal  = tiene_notificacion.objects.create(
+                id_usuario = interesado.id_usuario,
+                id_publicacion = self.id,
+                id_notificacion = interesado.id,
+            )
+            nueva_notif_personal.save()
+        return super(Publicacion, self).save( *args, **kwargs)
 
-class Adopcion(models.Model):
+class Adopcion(Publicacion):
     id_publicacion = models.ForeignKey(
         Publicacion,
         null=False,
@@ -158,7 +189,7 @@ class Adopcion(models.Model):
     )
     condicion = models.CharField(max_length=300,default="Cuidar este hermoso ser vivo")
 
-class Perdido(models.Model):
+class Perdido(Publicacion):
     id_publicacion = models.ForeignKey(
         Publicacion,
         null=False,
@@ -166,7 +197,7 @@ class Perdido(models.Model):
     )
     gratificacion = models.CharField(max_length=5,default="Sin gratificación")
 
-class Encontro(models.Model):
+class Encontro(Publicacion):
     en_transito = (
         ('Si','Si'),
         ('No','No'),
@@ -181,23 +212,6 @@ class Encontro(models.Model):
         fecha_limite = models.DateField(null=False,help_text="Si lo cuida,¿hasta cuando lo hara antes de ponerlo en adopción?")
     else:
         fecha_limite = models.DateField(null=True,default=None)
-
-class Notificacion(models.Model):
-    tipo_notificacion = (
-        ('Adopcion','Adopcion'),
-        ('Encontro','Encontro'),
-        ('Perdio','Perdio')
-    )
-    id_usuario = models.ForeignKey(
-        User,
-        null=False,
-        on_delete = models.CASCADE,
-        )
-    tipo = models.CharField(choices = tipo_notificacion,null=False)
-    especie = models.CharField(choices=lista_especies,null=False)
-    localidad = models.CharField(max_length=30,choices=lista_localidades,null=False)
-    fecha_desde = models.DateField(default=timezone.now)
-    fecha_hasta = models.DateField(null=False)
 
 class tiene_notificacion(models.Model):
     id_usuario = models.ForeignKey(
