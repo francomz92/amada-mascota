@@ -9,7 +9,9 @@ class PublicacionForm(forms.ModelForm):
       fields = [
          'observaciones'
       ]
-      help_texts = {'observaciones': ''}
+      widgets = {
+         'observaciones': forms.TextInput(attrs= {'class': 'form-control'}),
+      }
 
 class MascotaForm(forms.ModelForm):
    
@@ -19,18 +21,18 @@ class MascotaForm(forms.ModelForm):
          'id',
          'id_dueño',
       ]
-      # fields = [
-      #    'nombre',
-      #    'familia',
-      #    'raza',
-      #    'edad',
-      #    'sexo',
-      #    'fotos',
-      #    'color',
-      #    'tamaño',
-      #    'otro_dato',
-      # ]
-      
+      widgets = {
+         'nombre': forms.TextInput(attrs= {'class': 'form-control'}),
+         'familia': forms.TextInput(attrs= {'class': 'form-control'}),
+         'raza': forms.TextInput(attrs= {'class': 'form-control'}),
+         'especie': forms.TextInput(attrs= {'class': 'form-control'}),
+         'sexo': forms.TextInput(attrs= {'class': 'form-control'}),
+         'color': forms.TextInput(attrs= {'class': 'form-control'}),
+         'otro_dato': forms.TextInput(attrs= {'class': 'form-control'}),
+         'edad': forms.NumberInput(attrs= {'class': 'form-control'}),
+         'tamaño': forms.NumberInput(attrs= {'class': 'form-control'}),
+         'fotos': forms.FileInput(attrs= {'class': 'form-control'}),
+      }
       
 class UbicacionForm(forms.ModelForm):
    
@@ -39,20 +41,23 @@ class UbicacionForm(forms.ModelForm):
       exclude = [
          'id',
       ]
-      # fields = [
-      #    'localidad',
-      #    'barrio',
-      #    'entre_calles',
-      #    'numero',
-      #    'calle',
-      #    'otros_datos',
-      # ]
+      widgets = {
+         'localidad': forms.TextInput(attrs= {'class': 'form-control'}),
+         'barrio': forms.TextInput(attrs= {'class': 'form-control'}),
+         'entre_calles': forms.TextInput(attrs= {'class': 'form-control'}),
+         'numero': forms.TextInput(attrs= {'class': 'form-control'}),
+         'calle': forms.TextInput(attrs= {'class': 'form-control'}),
+         'otros_datos': forms.TextInput(attrs= {'class': 'form-control'}),
+      }
 
 class EncontroForm(forms.ModelForm):
-   
+  
    class Meta:
       model = Encontro
       fields = [
          'cuida',
          'fecha_limite',
          ]
+      labels = {
+         'cuida': 'Lo esta cuidando.?'
+      }

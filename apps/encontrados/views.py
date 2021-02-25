@@ -38,10 +38,12 @@ def publicar(request):
          mascota = MascotaForm(data=request.GET, files=request.FILES)
          ubicacion = UbicacionForm(data=request.GET)
          encontro = EncontroForm(data=request.GET)
+   
    ctx = {
       'publicacion': publicacion,
       'mascota': mascota,
       'ubicacion': ubicacion,
+      'encontro': encontro,
       }
    return render(request, 'publicar.html', ctx)
 
@@ -80,18 +82,18 @@ def editar_publicacion(request, id_publicacion):
    }
    return render(request, 'editar_publicacion.html', ctx)
 
-# def buscar(request):
-#    if request.GET['buscar']:
-#       mascota = request.GET['buscar']
-#       if mascota is not None:
-#          resultado = Publicacion.mascota.objects.filter(nombre__icontains=mascota)
-#          ctx = {
-#             'resultado': resultado,
-#             'busqueda': mascota,
-#          }
-#          if resultado:
-#             return render(request, 'resultado_busqueda.html', ctx)
-#          else:
-#             messages.info(request, message=f'No se encontro {mascota}')
-#       else:
-#          return redirect(to='encontrados:lista_encontrados')
+def buscar(request):
+   if request.GET['buscar']:
+      mascota = request.GET['buscar']
+      if mascota is not None:
+         resultado = Publicacion.mascota.objects.filter(nombre__icontains=mascota)
+         ctx = {
+            'resultado': resultado,
+            'busqueda': mascota,
+         }
+         if resultado:
+            return render(request, 'resultado_busqueda.html', ctx)
+         else:
+            messages.info(request, message=f'No se encontro {mascota}')
+      else:
+         return redirect(to='encontrados:lista_encontrados')
