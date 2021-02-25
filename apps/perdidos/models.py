@@ -207,7 +207,7 @@ class tiene_notificacion(models.Model):
         )
     id_publicacion = models.ForeignKey(
         Publicacion,
-        null=False
+        null=False,
         on_delete = models.CASCADE
     )
     id_notificacion = models.ForeignKey(

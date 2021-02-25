@@ -13,7 +13,7 @@ def lista_encontrados(request):
    }
    return render(request, 'lista_encontrados.html', ctx)
 
-# @login_required
+@login_required
 def publicar(request):
    publicacion = PublicacionForm()
    mascota = MascotaForm()
@@ -45,7 +45,7 @@ def publicar(request):
       }
    return render(request, 'publicar.html', ctx)
 
-# @login_required
+@login_required
 def editar_publicacion(request, id_publicacion):
    current_user = request.user
    publicacion = get_object_or_404(Publicacion, id=id_publicacion, id_usuario=current_user)
