@@ -30,7 +30,7 @@ class MascotaForm(forms.ModelForm):
       #    'tamaño',
       #    'otro_dato',
       # ]
-      help_texts = {field:'' for field in fields}
+      #help_texts = {field:'' for field in fields}
       
       
 class UbicacionForm(forms.ModelForm):
