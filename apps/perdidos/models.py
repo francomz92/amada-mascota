@@ -74,7 +74,7 @@ lista_localidades = (
 class Ubicacion(models.Model):
     localidad = models.CharField(max_length=30,choices=lista_localidades,null=False)
     barrio = models.CharField(max_length=50,null=False)
-    entre_calles = models.CharField(max_length=50,null=True)
+    entre_calles = models.CharField(max_length=50,null=True, blank = True)
     numero = models.CharField(max_length=5,default="S/N")
     calle = models.CharField(max_length=50,null=False)
     otros_datos = models.CharField(max_length=50,default="Sin particular")
@@ -112,12 +112,12 @@ class Mascota(models.Model):
         choices=lista_especies,
         null=False,
         help_text="Indica la especie")
-    edad = models.CharField(max_length=2,default="Desconocido")
+    edad = models.CharField(max_length=2,default="N")
     sexo = models.CharField(max_length=11,choices=sexos,null=False)
     fotos = models.ImageField(upload_to ='./media') 
-    color = models.CharField(max_length=30,null=True)
+    color = models.CharField(max_length=30,null=True,blank=True)
     tamaño = models.CharField(max_length=8,choices=tamanos)
-    otro_dato = models.CharField(max_length=200,default=None)
+    otro_dato = models.CharField(max_length=200,null=True, blank= True, default=None)
 
     def __str__(self):
         return self.especie+'-'+self.nombre
@@ -157,21 +157,24 @@ class Publicacion(models.Model):
     )
     fecha_publicacion = models.DateField(auto_now_add=True)
     fecha_evento = models.DateField(default=timezone.now)
-    fecha_entrega = models.DateField(null=True)
+    fecha_entrega = models.DateField(null=True, blank = True)
     observaciones = models.CharField(max_length=100,default="Sin observaciones")        
 
     def __str__(self):
         #Conformacion del titulo de la publicacion
-        especie = Mascota.objects.get(pk=self.id_mascota).only('especie')
-        fecha = self.fecha_evento.day+'/'+self.fecha_evento.month
-        localidad,barrio = Ubicacion.objects.get(pk=self.id_ubicacion).only('localidad','barrio')
-        return especie+'-'+fecha+'-'+localidad+','+barrio
+        mascota = Mascota.objects.get(pk=self.id_mascota.id)
+        fecha = str(self.fecha_evento.day)+'/'+str(self.fecha_evento.month)
+        ubicacion =  Ubicacion.objects.get(pk=self.id_ubicacion.id)
+        localidad = ubicacion.localidad
+        barrio = ubicacion.barrio
+        return mascota.especie+' - Fecha: '+fecha+' - '+localidad+', Barrio: '+barrio
     
     def save(self,*args,**kwargs):
         """Cuando se instancia una publicacion, antes de guardarla, se revisara 
         el listado de personas interesadas en el tipo de mascota de la publicacion,
         tipo de publicacion y localidad para mostrarle su notificacion personalida"""
-        preferencia_notif_personal = list(Notificacion.objects.filter(tipo = self.__class__.__name__).filter(especie = self.especie).filter(localidad = Ubicacion.objects.get(pk=self.id_ubicacion).only('localidad')))
+        e = Mascota.objects.get(pk=self.id_mascota.id)
+        preferencia_notif_personal = list(Notificacion.objects.filter(tipo = self.__class__.__name__).filter(especie = e.especie).filter(localidad = Ubicacion.objects.get(pk=self.id_ubicacion.id)))
         for interesado in preferencia_notif_personal:
             nueva_notif_personal  = tiene_notificacion.objects.create(
                 id_usuario = interesado.id_usuario,
@@ -185,7 +188,7 @@ class Adopcion(Publicacion):
     condicion = models.CharField(max_length=300,default="Cuidar este hermoso ser vivo")
 
 class Perdido(Publicacion):
-    gratificacion = models.CharField(max_length=5,default="Sin gratificación")
+    gratificacion = models.CharField(max_length=5,default="S/G")
 
 class Encontro(Publicacion):
     en_transito = (
@@ -193,10 +196,14 @@ class Encontro(Publicacion):
         ('No','No'),
     )
     cuida = models.CharField(max_length=2,choices = en_transito,null=False,help_text="Si tiene el animal y lo cuida indique Si, caso contrario No")
+    
+    #En el admin de Django
+    #Esta parte la pruebo y por ej. si selecciona 'Si' ya no funciona porque el formulario ya esta cargado
+    #Hay que ver esta funcionalidad, o al seleccionar Recargar el formulario para que tome los cambios.
     if cuida == 'Si':
         fecha_limite = models.DateField(null=False,help_text="Si lo cuida,¿hasta cuando lo hara antes de ponerlo en adopción?")
     else:
-        fecha_limite = models.DateField(null=True,default=None)
+        fecha_limite = models.DateField(null=True, blank= True, default=None)
 
 class tiene_notificacion(models.Model):
     id_usuario = models.ForeignKey(
