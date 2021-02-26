@@ -3,6 +3,7 @@ from apps.perdidos.models import Publicacion, Mascota, Ubicacion, Encontro
 from .forms import PublicacionForm, MascotaForm, UbicacionForm, EncontroForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 
 # Create your views here.
 
@@ -15,29 +16,38 @@ def lista_encontrados(request):
 
 @login_required
 def publicar(request):
+   current_user = request.user
    publicacion = PublicacionForm()
    mascota = MascotaForm()
    ubicacion = UbicacionForm()
    encontro = EncontroForm()
-   if request.method == 'GET':
-      publicacion = PublicacionForm(data=request.GET)
-      mascota = MascotaForm(data=request.GET, files=request.FILES)
-      ubicacion = UbicacionForm(data=request.GET)
-      encontro = EncontroForm(data=request.GET)
+   # mascota.id_dueño.save()
+   if request.method == 'POST':
+      publicacion = PublicacionForm(data=request.POST)
+      publicacion.id_usuario = User.objects.filter(username=current_user)
+      mascota = MascotaForm(data=request.POST, files=request.FILES)
+      # mascota.id_dueño = request.POST['id_dueño']
+      ubicacion = UbicacionForm(data=request.POST)
+      encontro = EncontroForm(data=request.POST)
       if publicacion.is_valid() and mascota.is_valid() and ubicacion.is_valid() and encontro.is_valid():
-         publicacion.save()
-         mascota.save()
+         mascota.id_dueño = request.POST['dueño']
+         mascota.save(commit=False)
          ubicacion.save()
          encontro.save()
+         # publicacion.id_usuario = User.objects.filter(username=current_user.username)
+         # publicacion.id_usuario.save()
+         publicacion.id_mascota = Mascota.objects.filter(id_dueño=publicacion.id_usuario).filter(nombre=mascota.nombre)
+         publicacion.id_ubicacion = Ubicacion.objects.filter(localidad=ubicacion.localidad).filter(barrio=ubicacion.barrio).filter(calle=ubicacion.calle).filter(entre_calles=ubicacion.entre_calles).filter(otros_datos=ubicacion.otros_datos)
+         publicacion.save(commit=False)
          vigencia = encontro.cleaned_data['fecha_limite']
          messages.success(request, message=f'Su publicación ha sido un exito.!! Recuerda renovarla antes del {vigencia}')
          return redirect(to='encontrados:lista_encontrados')
       else:
          messages.error(request, message='Ups...parece que algo salió mal.!! Vuelve a intentarlo.')
-         publicacion = PublicacionForm(data=request.GET)
-         mascota = MascotaForm(data=request.GET, files=request.FILES)
-         ubicacion = UbicacionForm(data=request.GET)
-         encontro = EncontroForm(data=request.GET)
+         publicacion = PublicacionForm(data=request.POST)
+         mascota = MascotaForm(data=request.POST, files=request.FILES)
+         ubicacion = UbicacionForm(data=request.POST)
+         encontro = EncontroForm(data=request.POST)
    
    ctx = {
       'publicacion': publicacion,
@@ -86,7 +96,7 @@ def buscar(request):
    if request.GET['buscar']:
       mascota = request.GET['buscar']
       if mascota is not None:
-         resultado = Publicacion.mascota.objects.filter(nombre__icontains=mascota)
+         resultado = Publicacion.id_mascota.objects.filter(nombre__icontains=mascota)
          ctx = {
             'resultado': resultado,
             'busqueda': mascota,

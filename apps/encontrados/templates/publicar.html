@@ -6,10 +6,13 @@
 
 <!-- {% if user.is_authenticated %} -->
    <section>
-      <div class="container">
+      <br>
+      <br>
+      <div class="container" style="width: 50%;">
          <div class="form-group">
-            <form action="" method="GET" class="form-group">
+            <form action="" method="POST" class="form-group">
                {% csrf_token %}
+               <input type="text" name="dueño" value="{{user}}">
                {{ mascota.as_p }}
                {{ ubicacion.as_p }}
                {{ encontro.as_p }}
