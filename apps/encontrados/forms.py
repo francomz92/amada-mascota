@@ -3,61 +3,49 @@ from apps.perdidos.models import Publicacion, Mascota, Ubicacion, Encontro, list
 from django.contrib.auth.models import User
 
 class PublicacionForm(forms.ModelForm):
-   # id_usuario = forms.CharField(required=False, disabled=True, widget=forms.TextInput(attrs= {'hidden': True}), label='')
-   # id_mascota = forms.CharField(required=False, disabled=True, widget=forms.TextInput(attrs= {'hidden': True}), label='')
-   # id_ubicacion = forms.CharField(required=False, disabled=True, widget=forms.TextInput(attrs= {'hidden': True}), label='')
 
    class Meta:
       model = Publicacion
       # fields = [
       #    'observaciones'
       # ]
-      fields = [
-         'observaciones',
-      ]
+      fields = '__all__'
       widgets = {
          'observaciones': forms.Textarea(attrs= {'class': 'form-control', 'rows': 3, 'style': 'resize: none;'}),
       }
-
+      
 class MascotaForm(forms.ModelForm):
         
-   id_dueño = forms.CharField(required=False, label='', widget=forms.TextInput(attrs= {'required':False, 'name': 'id_dueño', 'hidden': ''}))
-   especie = forms.ChoiceField(choices=lista_especies)
-   sexo = forms.ChoiceField(choices=Mascota.sexos)
-   tamaño = forms.ChoiceField(choices=Mascota.tamanos)
-   fotos = forms.ImageField(required=False)
+   # id_dueño = forms.ChoiceField(choices= User, required=False, label='asdas')
+   # especie = forms.ChoiceField(choices=lista_especies)
+   # sexo = forms.ChoiceField(choices=Mascota.sexos)
+   # tamaño = forms.ChoiceField(choices=Mascota.tamanos)
+   # fotos = forms.ImageField(required=False)
 
    class Meta:
       model = Mascota
-      exclude = [
-      'id_dueño',
-   ]
-      # fields = '__all__'
+   #    exclude = [
+   #    'id_dueño',
+   # ]
+      fields = '__all__'
       widgets = {
-         # 'id_dueño': forms.TextInput(attrs= {'required':False, 'name': 'id_dueño'}),
+         'id_dueño': forms.Select(attrs= {'name': 'id_dueño'}),
          'nombre': forms.TextInput(attrs= {'class': 'form-control'}),
          'familia': forms.TextInput(attrs= {'class': 'form-control'}),
          'raza': forms.TextInput(attrs= {'class': 'form-control'}),
-         'especie': forms.TextInput(attrs= {'class': 'form-control'}),
-         'sexo': forms.TextInput(attrs= {'class': 'form-control'}),
+         'especie': forms.Select(attrs= {'class': 'form-control'}),
+         'sexo': forms.Select(attrs= {'class': 'form-control'}),
          'color': forms.TextInput(attrs= {'class': 'form-control'}),
          'otro_dato': forms.Textarea(attrs= {'class': 'form-control', 'rows': 5, 'style': 'resize: none;'}),
          'edad': forms.TextInput(attrs= {'class': 'form-control'}),
-         'tamaño': forms.TextInput(attrs= {'class': 'form-control'}),
+         'tamaño': forms.Select(attrs= {'class': 'form-control'}),
          'fotos': forms.FileInput(attrs= {'class': 'form-control'}),
       }
-      # labels = {
-      #    'id_dueño': '',
-      # }
-      
 class UbicacionForm(forms.ModelForm):
    localidad = forms.ChoiceField(choices=lista_localidades)
    
    class Meta:
       model = Ubicacion
-      # exclude = [
-      #    'id',
-      # ]
       fields = '__all__'
       widgets = {
          'localidad': forms.TextInput(attrs= {'class': 'form-control'}),
@@ -69,18 +57,28 @@ class UbicacionForm(forms.ModelForm):
       }
 
 class EncontroForm(forms.ModelForm):
-   cuida = forms.ChoiceField(choices=Encontro.en_transito)
-   fecha_limite = forms.DateField()
+   # cuida = forms.ChoiceField(choices=Encontro.en_transito, label='Los esta cuidando.? ')
+   # fecha_limite = forms.DateField(widget=forms.TextInput(attrs= {'name': 'fecha_limite'}), label='Hasta cuando.? ')
+   # id_usuario = forms.CharField(required=False, label='', widget=forms.Select(attrs= {'required':False, 'name': 'id_usuario'}))
+   # id_mascota = forms.CharField(required=False, label='', widget=forms.Select(attrs= {'required':False, 'name': 'id_mascota'}))
+   # id_ubicacion = forms.CharField(required=False, label='', widget=forms.Select(attrs= {'required':False, 'name': 'id_ubicacion'}))
+   # fecha_evento = forms.CharField(required=False, label='', widget=forms.TextInput(attrs= {'required':False, 'name': 'fecha_evento', 'hidden': ''}))
+   # fecha_entrega = forms.CharField(required=False, label='', widget=forms.TextInput(attrs= {'required':False, 'name': 'fecha_entrega', 'hidden': ''}))
    
    class Meta:
       model = Encontro
-      fields = [
-         'cuida',
-         'fecha_limite',
-         ]
+      # fields = [
+      #    'cuida',
+      #    'fecha_limite',
+      #    ]
+      fields = '__all__'
       widgets = {
-         'cuida': forms.TextInput(attrs= {'class': 'form-control'}),
-         'fecha_limite': forms.TextInput(attrs= {'class': 'form-control'}),
+         'cuida': forms.Select(choices= Encontro.en_transito, attrs= {'class': 'form-control', 'name': 'cuida'}),
+         # 'fecha_limite': forms.TextInput(attrs= {'class': 'form-control'}),
+         'observaciones': forms.Textarea(attrs= {'class': 'form-control', 'rows': 3, 'style': 'resize: none;'}),
+         'id_usuario': forms.Select(attrs= {'required':None, 'name': 'id_usuario'}),
+         'id_mascota': forms.Select(attrs= {'required':None, 'name': 'id_mascota'}),
+         'id_ubicacion': forms.Select(attrs= {'required':False, 'name': 'id_ubicacion'}),
       }
       labels = {
          'cuida': 'Lo esta cuidando.?',

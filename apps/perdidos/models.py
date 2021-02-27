@@ -114,7 +114,7 @@ class Mascota(models.Model):
         help_text="Indica la especie")
     edad = models.CharField(max_length=2,default="N")
     sexo = models.CharField(max_length=11,choices=sexos,null=False)
-    fotos = models.ImageField(upload_to ='./media') 
+    fotos = models.ImageField(upload_to ='perdido') 
     color = models.CharField(max_length=30,null=True,blank=True)
     tamaño = models.CharField(max_length=8,choices=tamanos)
     otro_dato = models.CharField(max_length=200,null=True, blank= True, default=None)

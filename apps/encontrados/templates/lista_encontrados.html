@@ -3,17 +3,23 @@
 {% block title %} | Encontrados {% endblock %}
 
 {% block content %}
-<div>
-   <a href="{% url 'encontrados:publicar' %}"></a>
-   <input type="text" name="buscar">
-   <input type="submit" value="Buscar">
+<br>
+<br>
+<br>
+<br>
+<div style="display: flex; justify-content: space-between;">
+   <a href="{% url 'encontrados:publicar' %}" class="btn" style="background-color: #e53e6a; color: #fff; margin-left: 0.5em;">Publicar avistamiento</a>
+   <form action="{% url 'encontrados:buscar' %}" method="GET" style="padding-right: 1em; display: flex;">
+      {% csrf_token %}
+      <input type="text" name="buscar" placeholder="Especie, Raza, Localidad, Barrio" style="margin-right: 0.5em" class="form-control">
+      <input type="submit" value="Buscar" class="btn" style="background-color: #e53e6a; color: #fff;">
+   </form>
 </div>
 <section>
    <h5>En casa</h5>
    {% for publicacion in publicaciones %}
    <div>
       <img src="{{ publicacion.id_mascota.fotos.url }}" alt="">
-      <!-- <div>{{ publicacion.id_mascota.fotos }}</div> -->
       <h6>{{ publicacion.id_mascota.nombre }}</h6>
       <span>{{ publicacion.fecha_publicacion }}</span>
       <span>{{ publicacion.id_mascota.raza }}</span>
@@ -24,5 +30,4 @@
    </div>
    {% endfor %}
 </section>
-
 {% endblock %}
