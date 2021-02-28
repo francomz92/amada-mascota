@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from .forms import *
+from . import models
 from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect
 from django.views.generic import ListView,CreateView
@@ -25,9 +26,9 @@ class AdopcionCrear(CreateView):
         context = super(AdopcionCrear,self).get_context_data(**kwargs)
         if 'form' not in context:
             context['form'] = self.form_class(self.request.GET)
-        if 'form' not in context:
+        if 'form2' not in context:
             context['form2'] = self.ubicacion_form_class(self.request.GET)
-        if 'form' not in context:
+        if 'form3' not in context:
             context['form3'] = self.mascota_form_class(self.request.GET)
         return context
 
