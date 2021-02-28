@@ -2,7 +2,7 @@ from django.shortcuts import render
 from .forms import *
 from . import models
 from django.urls import reverse_lazy
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect,HttpResponse
 from django.views.generic import ListView,CreateView
 # Create your views here.
 
@@ -12,15 +12,15 @@ def index(request):
 
 class AdopcionList(ListView):
     model = Adopcion
-    template = 'adopcion:index.html'
+    template_name = 'historial_adopciones.html'
 
 class AdopcionCrear(CreateView):
     model = Adopcion
-    template = 'adopcion:adopciones_listar'
+    template_name = 'crear_adopcion.html'
     form_class = AdopcionForm
     ubicacion_form_class = UbicacionForm
     mascota_form_class = MascotaForm
-    succes_url = reverse_lazy('adopcion:adopciones_listar')
+    succes_url = reverse_lazy('adopcion:index.html')
 
     def get_context_data(self,**kwargs):
         context = super(AdopcionCrear,self).get_context_data(**kwargs)
@@ -44,4 +44,10 @@ class AdopcionCrear(CreateView):
             adopcion.save()
             return HttpResponseRedirect(self.get_success_url())
         else:
-            return self.render_to_response(self.get_context_data(form = form,form2=form2,form3=form3))
+            #return self.render_to_response(self.get_context_data(form = form,form2=form2,form3=form3))
+            if not form.is_valid():
+                return HttpResponse("fallo 1")
+            if not form2.is_valid():
+                return HttpResponse("fallo 2")
+            if not form3.is_valid():
+                return HttpResponse("fallo 3")
