@@ -8,12 +8,13 @@ Adopcion, Perdido, Encontro, tiene_notificacion
 # Register your models here.
 class MascotaAdmin(admin.ModelAdmin):
     list_display = ["nombre", "especie","sexo","id_dueño", "foto"]
-    list_filter = ["especie","id_dueño"]
-    search_fields = ["id_dueño"]
+    list_filter = ["especie"]
+    raw_id_fields= ("id_dueño",)
+    #search_fields = ["id_dueño"]
     #list_filter = ["especie","username"]
     
     def foto(self, obj):
-        return format_html("<img src={} width=100 height=100 />",obj.fotos.url)
+        return format_html("<img src={} width=100 height=auto />",obj.fotos.url)
 
 
 class PerdidoAdmin(admin.ModelAdmin):
