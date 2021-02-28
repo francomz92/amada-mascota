@@ -6,7 +6,7 @@ __pycache__
 # Env
 .env
 venv/
-venv/
+migrations/
 media/
 
 # Database
