@@ -32,7 +32,6 @@ class MascotaForm(forms.ModelForm):
       # ]
       #help_texts = {field:'' for field in fields}
       
-      
 class UbicacionForm(forms.ModelForm):
    
    class Meta:
@@ -57,8 +56,7 @@ class EncontroForm(forms.ModelForm):
          'cuida',
          'fecha_limite',
          ]
-
-"""
+'''
 class FormularioPublicacion(forms.ModelForm):
 	class Meta:
 		model = models.Publicacion
@@ -69,4 +67,4 @@ class FormularioPublicacion(forms.ModelForm):
 			'id_mascota': forms.TextInput(attrs={'class': 'form-control', 'value':'', 'id':'elder','type':'hidden'}),
 			'id_ubicacion': forms.Select(choices=models.Ubicacion.localidad, attrs={'class': 'form-select'},),
             'observaciones': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Insertar texto interesante...'}),
-		}"""
+		}'''

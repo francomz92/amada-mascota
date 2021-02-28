@@ -1,23 +1,25 @@
-<!-- {% extends 'base.html' %}
+{% extends 'base.html' %}
 
 {% block title %} | Encontrados {% endblock %}
 
 {% block content %}
-<div>
-   <a href="{% url 'encontrados:publicar' %}"></a>
-   <input type="text" name="buscar">
-   <input type="button" value="Buscar">
+<div style="display: flex; justify-content: space-between;">
+   <a href="{% url 'encontrados:publicar' %}" class="btn" style="background-color: #e53e6a; color: #fff; margin-left: 0.5em;">Publicar avistamiento</a>
+   <form action="{% url 'buscar' %}" method="GET" style="padding-right: 1em; display: flex;">
+      {% csrf_token %}
+      <input type="text" name="buscar" placeholder="Especie, Raza, Localidad, Barrio" style="margin-right: 0.5em" class="form-control">
+      <input type="submit" value="Buscar" class="btn" style="background-color: #e53e6a; color: #fff;">
+   </form>
 </div>
 <section>
-<h5>En casa</h5>
 <p>Estas buscando <strong>{{ busqueda | capfirst }}</strong></p>
 {% for res in resultado %}
    <div>
-      <div>{{ res.mascota.fotos }}</div>
-      <h6>{{ res.mascota.nombre | capfirst }}</h6>
-      <span>{{ res.fecha_publicacion }}</span>
-      <span>{{ res.mascota.raza | title }}</span>
-      <span>{{ res.mascota.sexo | capfirst }}</span>
+      <!-- <div>{{ res.mascota.fotos }}</div> -->
+      <h6>{{ res.nombre | capfirst }}</h6>
+      <!-- <span>{{ res.fecha_publicacion }}</span> -->
+      <span>{{ res.raza | title }}</span>
+      <span>{{ res.sexo | capfirst }}</span>
       {% if request.user.is_authenticated %}
       <a href="{% url 'editar_publicacion' publicacion.id_publicacion %}"></a>
       {% endif %}
@@ -25,4 +27,4 @@
    {% endfor %}
 </section>
 
-{% endblock %} -->
+{% endblock %}
