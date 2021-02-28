@@ -7,18 +7,19 @@
 <br>
 <br>
 <br>
-<div style="display: flex; justify-content: space-between;">
-   <a href="{% url 'encontrados:publicar' %}" class="btn" style="background-color: #e53e6a; color: #fff; margin-left: 0.5em;">Publicar avistamiento</a>
+<h5 style="text-align: center; font: 900 32px bold;padding: 1.5em 0; background-color: #e53e6a; color: #fff; margin: 0;">Encontrados o Avistados</h5>
+<section style="padding: 1em 2em;">
+<div style="display: flex; justify-content: space-between; padding-bottom: 1.5em; width: 100%;">
+   <a href="{% url 'encontrados:publicar' %}" class="get-started-btn scrollto" style="margin-left: 1em;">Publicar avistamiento</a>
    <form action="{% url 'encontrados:buscar' %}" method="GET" style="padding-right: 1em; display: flex;">
       {% csrf_token %}
-      <input type="text" name="buscar" placeholder="Especie, Raza, Localidad, Barrio" style="margin-right: 0.5em" class="form-control">
-      <input type="submit" value="Buscar" class="btn" style="background-color: #e53e6a; color: #fff;">
+      <input type="text" name="buscar" placeholder="Especie, Raza, Localidad, Barrio" class="form-control" style="margin-right: -20px;">
+      <input type="submit" value="Buscar" class="btn get-started-btn scrollto">
    </form>
 </div>
-<section>
-   <h5>En casa</h5>
+<div style="display: flex; flex-direction: row; flex-wrap: wrap; gap: 1em; text-align: center; align-items: center; justify-content: center;">
    {% for publicacion in publicaciones %}
-   <div>
+   <!-- <div>
       <img src="{{ publicacion.id_mascota.fotos.url }}" alt="">
       <h6>{{ publicacion.id_mascota.nombre }}</h6>
       <span>{{ publicacion.fecha_publicacion }}</span>
@@ -27,7 +28,38 @@
       {% if request.user.id == publicacion.id_usuario.id %}
       <a href="{% url 'editar_publicacion' publicacion.id %}"></a>
       {% endif %}
-   </div>
+   </div> -->
+   <div class="box" style="flex-basis: 15em;">
+      <div class="container border" style="padding: 1em;">
+          <div class="row" style="align-items: center; justify-content: center;">
+            
+               <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12" style="width: 100%;">
+                 
+                 <div class="box-part text-center" style="display: flex;flex-direction: column; align-items: center; justify-content: center;">
+                     <div style="display: flex; position: relative;">
+                        <img src="{{ publicacion.id_mascota.fotos.url }}" alt="" style="object-fit: contain; width: 100%;">
+                     </div>    
+                    <div class="title">
+                       <h4 style="font-size: 16px;">{{ publicacion.id_mascota.nombre }}</h4>
+                    </div>
+                    <div class="text">
+                       <span>{{ publicacion.id_ubicacion.localidad }}</span>
+                       <span>{{ publicacion.id_ubicacion.barrio }}</span>
+                    </div>
+                    <div style="display: flex; gap: 0.5em;">
+                     <a href="#">Ver</a>
+                     {% if request.user.id == publicacion.id_usuario.id %}
+                     <a href="{% url 'encontrados:editar_publicacion' publicacion.id %}">Editar</a>
+                     {% endif %}     
+                  </div>
+                  </div>
+              </div>	 
+              
+        
+        </div>		
+      </div>
+  </div>
    {% endfor %}
+</div>
 </section>
 {% endblock %}
