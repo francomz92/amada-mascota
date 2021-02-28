@@ -7,7 +7,8 @@
     <section class="sign-in" style="padding-bottom: 2em; padding-left: 2em; padding-right: 2em;margin-bottom: 0px;" >
         <div class="containerr w-100 p-4 " >
             <div class="signin-content" style="padding-top: 1em;padding-bottom: 1em;">
-                <form action="" method="POST">
+                
+                <form method="post">
                     {% csrf_token %}
                     {{form.as_p}}
                     {{form2.as_p}}

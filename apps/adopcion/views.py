@@ -20,7 +20,7 @@ class AdopcionCrear(CreateView):
     form_class = AdopcionForm
     ubicacion_form_class = UbicacionForm
     mascota_form_class = MascotaForm
-    succes_url = reverse_lazy('adopcion:index.html')
+    succes_url = reverse_lazy('adopcion:historial_adopciones.html')
 
     def get_context_data(self,**kwargs):
         context = super(AdopcionCrear,self).get_context_data(**kwargs)
@@ -42,12 +42,13 @@ class AdopcionCrear(CreateView):
             adopcion.id_ubicacion = form2.save()
             adopcion.id_mascota = form3.save()
             adopcion.save()
+            form3.save()
             return HttpResponseRedirect(self.get_success_url())
         else:
-            #return self.render_to_response(self.get_context_data(form = form,form2=form2,form3=form3))
             if not form.is_valid():
-                return HttpResponse("fallo 1")
+                return HttpResponse("fallo en Datos de adopcion")
             if not form2.is_valid():
-                return HttpResponse("fallo 2")
+                return HttpResponse("fallo ubicacion")
             if not form3.is_valid():
-                return HttpResponse("fallo 3")
+                return HttpResponse("fallo mascota")
+            #return self.render_to_response(self.get_context_data(form = form,form2=form2,form3=form3))

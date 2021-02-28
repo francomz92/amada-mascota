@@ -34,7 +34,7 @@ class PerdidoAdmin(admin.ModelAdmin):
     color_mascota.short_description ="Foto Mascota"
 
 class UbicacionAdmin(admin.ModelAdmin):
-    list_display = ["localidad","barrio","entre_calles", "numero", "calles","otros_datos"]
+    list_display = ["localidad","barrio","entre_calles", "numero", "calle","otros_datos"]
     list_filter = ["localidad", "barrio"]
     search_fields=["localidad","barrio"]
 
