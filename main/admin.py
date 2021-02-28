@@ -32,10 +32,10 @@ class PerdidoAdmin(admin.ModelAdmin):
     
     def foto_mascota(self, obj):
         return format_html("<img src=%s width=130 height=auto />"%(obj.id_mascota.fotos.url))
-    color_mascota.short_description ="Foto Mascota"
+    foto_mascota.short_description ="Foto Mascota"
 
 class UbicacionAdmin(admin.ModelAdmin):
-    list_display = ["localidad","barrio","entre_calles", "numero", "calles","otros_datos"]
+    list_display = ["localidad","barrio","entre_calles", "numero", "calle","otros_datos"]
     list_filter = ["localidad", "barrio"]
     search_fields=["localidad","barrio"]
 
