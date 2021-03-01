@@ -8,7 +8,7 @@
         <div class="containerr w-100 p-4 " >
             <div class="signin-content" style="padding-top: 1em;padding-bottom: 1em;">
                 
-                <form method="post">
+                <form method="POST" enctype="multipart/form-data">
                     {% csrf_token %}
                     {{form.as_p}}
                     {{form2.as_p}}

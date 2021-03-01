@@ -33,10 +33,11 @@ class AdopcionCrear(CreateView):
         return context
 
     def post(self,request,*args,**kwargs):
+        current_user = request.user
         self.object = self.get_object
         form = self.form_class(request.POST)
         form2 = self.ubicacion_form_class(request.POST)
-        form3 = self.mascota_form_class(request.POST)
+        form3 = self.mascota_form_class(request.POST, request.FILES,initial={'id_dueño': current_user})
         if form.is_valid() and form2.is_valid() and form3.is_valid():
             adopcion = form.save(commit=False)
             adopcion.id_ubicacion = form2.save()
