@@ -37,7 +37,7 @@ class MascotaForm(forms.ModelForm):
    # ]
       fields = '__all__'
       widgets = {
-         'id_dueño': forms.Select(attrs= {'name': 'id_dueño'}),
+         'id_dueño': forms.Select(attrs= {'name': 'id_dueño', 'hidden': '',}),
          'nombre': forms.TextInput(attrs= {'class': 'form-control'}),
          'familia': forms.TextInput(attrs= {'class': 'form-control'}),
          'raza': forms.TextInput(attrs= {'class': 'form-control'}),
@@ -48,6 +48,9 @@ class MascotaForm(forms.ModelForm):
          'edad': forms.TextInput(attrs= {'class': 'form-control'}),
          'tamaño': forms.Select(attrs= {'class': 'form-control'}),
          'fotos': forms.FileInput(attrs= {'class': 'form-control'}),
+      }
+      labels = {
+         'id_dueño': '',
       }
 class UbicacionForm(forms.ModelForm):
    localidad = forms.ChoiceField(choices=lista_localidades)
@@ -87,16 +90,21 @@ class EncontroForm(forms.ModelForm):
          'id_usuario',
          'id_mascota',
          'id_ubicacion',
+         'fecha_evento',
+         'fecha_entrega',
       ]
       widgets = {
          'cuida': forms.Select(choices= Encontro.en_transito, attrs= {'class': 'form-control', 'name': 'cuida'}),
-         # 'fecha_limite': forms.TextInput(attrs= {'class': 'form-control'}),
+         'fecha_limite': forms.DateInput(attrs= {'class': 'form-control', 'placeholder': 'mm/dd/aaaa'}),
          'observaciones': forms.Textarea(attrs= {'class': 'form-control', 'rows': 3, 'style': 'resize: none;'}),
-         # 'id_usuario': forms.Select(attrs= {'required':None, 'name': 'id_usuario'}),
-         # 'id_mascota': forms.Select(attrs= {'required':None, 'name': 'id_mascota'}),
-         # 'id_ubicacion': forms.Select(attrs= {'required':False, 'name': 'id_ubicacion'}),
+         # 'id_usuario': forms.Select(attrs= {'required':None, 'name': 'id_usuario', 'hidden': '',}),
+         # 'id_mascota': forms.Select(attrs= {'required':None, 'name': 'id_mascota', 'hidden': '',}),
+         # 'id_ubicacion': forms.Select(attrs= {'required':False, 'name': 'id_ubicacion', 'hidden': '',}),
       }
       labels = {
          'cuida': 'Lo esta cuidando.?',
          'fecha_limite': 'Hasta cuando.?',
+      }
+      help_texts = {
+         'fecha_limite': 'En caso de cuidarlo indique hasta cuando',
       }

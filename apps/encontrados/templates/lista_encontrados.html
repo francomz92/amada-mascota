@@ -7,20 +7,10 @@
 <br>
 <br>
 <br>
-<h5 style="text-align: center; font: 900 32px bold;padding: 1.5em 0; background-color: #e53e6a; color: #fff; margin: 0;">Encontrados o Avistados</h5>
+<h5 style="text-align: center; font: 900 32px bold;padding: 1.5em 0; background-color: #1b1b1b; color: #fff; margin: 0;">Encontrados o Avistados</h5>
 <div style="padding: 2em 1em; display: flex;">
    <section style="padding: 0 1em; display: flex; flex-direction: row; flex-wrap: wrap; gap: 1em; text-align: center; align-items: center; justify-content: start;">
-      {% for publicacion in publicaciones %}
-      <!-- <div>
-         <img src="{{ publicacion.id_mascota.fotos.url }}" alt="">
-         <h6>{{ publicacion.id_mascota.nombre }}</h6>
-         <span>{{ publicacion.fecha_publicacion }}</span>
-         <span>{{ publicacion.id_mascota.raza }}</span>
-         <span>{{ publicacion.id_mascota.sexo }}</span>
-         {% if request.user.id == publicacion.id_usuario.id %}
-         <a href="{% url 'editar_publicacion' publicacion.id %}"></a>
-         {% endif %}
-      </div> -->
+   {% for publicacion in publicaciones %}
    <div class="box" style="flex-basis: 15em;">
       <div class="container border" style="padding: 1em;">
          <div class="row" style="align-items: center; justify-content: center;">
@@ -28,8 +18,8 @@
             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12" style="width: 100%;">
                
                <div class="box-part text-center" style="display: flex;flex-direction: column; align-items: center; justify-content: center;">
-                  <div style="display: flex; position: relative;">
-                     <img src="{{ publicacion.id_mascota.fotos.url }}" alt="" style="object-fit: contain; width: 100%;">
+                  <div style="display: flex; block-size: 220px; align-items: center; justify-content: center;">
+                     <img src="{{ publicacion.id_mascota.fotos.url }}" alt="" style="object-fit: cover; width: 100%;">
                   </div>    
                   <div class="title">
                      <h4 style="font-size: 16px;">{{ publicacion.id_mascota.nombre }}</h4>
@@ -38,10 +28,10 @@
                        <span>{{ publicacion.id_ubicacion.localidad }}</span> -
                        <span>{{ publicacion.id_ubicacion.barrio }}</span>
                     </div>
-                    <div style="display: flex; gap: 0.5em;">
-                     <a href="#">Ver</a>
+                    <div style="margin-top: 10px; display: flex; gap: 0.5em;">
+                     <a class="btn get-started-btn" href="#" style="margin: 0; color: #fff;">Ver</a>
                      {% if request.user.id == publicacion.id_usuario.id %}
-                     <a href="{% url 'encontrados:editar_publicacion' publicacion.id %}">Editar</a>
+                     <a class="btn get-started-btn" href="{% url 'encontrados:editar_publicacion' publicacion.id %}" style="margin: 0; color: #fff;">Editar</a>
                      {% endif %}     
                   </div>
                </div>
@@ -53,13 +43,12 @@
    </div>
    {% endfor %}
    </section>
-<aside style="padding: 0 1em; display: flex; flex-direction: column; justify-content: start;">
-   <a href="{% url 'encontrados:publicar' %}" class="btn get-started-btn" style="margin: 0 0 1em 0;">Publicar avistamiento</a>
-   <form action="{% url 'encontrados:buscar' %}" method="GET" style="display: flex; flex-direction: column;">
-      {% csrf_token %}
-      <input type="text" name="buscar" placeholder="Especie, Raza, Localidad, Barrio" class="form-control" style="margin-right: -30px;">
-      <input type="submit" value="Buscar" class="btn get-started-btn" style="margin: 0.5em 0 0 0;">
-   </form>
-</aside>
+   <aside style="padding: 0 1em; display: flex; flex-direction: column; justify-content: start;">
+      <a href="{% url 'encontrados:publicar' %}" class="btn get-started-btn" style="margin: 0 0 1em 0;">Publicar avistamiento</a>
+      <form action="{% url 'encontrados:buscar' %}" method="GET" style="display: flex; flex-direction: column;">
+         <input type="text" name="buscar" placeholder="Especie, Raza, Localidad, Barrio" class="form-control" style="margin-right: -30px;">
+         <input type="submit" value="Buscar" class="btn get-started-btn" style="margin: 0.5em 0 0 0;">
+      </form>
+   </aside>
 </div>
 {% endblock %}

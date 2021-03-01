@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %} | Editar {% endblock %}
+{% block title %} | Publicar {% endblock %}
 
 {% block content %}
 
@@ -8,6 +8,7 @@
    <section>
       <br>
       <br>
+      <h5 style="text-align: left; font: 900 32px bold;padding: 0.5em 0; padding-left: 2em; background-color: #1b1b1b; color: #fff; margin: 0;">Publicar</h5>
       <div class="container" style="width: 50%;">
          <div class="abs-center">
             <form method="POST" class="p-3 form abs-center" enctype="multipart/form-data">
@@ -17,7 +18,8 @@
                <!-- {{ publicacion.as_p }} -->
                {{ encontro.as_p }}
                <div style="display: flex; justify-content: center;">
-                  <button type="submit" class="btn get-started-btn">Guardar</button>
+                  <a href="{% url 'encontrados:lista_encontrados' %}" class="btn btn-dark">Cancelar</a>
+                  <button type="submit" class="btn get-started-btn">Publicar</button>
                </div>
             </form>  
          </div>

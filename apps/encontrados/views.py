@@ -14,67 +14,26 @@ def lista_encontrados(request):
    }
    return render(request, 'lista_encontrados.html', ctx)
 
-# @login_required
+@login_required
 def publicar(request):
    current_user = request.user
-   # publicacion = PublicacionForm(initial={'id_usuario': current_user})
    mascota = MascotaForm(initial= {'id_dueño': current_user})
    ubicacion = UbicacionForm()
    encontro = EncontroForm(initial= {'id_usuario': current_user})
    if request.method == 'POST':
       mascota = MascotaForm(data=request.POST, files=request.FILES)
-      # mascota.id_dueño = User.objects.filter(username=current_user)
       ubicacion = UbicacionForm(data=request.POST)
-      # publicacion = PublicacionForm(data=request.POST)
       encontro = EncontroForm(data=request.POST, initial={'id_usuario': current_user})
-      # encontro.id_usuario = User.objects.filter(username=current_user)
-      # publicacion.id_usuario = User.objects.filter(username=current_user)
-      # publicacion.id_mascota = Mascota.objects.filter(otro_dato=request.POST['otro_dato']).filter(id_dueño=current_user)
-      # publicacion.id_ubicacion = Ubicacion.objects.filter(localidad=request.POST['localidad']).filter(barrio=request.POST['barrio']).filter(entre_calles=request.POST['entre_calles']).filter(calle=request.POST['calle']).filter(otros_datos=request.POST['otros_datos'])
       if mascota.is_valid():
          masc = mascota.save()
-         # masc.id_dueño = User.objects.filter(username=current_user)
-         # masc.save()
          if ubicacion.is_valid():
             ubic = ubicacion.save()
-            # pub = publicacion.save(commit=False)
-            # pub.id_usuario = current_user
-            # pub.id_mascota = masc
-            # pub.id_ubicacion = ubic
             enc = encontro.save(commit=False)
             enc.id_usuario = current_user
             enc.id_mascota = masc
             enc.id_ubicacion = ubic
-            # publicacion.save(commit=False)
-            # publicacion.id_usuario = current_user
-            # publicacion.id_mascota = masc
-            # publicacion.id_ubicacion = ubic
-            # encontro.save(commit=False)
-            # encontro.id_usuario = current_user
-            # encontro.id_mascota = masc
-            # encontro.id_ubicacion = ubic
             if encontro.is_valid():
-               # publicacion.save()
-               # encontro.save()
-               # pub.save()
                enc.save()
-      # if encontro.is_valid() and publicacion.is_valid() and mascota.is_valid() and ubicacion.is_valid():
-      #    ubic = ubicacion.save()
-      #    masc = mascota.save(commit=False)
-      #    masc.id_dueño = current_user
-      #    masc.save()
-      #    pub = publicacion.save(commit=False)
-      #    pub.id_usuario = current_user
-      #    pub.id_mascota = masc
-      #    pub.id_ubicacion = ubic
-      #    pub.save()
-      #    enc = encontro.save(commit=False)
-      #    enc.id_usuario = current_user
-      #    enc.id_mascota = masc
-      #    enc.id_ubicacion = ubic
-      #    enc.save()
-         # publicacion.save(commit=False)
-         # encontro.save(commit=False)
                vigencia = encontro.cleaned_data['fecha_limite']
                messages.success(request, message=f'Su publicación ha sido un exito.!! Recuerda renovarla antes del {vigencia}')
                return redirect(to='encontrados:lista_encontrados')
@@ -82,18 +41,16 @@ def publicar(request):
          messages.error(request, message='Ups...parece que algo salió mal.!! Vuelve a intentarlo.')
          mascota = MascotaForm(data=request.POST, files=request.FILES)
          ubicacion = UbicacionForm(data=request.POST)
-         # publicacion = PublicacionForm(data=request.POST)
          encontro = EncontroForm(data=request.POST)
    
    ctx = {
       'mascota': mascota,
       'ubicacion': ubicacion,
-      # 'publicacion': publicacion,
       'encontro': encontro,
       }
    return render(request, 'publicar.html', ctx)
 
-# @login_required
+@login_required
 def editar_publicacion(request, id_publicacion):
    # current_user = request.user
    encontro = get_object_or_404(Encontro, id=id_publicacion)
