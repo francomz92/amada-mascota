@@ -1,0 +1,27 @@
+<section>
+{# Esta barra se "incrusta" en la plantilla "busquedas" #}
+    <style>
+        #barra{
+            margin: 5;
+            padding: 20px;;
+            list-style: none;
+            text-transform: uppercase;
+        }
+
+        #barra li{
+            display: inline;
+            margin:0 20px
+        }
+    </style>
+
+    <div>
+        Seleccione la publicación que desea buscar
+        <ul id="barra">
+            <li><a href="{% url 'busquedas_perdidos'%}" class ="get-started-btn scrollto" style="margin-left: 1em;">  Perdidos</a>
+             </li>
+            <li><a href="">Encontrado </a> </li>
+            <li><a href="">Adopcion</a> </li>
+        </ul>
+
+    </div>
+</section>

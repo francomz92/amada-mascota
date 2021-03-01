@@ -1,0 +1,45 @@
+
+{# para inidcar que hereda de 'informacion.html' (que es la base que tiene el MENU) #}
+{% extends "busquedas.html" %}
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+{# el título aparece en la Barra de Título del Navegador #}
+{% block title %}
+    Buscar Perdidos
+{% endblock %}
+
+{% block content1 %}
+    BUSQUEDA DE PUBLICACIONES DE PERDIDOS
+{% endblock%}
+
+
+
+{% block content2 %}
+<body>
+    <body style="background-color:#faeded;"></body>
+
+    AQUI SE LISTARIA LOS FILTROS DE PERDIDOS
+    {% for xObj in lista_perdidos %}
+        <li>
+        <a href="{{xObj.get_absolute_url }}"> {{ xObj.id_mascota }}</a> ({{xObj.id_usuario}})
+        </li>
+    {% endfor%}
+
+
+
+</body>
+ 
+{% endblock %}
+
+</html>
+
