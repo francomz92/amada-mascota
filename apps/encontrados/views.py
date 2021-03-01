@@ -132,15 +132,16 @@ def buscar(request):
    if request.GET['buscar']:
       mascota = request.GET['buscar']
       if mascota is not None:
-         resultado = Mascota.objects.filter(nombre=mascota) # Revisar
+         firs = Mascota.objects.filter(raza=mascota)
+         resultado = Publicacion.objects.filter(id_mascota=firs) # Revisar
          ctx = {
             'resultado': resultado,
             'busqueda': mascota,
          }
-         if resultado:
-            return render('resultado_busqueda.html', ctx)
-         else:
-            messages.info(request, message=f'No se encontro {mascota}')
+         return render(request, 'resultado_busqueda.html', ctx)
+         # if resultado:
+         # else:
+         #    messages.info(request, message=f'No se encontro {mascota}')
       else:
          return redirect(to='encontrados:lista_encontrados')
    return render(request, 'lista_encontrados.html')

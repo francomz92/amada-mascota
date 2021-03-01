@@ -7,5 +7,5 @@ urlpatterns = [
    path('publicar/', publicar, name='publicar'),
    path('', lista_encontrados, name='lista_encontrados'),
    path('editar/<id_publicacion>/', editar_publicacion, name='editar_publicacion'),
-   path('resultado-busqueda/', buscar, name='buscar'),
+   path('busqueda/', buscar, name='buscar'),
 ]
