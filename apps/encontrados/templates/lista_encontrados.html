@@ -8,6 +8,10 @@
 <br>
 <br>
 <h5 style="text-align: center; font: 900 32px bold;padding: 1.5em 0; background-color: #1b1b1b; color: #fff; margin: 0;">Encontrados o Avistados</h5>
+<div style="text-align: center; background-color: #1b1b1b; color: #fff; min-height: 50px;  padding: 0;">
+   ¡Ac&aacute; pued&eacute;s ver las publicaciones hechas por otros usuarios y encontrar a tu mascota!
+   <a href="{% url 'encontrados:publicar' %}" class="btn get-started-btn" style="margin-left: 50px;">Publicar avistamiento</a>
+</div>
 <div style="padding: 2em 1em; display: flex;">
    <section style="padding: 0 1em; display: flex; flex-direction: row; flex-wrap: wrap; gap: 1em; text-align: center; align-items: center; justify-content: start;">
    {% for publicacion in publicaciones %}
@@ -43,12 +47,5 @@
    </div>
    {% endfor %}
    </section>
-   <aside style="padding: 0 1em; display: flex; flex-direction: column; justify-content: start;">
-      <a href="{% url 'encontrados:publicar' %}" class="btn get-started-btn" style="margin: 0 0 1em 0;">Publicar avistamiento</a>
-      <form action="{% url 'encontrados:buscar' %}" method="GET" style="display: flex; flex-direction: column;">
-         <input type="text" name="buscar" placeholder="Especie, Raza, Localidad, Barrio" class="form-control" style="margin-right: -30px;">
-         <input type="submit" value="Buscar" class="btn get-started-btn" style="margin: 0.5em 0 0 0;">
-      </form>
-   </aside>
 </div>
 {% endblock %}
