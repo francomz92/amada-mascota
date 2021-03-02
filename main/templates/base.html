@@ -52,12 +52,41 @@
   
         <nav id="navbar" class="navbar order-last order-lg-0">
           <ul>
-            <li><a class="nav-link scrollto" href="{% url 'home' %}">Home</a></li>
-            <li><a href="{% url 'consultas' %}">Consultas</a></li>
-            <li><a href="#">Perdidos</a></li>
-            <li><a href="{% url 'encontrados:lista_encontrados' %}">Encontrados</a></li>
+
+            <li><a class="nav-link scrollto" href="{% url 'home' %}">Inicio</a></li>
+    
+            <li class="dropdown"><a href="#"><span> Consultas </span> <i class="bi bi-chevron-down"></i></a>
+              <ul>
+                <li><a href="{% url 'consultas_perdidos' %}">Perdidos</a></li>
+                <li><a href="{% url 'consultas_encontrados' %}">Encontrados</a></li>
+                <li><a href="#">Adopciones</a></li>
+              </ul>
+            </li>
+
+            {% if user.is_authenticated %}
+            <li class="dropdown"><a href="#"><span>Publicaciones</span> <i class="bi bi-chevron-down"></i></a>
+              <ul>
+                <li><a href="#">Perdidos</a></li>
+                <li><a href="{% url 'encontrados:lista_encontrados' %}">Encontrados</a></li>
+                <li><a href="#">Adopción</a></li>
+              </ul>
+            </li>
+            {% endif %}
+
+            {% if user.is_authenticated %}
+            <li class="dropdown"><a href="#"><span>Suscripciones</span> <i class="bi bi-chevron-down"></i></a>
+              <ul>
+                <li><a href="#">Perdidos</a></li>
+                <li><a href="#">Encontrados</a></li>
+                <li><a href="#">Adopción</a></li>
+              </ul>
+            </li>
+            {% endif %}
+
             <li><a class="nav-link scrollto" href="{% url 'about' %}">Acerca de</a></li>
+            
             <li><a class="nav-link scrollto" href="{% url 'about' %}#contact">Contactanos</a></li>
+
             {% if user.is_authenticated %}
             <li class="dropdown"><a href="#"><span>Hola, {{ user.first_name }}</span> <i class="bi bi-chevron-down"></i></a>
               <ul>

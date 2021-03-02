@@ -10,19 +10,23 @@ Adopcion, Perdido, Encontro, tiene_notificacion
 class MascotaAdmin(admin.ModelAdmin):
     list_display = ["nombre", "especie","sexo","id_dueño", "foto"]
     list_filter = ["especie"]
-    raw_id_fields= ("id_dueño",)
-    #search_fields = ["id_dueño"]
-    #list_filter = ["especie","username"]
+    #raw_id_fields= ("id_dueño",)
+    search_fields = ["id_dueño"]
+    
     
     def foto(self, obj):
         return format_html("<img src={} width=100 height=auto />",obj.fotos.url)
 
 
 class PerdidoAdmin(admin.ModelAdmin):
-    list_display = ["id_usuario","nombre_mascota","color_mascota", "foto_mascota", "fecha_publicacion","fecha_evento", "gratificacion"]
-    list_filter = ["id_usuario__username", "id_mascota__color","id_mascota__especie"]
+    list_display = ["nombre_usuario","nombre_mascota","color_mascota", "foto_mascota", "fecha_publicacion","fecha_evento", "gratificacion"]
+    list_filter = ["id_usuario__first_name", "id_mascota__color","id_mascota__especie"]
     date_hierarchy = "fecha_publicacion" #filtro avanzado para campo fecha y hora
     ordering=["-fecha_publicacion"]
+    
+    def nombre_usuario(self, obj):
+        return "%s"%(obj.id_usuario.first_name)
+    nombre_usuario.short_description ="Nombre Usuario"
     
     def nombre_mascota(self, obj):
         return "%s"%(obj.id_mascota.nombre)
@@ -37,11 +41,15 @@ class PerdidoAdmin(admin.ModelAdmin):
     foto_mascota.short_description ="Foto Mascota"
 
 class EncontradoAdmin(admin.ModelAdmin):
-    list_display = ["id_usuario","nombre_mascota","color_mascota", "foto_mascota", "fecha_publicacion","fecha_evento", "cuida"]
-    list_filter = ["id_usuario__username", "id_mascota__color","id_mascota__especie"]
+    list_display = ["nombre_usuario","nombre_mascota","color_mascota", "foto_mascota", "fecha_publicacion","fecha_evento", "cuida"]
+    list_filter = ["id_usuario__first_name", "id_mascota__color","id_mascota__especie"]
     date_hierarchy = "fecha_publicacion" #filtro avanzado para campo fecha y hora
     ordering=["-fecha_publicacion"]
-    
+
+    def nombre_usuario(self, obj):
+        return "%s"%(obj.id_usuario.first_name)
+    nombre_usuario.short_description ="Nombre Usuario"
+
     def nombre_mascota(self, obj):
         return "%s"%(obj.id_mascota.nombre)
     nombre_mascota.short_description ="Nombre Mascota"
@@ -56,11 +64,15 @@ class EncontradoAdmin(admin.ModelAdmin):
 
 
 class AdopcionAdmin(admin.ModelAdmin):
-    list_display = ["id_usuario","nombre_mascota","color_mascota", "foto_mascota", "fecha_publicacion","fecha_evento", "condicion"]
-    list_filter = ["id_usuario__username", "id_mascota__color","id_mascota__especie"]
+    list_display = ["nombre_usuario","nombre_mascota","color_mascota", "foto_mascota", "fecha_publicacion","fecha_evento", "condicion"]
+    list_filter = ["id_usuario__first_name", "id_mascota__color","id_mascota__especie"]
     date_hierarchy = "fecha_publicacion" #filtro avanzado para campo fecha y hora
     ordering=["-fecha_publicacion"]
     
+    def nombre_usuario(self, obj):
+        return "%s"%(obj.id_usuario.first_name)
+    nombre_usuario.short_description ="Nombre Usuario"
+
     def nombre_mascota(self, obj):
         return "%s"%(obj.id_mascota.nombre)
     nombre_mascota.short_description ="Nombre Mascota"
@@ -85,7 +97,7 @@ class TieneNotificacionAdmin(admin.ModelAdmin):
 
     def datos_notificacion(self, obj):
         return "%s - %s - %s "%(obj.id_notificacion.tipo, obj.id_notificacion.especie, obj.id_notificacion.localidad)
-    datos_notificacion.short_description ="Tipo - Especie -Localidad"
+    datos_notificacion.short_description ="Notific: Tipo-Especie-Localidad"
 
 
 class NotificacionAdmin(admin.ModelAdmin):
