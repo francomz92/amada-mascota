@@ -7,8 +7,10 @@ from django.contrib.auth.models import User
 
 # Create your views here.
 
+@login_required
 def lista_encontrados(request):
-   publicaciones = Encontro.objects.all()
+   current_user = request.user
+   publicaciones = Encontro.objects.filter(id_usuario=current_user)
    ctx = {
       'publicaciones': publicaciones,
    }
@@ -74,6 +76,7 @@ def editar_publicacion(request, id_publicacion):
          messages.error(request, message='Ups...parece que algo salió mal.!! Vuelve a intentarlo.')
    return render(request, 'editar_publicacion.html', ctx)
 
+@login_required
 def publicacion(request, id_publicacion):
    publicacion = get_object_or_404(Encontro, id=id_publicacion)
    ctx = {

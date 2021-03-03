@@ -9,7 +9,7 @@
 <br>
 <h5 style="text-align: center; font: 900 32px bold;padding: 1.5em 0; background-color: #1b1b1b; color: #fff; margin: 0;">Encontrados o Avistados</h5>
 <div style="text-align: center; background-color: #1b1b1b; color: #fff; min-height: 50px;  padding: 0;">
-   ¡Ac&aacute; pued&eacute;s ver las publicaciones hechas por otros usuarios y encontrar a tu mascota!
+   ¡Ac&aacute; pued&eacute;s ver tus publicaciones de avistamientos!
    <a href="{% url 'encontrados:publicar' %}" class="btn get-started-btn" style="margin-left: 50px;">Publicar avistamiento</a>
 </div>
 <div style="padding: 2em 1em; display: flex;">
@@ -33,7 +33,7 @@
                        <span>{{ publicacion.id_ubicacion.barrio }}</span>
                     </div>
                     <div style="margin-top: 10px; display: flex; gap: 0.5em;">
-                     <a class="btn get-started-btn" href="#" style="margin: 0; color: #fff;">Ver</a>
+                     <a class="btn get-started-btn" href="{% url 'encontrados:publicacion' publicacion.id %}" style="margin: 0; color: #fff;">Ver</a>
                      {% if request.user.id == publicacion.id_usuario.id %}
                      <a class="btn get-started-btn" href="{% url 'encontrados:editar_publicacion' publicacion.id %}" style="margin: 0; color: #fff;">Editar</a>
                      {% endif %}     
