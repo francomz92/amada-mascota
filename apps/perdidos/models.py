@@ -140,7 +140,7 @@ class Notificacion(models.Model):
     fecha_hasta = models.DateField(null=False)
     
     def __str__(self):
-        return self.id_usuario.first_name+'-'+self.tipo+'-'+self.especie+'-'+self.localidad
+        return self.id_usuario.last_name+', '+self.id_usuario.first_name+'-'+self.tipo+'-'+self.especie+'-'+self.localidad
 
 class Publicacion(models.Model):
     id_usuario = models.ForeignKey(
