@@ -3,6 +3,7 @@
 {% block title %} | Encontrados {% endblock %}
 
 {% block content %}
+<link rel="stylesheet" href="">
 <br>
 <br>
 <br>
@@ -16,7 +17,15 @@
    <section style="padding: 0 1em; display: flex; flex-direction: row; flex-wrap: wrap; gap: 1em; text-align: center; align-items: center; justify-content: start;">
    {% for publicacion in publicaciones %}
    <div class="box" style="flex-basis: 15em;">
+
+      
       <div class="container border" style="padding: 1em;">
+
+         <div style="display: flex; flex-direction: row; justify-content: flex-end; gap: 5px;">
+            <a href="{% url 'encontrados:editar_publicacion' publicacion.id %}"><img src="https://img.icons8.com/small/16/000000/edit-property.png"/></a>
+            <a href="{% url 'encontrados:eliminar_publicacion' publicacion.id %}"><img src="https://img.icons8.com/small/16/000000/trash--v1.png"/></a>
+         </div>
+
          <div class="row" style="align-items: center; justify-content: center;">
             
             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12" style="width: 100%;">
@@ -34,9 +43,9 @@
                     </div>
                     <div style="margin-top: 10px; display: flex; gap: 0.5em;">
                      <a class="btn get-started-btn" href="{% url 'encontrados:publicacion' publicacion.id %}" style="margin: 0; color: #fff;">Ver</a>
-                     {% if request.user.id == publicacion.id_usuario.id %}
+                     <!-- {% if request.user.id == publicacion.id_usuario.id %}
                      <a class="btn get-started-btn" href="{% url 'encontrados:editar_publicacion' publicacion.id %}" style="margin: 0; color: #fff;">Editar</a>
-                     {% endif %}     
+                     {% endif %}      -->
                   </div>
                </div>
             </div>	 

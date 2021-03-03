@@ -83,3 +83,8 @@ def publicacion(request, id_publicacion):
       'publicacion': publicacion,
    }
    return render(request, 'publicacion.html', ctx)
+@login_required
+def eliminar_publicacion(request, id_publicacion):
+   publicacion = get_object_or_404(Encontro, id=id_publicacion)
+   publicacion.delete()
+   return redirect(to='encontrados:lista_encontrados')
