@@ -1,45 +1,45 @@
-
-{# para inidcar que hereda de 'consultas.html' (que es la base que tiene el MENU) #}
-{% extends "consultas.html" %}
-
+{% extends 'base.html' %}
 {% load static %}
 
-<!DOCTYPE html>
-<html lang="en">
+{% block content %}
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
-
+  
 {# el título aparece en la Barra de Título del Navegador #}
 {% block title %}
     Consultar Perdidos
 {% endblock %}
-
-{% block content1 %}
-    CONSULTAS DE PUBLICACIONES DE PERDIDOS
-{% endblock%}
+</head>
 
 
-
-{% block content2 %}
-<body>
     <body style="background-color:#faeded;"></body>
 
-    AQUI SE LISTARIA LOS FILTROS DE PERDIDOS
-    {% for xObj in lista_perdidos %}
-        <li>
-        <a href="{{xObj.get_absolute_url }}"> {{ xObj.id_mascota }}</a> ({{xObj.id_usuario}})
-        </li>
-    {% endfor%}
+    <section id="contact" class="contact">
+      <div class="container" data-aos="fade-up">
+        <div class="section-title">
+            <h2>Consulta de Perdidos</h2>
+            <p>Selecciones un NOMBRE para ver mas detalles.</p>
+        </div>
+      <div class="row">
+  
+      {% for xObj in lista_perdidos %}
+     
+        <div class="col-lg-3 col-md-6 d-flex align-items-stretch">
+          <div class="member" data-aos="fade-up" data-aos-delay="10">
+            <div class="member-img">
+              <img src="{{ xObj.id_mascota.fotos.url }}" width="100" height="auto" alt="FOTO MASCOTA">
+            </div>
+            <div class="member-info">
+              <h5>{{ xObj.id_mascota.nombre }} </h5>
+              <span> {{ xObj.id_mascota.raza }} - </span>
+              <span>{{ xObj.id_mascota.sexo }} - </span>
+              <span>{{ xObj.fecha_publicacion }} - $ {{ xObj.gratificacion }}</span>
+              <br> ----------------------------------------
+            </div>
+          </div>
+        </div>
+      {% endfor %}
 
+    </section><!-- End Section -->
 
-
-</body>
- 
 {% endblock %}
-
-</html>
-
