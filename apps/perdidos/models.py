@@ -169,20 +169,20 @@ class Publicacion(models.Model):
         barrio = ubicacion.barrio
         return mascota.especie+' - Fecha: '+fecha+' - '+localidad+', Barrio: '+barrio
     
-    def save(self,*args,**kwargs):
-        """Cuando se instancia una publicacion, antes de guardarla, se revisara 
-        el listado de personas interesadas en el tipo de mascota de la publicacion,
-        tipo de publicacion y localidad para mostrarle su notificacion personalida"""
-        e = Mascota.objects.get(pk=self.id_mascota.id)
-        preferencia_notif_personal = list(Notificacion.objects.filter(tipo = self.__class__.__name__).filter(especie = e.especie).filter(localidad = Ubicacion.objects.get(pk=self.id_ubicacion.id)))
-        for interesado in preferencia_notif_personal:
-            nueva_notif_personal  = tiene_notificacion.objects.create(
-                id_usuario = interesado.id_usuario,
-                id_publicacion = self.id,
-                id_notificacion = interesado.id,
-            )
-            nueva_notif_personal.save()
-        return super(Publicacion, self).save( *args, **kwargs)
+   #  def save(self,*args,**kwargs):
+   #      """Cuando se instancia una publicacion, antes de guardarla, se revisara 
+   #      el listado de personas interesadas en el tipo de mascota de la publicacion,
+   #      tipo de publicacion y localidad para mostrarle su notificacion personalida"""
+   #      e = Mascota.objects.get(pk=self.id_mascota.id)
+   #      preferencia_notif_personal = list(Notificacion.objects.filter(tipo = self.__class__.__name__).filter(especie = e.especie).filter(localidad = Ubicacion.objects.get(pk=self.id_ubicacion.id)))
+   #      for interesado in preferencia_notif_personal:
+   #          nueva_notif_personal  = tiene_notificacion.objects.create(
+   #              id_usuario = interesado.id_usuario,
+   #              id_publicacion = self.id,
+   #              id_notificacion = interesado.id,
+   #          )
+   #          nueva_notif_personal.save()
+   #      return super(Publicacion, self).save( *args, **kwargs)
 
 class Adopcion(Publicacion):
     condicion = models.CharField(max_length=300,default="Cuidar este hermoso ser vivo")

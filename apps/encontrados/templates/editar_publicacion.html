@@ -1,21 +1,32 @@
 {% extends 'base.html' %}
 
-{% block title %} | Encontrados {% endblock %}
+{% block title %} | Editar {% endblock %}
 
 {% block content %}
 
 {% if request.user.is_authenticated %}
-   <section>
-      <h5>Editando <strong>{{ mascota.nombre }}</strong></h5>
-      <form action="" method="GET">
-         {% csrf_token %}
-         {{ publicacion.as_p }}
-         {{ mascota.as_p }}
-         {{ ubicacion.as_p }}
-         {{ encontro.as_p }}
-         <input type="submit" value="Publicar">
-      </form>
-   </section>
+<section>
+   <br>
+   <br>
+   <h5 style="text-align: left; font: 900 32px bold;padding: 0.5em 0; padding-left: 2em; background-color: #1b1b1b; color: #fff; margin: 0;">Editar publicación</h5>
+   <div style="text-align: center; background-color: #1b1b1b; color: #fff; min-height: 50px;  padding: 0;">
+      ¡Recurda estar pendiente de tus publicaciones!
+   </div>
+   <div class="container" style="width: 50%;">
+      <div class="abs-center">
+         <form method="POST" class="p-3 form abs-center" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ mascota.as_p }}
+            {{ ubicacion.as_p }}
+            {{ encontro.as_p }}
+            <div style="display: flex; justify-content: center;">
+               <a href="{% url 'encontrados:lista_encontrados' %}" class="btn btn-dark">Cancelar</a>
+               <button type="submit" class="btn get-started-btn">Guardar</button>
+            </div>
+         </form>
+      </div>
+   </div>
+</section>
 {% endif %}
 
 {% endblock %}
