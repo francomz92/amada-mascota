@@ -20,10 +20,10 @@
 
       
       <div class="container border" style="padding: 1em;">
-
-         <div style="display: flex; flex-direction: row; justify-content: flex-end; gap: 5px;">
-            <a href="{% url 'encontrados:editar_publicacion' publicacion.id %}"><img src="https://img.icons8.com/small/16/000000/edit-property.png"/></a>
-            <a href="{% url 'encontrados:eliminar_publicacion' publicacion.id %}"><img src="https://img.icons8.com/small/16/000000/trash--v1.png"/></a>
+         <div style="position: relative; display: flex; flex-direction: row; justify-content: flex-end; gap: 5px;">
+            <a href="#" style="z-index: 100; position: absolute; top: 0; left: 0;"><img src="https://img.icons8.com/small/16/000000/recurring-appointment.png" title="¿Renovar vigencia?"/></a>
+            <a href="{% url 'encontrados:editar_publicacion' publicacion.id %}"><img src="https://img.icons8.com/small/16/000000/edit-property.png" title="Editar"/></a>
+            <a href="{% url 'encontrados:eliminar_publicacion' publicacion.id %}"><img src="https://img.icons8.com/small/16/000000/trash--v1.png" title="Borrar"/></a>
          </div>
 
          <div class="row" style="align-items: center; justify-content: center;">

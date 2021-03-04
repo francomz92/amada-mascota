@@ -29,7 +29,7 @@ class MascotaForm(forms.ModelForm):
          'sexo': forms.Select(attrs= {'class': 'form-control'}),
          'color': forms.TextInput(attrs= {'class': 'form-control'}),
          'otro_dato': forms.Textarea(attrs= {'class': 'form-control', 'rows': 5, 'style': 'resize: none;'}),
-         'edad': forms.TextInput(attrs= {'class': 'form-control'}),
+         'edad': forms.NumberInput(attrs= {'class': 'form-control', 'maxlength': '2'}),
          'tamaño': forms.Select(attrs= {'class': 'form-control'}),
          'fotos': forms.FileInput(attrs= {'class': 'form-control'}),
       }
@@ -40,7 +40,6 @@ class MascotaForm(forms.ModelForm):
          'edad': 'Edad aproximada',
       }
 class UbicacionForm(forms.ModelForm):
-   # localidad = forms.ChoiceField(choices=lista_localidades)
    
    class Meta:
       model = Ubicacion
@@ -49,7 +48,7 @@ class UbicacionForm(forms.ModelForm):
          'localidad': forms.Select(attrs= {'class': 'form-control'}),
          'barrio': forms.TextInput(attrs= {'class': 'form-control'}),
          'entre_calles': forms.TextInput(attrs= {'class': 'form-control'}),
-         'numero': forms.TextInput(attrs= {'class': 'form-control'}),
+         'numero': forms.NumberInput(attrs= {'class': 'form-control', 'maxlength': '2'}),
          'calle': forms.TextInput(attrs= {'class': 'form-control'}),
          'otros_datos': forms.Textarea(attrs= {'class': 'form-control', 'rows': 2, 'style': 'resize: none;'}),
       }
