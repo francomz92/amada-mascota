@@ -3,43 +3,86 @@
 
 {% block content %}
 
+<!--
+<style type="text/css">
+.foto1 { 
+  padding: 5px; 
+  margin: 5px; 
+  border: 2px solid black; 
+  max-width: 165px;
+  position: relative;
+  overflow: hidden;
+  }
+</style>
+-->
+
 <head>
-  
 {# el título aparece en la Barra de Título del Navegador #}
 {% block title %}
     Consultar Perdidos
 {% endblock %}
 </head>
 
+<body style="background-color:#faeded;"></body>
 
-    <body style="background-color:#faeded;"></body>
+  <section id="contact" class="contact">
+    <div class="container" data-aos="fade-up">
 
-    <section id="contact" class="contact">
-      <div class="container" data-aos="fade-up">
-        <div class="section-title">
-            <h2>Consulta de Perdidos</h2>
-            <p>Selecciones un NOMBRE para ver mas detalles.</p>
-        </div>
-      <div class="row">
+      <div class="section-title">
+          <h2>Consulta de Perdidos</h2>
+          <p>Estas mascotas se encuentran perdidas, si las viste, por favor contácta al dueño.</p>
+      </div>
+      
+      
+      {% if form.errors %}
+      <p style="color: red;">Por Favor, controla este campo</p>
+      {% endif %}
+
+      <form action ="" method="POST"> {% csrf_token%}
+          <table>
   
+              {{ form.as_p}}
+                  
+          </table>
+          <input type="submit" value="Consultar">
+      </form>
+      ----------------------
+
+      <div class="row">
+      {% if lista_perdidos %} 
       {% for xObj in lista_perdidos %}
-     
+    
         <div class="col-lg-3 col-md-6 d-flex align-items-stretch">
-          <div class="member" data-aos="fade-up" data-aos-delay="10">
-            <div class="member-img">
-              <img src="{{ xObj.id_mascota.fotos.url }}" width="100" height="auto" alt="FOTO MASCOTA">
+          <div class="member" data-aos="fade-up">
+            
+            <div class="foto1">                     <!--<div class="member-img">-->
+              <img src="{{xObj.id_mascota.fotos.url }}" width="150" height=auto; alt="FOTO MASCOTA">
             </div>
-            <div class="member-info">
-              <h5>{{ xObj.id_mascota.nombre }} </h5>
-              <span> {{ xObj.id_mascota.raza }} - </span>
-              <span>{{ xObj.id_mascota.sexo }} - </span>
-              <span>{{ xObj.fecha_publicacion }} - $ {{ xObj.gratificacion }}</span>
-              <br> ----------------------------------------
+
+            <div class="member-info">               
+              <h5><strong>{{ xObj.id_mascota.nombre }} </strong></h5>
+              
+              <h6> 
+                <span>    Especie: {{ xObj.id_mascota.especie }} </span>
+                <span><br>Sexo   : {{ xObj.id_mascota.sexo }} </span>
+                <span><br>Edad   : {{ xObj.id_mascota.edad }} </span>
+                <span><br>Fecha Evento: {{ xObj.fecha_evento}} </span>
+                <span><br>Fecha Public: {{ xObj.fecha_publicacion }} </span>
+                <span><br>Gratificación:$ {{ xObj.gratificacion }}</span>  
+            </h6>
+     
             </div>
           </div>
         </div>
+    
       {% endfor %}
+      {%else%}
+          <h4>No hay Publicaciones de Perdidos</h4>
+          <p>Disculpe las molestias.</p>
+      {%endif%}
+    </div>
+  </div>
 
-    </section><!-- End Section -->
+  </section><!-- End Section -->
 
 {% endblock %}
