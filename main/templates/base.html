@@ -7,7 +7,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>{% block title %}{% endblock %} Amada Mascota</title>
+  <title>Amada Mascota {% block title %}{% endblock %}</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -52,29 +52,67 @@
   
         <nav id="navbar" class="navbar order-last order-lg-0">
           <ul>
-            <li><a class="nav-link scrollto" href="{% url 'home' %}">Home</a></li>
-            <li><a href="{% url 'busquedas' %}">Búsquedas</a></li>
-            <li><a href="#">Perdidos</a></li>
-            <li><a href="{% url 'encontrados:lista_encontrados' %}">Encontrados</a></li>
-            <li><a class="nav-link scrollto" href="{% url 'about' %}">Acerca de</a></li>
-            <li><a class="nav-link scrollto" href="{% url 'about' %}#contact">Contactanos</a></li>
-            {% if user.is_authenticated %}
-            <li class="dropdown"><a href="#"><span>Hola, {{ user.first_name }}</span> <i class="bi bi-chevron-down"></i></a>
+
+            <li><a class="nav-link scrollto" href="{% url 'home' %}">Inicio</a></li>
+    
+            <li class="dropdown"><a href="#"><span> Consultas </span> <i class="bi bi-chevron-down"></i></a>
               <ul>
-                <li><a href="#">Mi perfil</a></li>
-                <li><a href="#">Publicar mascota perdida</a></li>
-                <li><a href="#">Publicar mascota encontrada</a></li>
-                <li><a href="#">Dar en adopción</a></li>
+                <li><a href="{% url 'consultas_perdidos' %}">Perdidos</a></li>
+                <li><a href="{% url 'consultas_encontrados' %}">Encontrados</a></li>
+                <li><a href="#">Adopciones</a></li>
+              </ul>
+            </li>
+
+            {% if user.is_authenticated %}
+            <li class="dropdown"><a href="#"><span>Publicaciones</span> <i class="bi bi-chevron-down"></i></a>
+              <ul>
+                <li><a href="#">Perdidos</a></li>
+                <li><a href="{% url 'encontrados:lista_encontrados' %}">Encontrados</a></li>
+                <li><a href="#">Adopción</a></li>
               </ul>
             </li>
             {% endif %}
+
+            {% if user.is_authenticated %}
+            <li class="dropdown"><a href="#"><span>Suscripciones</span> <i class="bi bi-chevron-down"></i></a>
+              <ul>
+                <li><a href="#">Perdidos</a></li>
+                <li><a href="#">Encontrados</a></li>
+                <li><a href="#">Adopción</a></li>
+              </ul>
+            </li>
+            {% endif %}
+
+            <li class="dropdown"><a href="#"><span> Nosotros</span> <i class="bi bi-chevron-down"></i></a>
+              <ul>
+                <li><a href="{% url 'about' %}"> Acerca de...</a></li>
+                <li><a href="{% url 'about' %}#faq">FAQ</a></li>
+                <li><a href="{% url 'about' %}#team">Nosotros</a></li>
+                <li><a href="{% url 'about' %}#contact">Cantáctanos</a></li>
+              </ul>
+            </li>
+
+        
+            {% if user.is_authenticated %}
+            <li class="dropdown"><a href="#"><span>Hola, {{ user.first_name }} </span> <i class="bi bi-chevron-down" ></i></a> 
+              <ul>
+                <li><a href="#">Perfil</a></li>
+                <li><a href="#">Editar Perfil</a></li>
+                <li><a href="{% url 'logout' %}">Cerrar Sesión</a></li>
+              </ul>
+            </li>
+           
+            <!-- Foto de usuario
+            <li><a class="nav-link scrollto"> </a> <img src="{% static 'img/team/magdalena_brollo.jpg' %}" width="30" height="30" alt="" > </li>
+             -->
+            {% endif %}
+
           </ul>
           <i class="bi bi-list mobile-nav-toggle"></i>
-        </nav><!-- .navbar -->
+        </nav>
+        <!-- .navbar -->
   
-        {% if user.is_authenticated %}
-          <a href="{% url 'logout' %}" class="get-started-btn scrollto">Salir</a>
-        {% else %}
+        {% if not user.is_authenticated %}
           <a href="{% url 'login' %}" class="get-started-btn scrollto">Iniciar</a>
         {% endif %}
       </div>
@@ -94,7 +132,8 @@
 
           <div class="col-lg-3 col-md-6 footer-contact">
             <h3><span>Amada</span>Mascota</h3>
-             <!--<p>
+          <!--
+             <p>
               A108 Adam Street <br>
               New York, NY 535022<br>
               United States <br><br>
@@ -103,41 +142,31 @@
             </p>
           -->
           </div>
-<!--
-          <div class="col-lg-2 col-md-6 footer-links">
-            <h4>Links</h4>
+
+
+          <div class="col-lg-4 col-md-6 footer-links">
+            <h4>Menú Principal</h4>
             <ul>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Home</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">About us</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Services</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Terms of service</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Privacy policy</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Inicio</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="{% url 'about' %}#about">Acerca de...</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="{% url 'about' %}#faq">FAQ</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="{% url 'about' %}#team">Nosotros</a></li>
             </ul>
           </div>
-
-          <div class="col-lg-3 col-md-6 footer-links">
-            <h4>Nuestros servicios</h4>
-            <ul>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Web Design</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Web Development</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Product Management</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Marketing</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Graphic Design</a></li>
-            </ul>
-          </div>
-
-          <div class="col-lg-4 col-md-6 footer-newsletter">
-            <h4>Suscribite</h4>
-            <p>Tamen quem nulla quae legam multos aute sint culpa legam noster magna</p>
-            <form action="" method="post">
-              <input type="email" name="email"><input type="submit" value="Subscribe">
-            </form>
+          
+          <div class="col-lg-3 col-md-6  footer-newsletter">
+            <h4>Contáctanos</h4>
+            <p>Completá el formulario de contacto:</p>
+            <div class="btn-wrap">
+              <a href="{% url 'about' %}#contact" class="get-started-btn scrollto">Contáctanos</a>
+            </div>
           </div>
 
         </div>
       </div>
     </div>
-  -->
+ 
+  
     <div class="container d-md-flex py-4">
 
       <div class="me-md-auto text-center text-md-start" >
@@ -148,6 +177,7 @@
           Designed by <a href="{% url 'about' %}#team">Zoe, Enzo, Franco, Mimi, Magui, David</a>
         </div>
       </div>
+
       <!-- 
          <div class="social-links text-center text-md-end pt-3 pt-md-0">
         <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>

@@ -114,7 +114,7 @@ class Mascota(models.Model):
         help_text="Indica la especie")
     edad = models.CharField(max_length=2,default="N")
     sexo = models.CharField(max_length=11,choices=sexos,null=False)
-    fotos = models.ImageField(upload_to ='perdido') 
+    fotos = models.ImageField(upload_to ='mascota') 
     color = models.CharField(max_length=30,null=True,blank=True)
     tamaño = models.CharField(max_length=8,choices=tamanos)
     otro_dato = models.CharField(max_length=200,null=True, blank= True, default=None)
@@ -138,6 +138,9 @@ class Notificacion(models.Model):
     localidad = models.CharField(max_length=30,choices=lista_localidades,null=False)
     fecha_desde = models.DateField(default=timezone.now)
     fecha_hasta = models.DateField(null=False)
+    
+    def __str__(self):
+        return self.id_usuario.last_name+', '+self.id_usuario.first_name+'-'+self.tipo+'-'+self.especie+'-'+self.localidad
 
 class Publicacion(models.Model):
     id_usuario = models.ForeignKey(
@@ -169,20 +172,20 @@ class Publicacion(models.Model):
         barrio = ubicacion.barrio
         return mascota.especie+' - Fecha: '+fecha+' - '+localidad+', Barrio: '+barrio
     
-    def save(self,*args,**kwargs):
-        """Cuando se instancia una publicacion, antes de guardarla, se revisara 
-        el listado de personas interesadas en el tipo de mascota de la publicacion,
-        tipo de publicacion y localidad para mostrarle su notificacion personalida"""
-        e = Mascota.objects.get(pk=self.id_mascota.id)
-        preferencia_notif_personal = list(Notificacion.objects.filter(tipo = self.__class__.__name__).filter(especie = e.especie).filter(localidad = Ubicacion.objects.get(pk=self.id_ubicacion.id)))
-        for interesado in preferencia_notif_personal:
-            nueva_notif_personal  = tiene_notificacion.objects.create(
-                id_usuario = interesado.id_usuario,
-                id_publicacion = self.id,
-                id_notificacion = interesado.id,
-            )
-            nueva_notif_personal.save()
-        return super(Publicacion, self).save( *args, **kwargs)
+   #  def save(self,*args,**kwargs):
+   #      """Cuando se instancia una publicacion, antes de guardarla, se revisara 
+   #      el listado de personas interesadas en el tipo de mascota de la publicacion,
+   #      tipo de publicacion y localidad para mostrarle su notificacion personalida"""
+   #      e = Mascota.objects.get(pk=self.id_mascota.id)
+   #      preferencia_notif_personal = list(Notificacion.objects.filter(tipo = self.__class__.__name__).filter(especie = e.especie).filter(localidad = Ubicacion.objects.get(pk=self.id_ubicacion.id)))
+   #      for interesado in preferencia_notif_personal:
+   #          nueva_notif_personal  = tiene_notificacion.objects.create(
+   #              id_usuario = interesado.id_usuario,
+   #              id_publicacion = self.id,
+   #              id_notificacion = interesado.id,
+   #          )
+   #          nueva_notif_personal.save()
+   #      return super(Publicacion, self).save( *args, **kwargs)
 
 class Adopcion(Publicacion):
     condicion = models.CharField(max_length=300,default="Cuidar este hermoso ser vivo")
@@ -224,5 +227,9 @@ class tiene_notificacion(models.Model):
     leido = models.BooleanField(default=False)
     
     def __str__(self):
-        tipo,especie = Notificacion.objects.get(id = self.id_notificacion).only('tipo','especie')
-        return self.tipo_notificacion+':'+self.especie
+        x = Notificacion.objects.get(id = self.id_notificacion.id) #.only('tipo','especie')
+        return x.tipo+':'+x.especie
+
+
+        """ tipo,especie = Notificacion.objects.get(id = self.id_notificacion).only('tipo','especie')
+        return self.tipo_notificacion+':'+self.especie """

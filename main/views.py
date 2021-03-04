@@ -3,8 +3,8 @@ from main.models import Contacto
 from main.forms import FormularioContacto
 from django.http import HttpResponse, HttpResponseRedirect
 
-from django.views import generic
-from apps.perdidos.models import Perdido
+from django.views.generic import ListView
+from apps.perdidos.models import Perdido, Encontro
 
 # Create your views here.
 def home(request):
@@ -26,11 +26,22 @@ def about(request):
 
 
 
-def busquedas(request):
-    return render(request, "busquedas.html")
+def consultas(request):
+    ctx={
+        'de_donde':"Consultar",
+        'url_P': "consultas_perdidos",
+        'url_E': "consultas_encontrados"
+        }
+    return render(request, "consultas.html",ctx)
 
-class BusquedasPerdidosView(generic.ListView):
+class ConsultasPerdidosView(ListView):
     model=Perdido
     queryset=Perdido.objects.all()
     context_object_name = 'lista_perdidos'
-    template_name='busquedas_perdidos.html'
+    template_name='consultas_perdidos.html'
+
+class ConsultasEncontradosView(ListView):
+    model=Encontro
+    queryset=Encontro.objects.all()
+    context_object_name = 'lista_encontrados'
+    template_name='consultas_encontrados.html'

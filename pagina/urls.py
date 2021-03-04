@@ -22,7 +22,8 @@ from django.views.static import serve
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('main.urls')),
-    path('miembros/', include('miembros.urls')),
+    path('', include('miembros.urls')),
+   #  path('miembros/', include('miembros.urls')),
     path('miembros/', include('django.contrib.auth.urls')),
     path('perdidos/', include('apps.perdidos.urls')),
     path('encontrados/', include('apps.encontrados.urls')),

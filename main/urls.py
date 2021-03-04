@@ -6,6 +6,7 @@ from django.conf.urls import url  #magui
 urlpatterns = [
     path('', views.home, name='home'),
     path('acerca-de/', views.about, name='about'),
-    path('busquedas/',views.busquedas, name='busquedas'),
-    url(r'^busquedas_perdidos/$',views.BusquedasPerdidosView.as_view(), name='busquedas_perdidos'),
+    path('consultas/',views.consultas, name='consultas'),
+    url(r'^consultas_perdidos/$',views.ConsultasPerdidosView.as_view(), name='consultas_perdidos'),
+    url(r'^consultas_encontrados/$',views.ConsultasEncontradosView.as_view(), name='consultas_encontrados'),
 ]
