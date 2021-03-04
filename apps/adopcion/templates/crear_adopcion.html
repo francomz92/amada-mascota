@@ -5,18 +5,27 @@
 {% block content %}
 <div class="main" style="padding-top: 3em;padding-bottom: 0px;">
     <section class="sign-in" style="padding-bottom: 2em; padding-left: 2em; padding-right: 2em;margin-bottom: 0px;" >
-        <div class="containerr w-100 p-4 " >
-            <div class="signin-content" style="padding-top: 1em;padding-bottom: 1em;">
-                
+        <div class="container" style="width: 50%;">
+            <div class="abs-center">
+                <h1>Publicar adopcion</h1>   
                 <form method="POST" enctype="multipart/form-data">
                     {% csrf_token %}
+                    <!-- Formulario de adopcion-->
+                    <h2>Adopcion</h2>
                     {{form.as_p}}
+                    <!-- Formulario de ubicacion-->
+                    <h2>Ubicacion</h2>
                     {{form2.as_p}}
+                    <!--Formulario mascota-->
+                    <h2>Mascota</h2>
                     {{form3.as_p}}
-                    <input type="submit"> 
+                    <div style="display: flex; justify-content: center; gap: 5px">
+                        <a href="{% url 'encontrados:lista_encontrados' %}" class="btn btn-dark">Cancelar</a>
+                        <button type="submit" class="btn get-started-btn">Publicar</button>
+                     </div>
                 </form>
             </div>
         </div>
     </section>
 </div>
-{% endblock %}
+{% endblock %}  

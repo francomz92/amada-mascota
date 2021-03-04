@@ -1,11 +1,10 @@
 {% extends 'base.html' %}
 
-{% block title %} Adopciones{% endblock %}
+{% block title %}Adopciones{% endblock %}
 
 {% block content %}
     <section id="pricing" class="pricing section-bg">
       <div class="container" data-aos="fade-up">
-
         <div class="section-title">
           <h2>Adopciones</h2>
           <p>Aquí podras encontrar gente que da en adopcion mascota, pero tambien puedes dar en adopcion algunas de las tuyas.</p>
@@ -20,7 +19,7 @@
                 <a href="crear_adopcion.html" class="btn-buy">Buscar</a>
               </div>
             </div>
-        </div>
+          </div>
 
           <div class="col-lg-4 col-md-6 mt-4 mt-md-0">
             <div class="box featured" data-aos="fade-up" data-aos-delay="200">
@@ -35,13 +34,11 @@
             <div class="box featured" data-aos="fade-up" data-aos-delay="300">
               <h3>Mis Adopciones</h3>
               <div class="btn-wrap">
-                <a href="historial_adopciones.html" class="btn-buy">Ver historial</a>
+                <a href="{% url 'adopcion:adopciones_listar' %}" class="btn-buy">Ver historial</a>
               </div>
             </div>
           </div>
-
         </div>
-
       </div>
-    </section>
+    </section> 
 {% endblock %}

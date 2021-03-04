@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block title %} Adopciones realizadas{% endblock %}
+
+{% block content %}
+<form method="POST">
+    {% csrf_token %}
+    <h3>¿Esta seguro de eliminar el registro de adopcion?</h3>
+    <button class="btm btn-danger" type="submit">Sí</button>
+    <a class="btm btn-default" href="{% url 'adopcion:adopcion_listar' %}"
+{% endblock %}

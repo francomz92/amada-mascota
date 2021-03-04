@@ -1,9 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from .forms import *
 from . import models
 from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect,HttpResponse
-from django.views.generic import ListView,CreateView
+from django.views.generic import ListView,CreateView,UpdateView,DeleteView
+
 # Create your views here.
 
 def index(request):
@@ -37,14 +38,16 @@ class AdopcionCrear(CreateView):
         self.object = self.get_object
         form = self.form_class(request.POST,initial={'id_usuario': current_user})
         form2 = self.ubicacion_form_class(request.POST)
-        form3 = self.mascota_form_class(request.POST, request.FILES,initial={'id_dueño': current_user})
+        form3 = self.mascota_form_class(request.POST, request.FILES,initial={'id_usuario_id': current_user})
         if form.is_valid() and form2.is_valid() and form3.is_valid():
             adopcion = form.save(commit=False)
+            adopcion.id_usuario = current_user
             adopcion.id_ubicacion = form2.save()
             adopcion.id_mascota = form3.save()
             adopcion.save()
             form3.save()
-            return HttpResponseRedirect(self.get_success_url())
+            return HttpResponseRedirect(self.get_success_url(request,'historial_adopciones.html'))
+            #return redirect('adopcion:adopciones_listar')
         else:
             if not form.is_valid():
                 return HttpResponse("fallo en Datos de adopcion")
@@ -53,3 +56,17 @@ class AdopcionCrear(CreateView):
             if not form3.is_valid():
                 return HttpResponse("fallo mascota")
             #return self.render_to_response(self.get_context_data(form = form,form2=form2,form3=form3))
+
+class AdopcionActualizar(UpdateView):
+    model = Adopcion
+    form_class = AdopcionForm
+    template_name = 'crear_adopcion.html'
+    succes_url = reverse_lazy('adopcion:adopciones_listar')
+    
+
+class AdopcionEliminar(DeleteView):
+    model = Adopcion
+    form_class = AdopcionForm
+    template_name = 'adopcion_eliminar.html'
+    succes_url = reverse_lazy('adopcion:adopciones_listar')
+    
