@@ -2,18 +2,18 @@ from django import forms
 from apps.perdidos.models import Publicacion, Mascota, Ubicacion, Encontro, lista_especies, lista_localidades
 from django.contrib.auth.models import User
 
-class PublicacionForm(forms.ModelForm):
+# class PublicacionForm(forms.ModelForm):
 
-   class Meta:
-      model = Publicacion
-      exclude = {
-         'id_usuario',
-         'id_mascota',
-         'id_ubicacion',
-      }
-      widgets = {
-         'observaciones': forms.Textarea(attrs= {'class': 'form-control', 'rows': 3, 'style': 'resize: none;'}),
-      }
+#    class Meta:
+#       model = Publicacion
+#       exclude = {
+#          'id_usuario',
+#          'id_mascota',
+#          'id_ubicacion',
+#       }
+#       widgets = {
+#          'observaciones': forms.Textarea(attrs= {'class': 'form-control', 'rows': 3, 'style': 'resize: none;'}),
+#       }
       
 class MascotaForm(forms.ModelForm):
 
@@ -70,7 +70,7 @@ class EncontroForm(forms.ModelForm):
          'cuida': forms.Select(choices= Encontro.en_transito, attrs= {'class': 'form-control', 'name': 'cuida'}),
          'fecha_limite': forms.DateInput(attrs= {'class': 'form-control', 'placeholder': 'mm/dd/aaaa'}),
          'fecha_evento': forms.DateInput(attrs= {'class': 'form-control', 'placeholder': 'mm/dd/aaaa'}),
-         'observaciones': forms.Textarea(attrs= {'class': 'form-control', 'rows': 3, 'style': 'resize: none;', 'placeholder': 'Algun dato mas que }),
+         'observaciones': forms.Textarea(attrs= {'class': 'form-control', 'rows': 3, 'style': 'resize: none;'}),
       }
       labels = {
          'fecha_evento': 'Cuándo lo encontro.?',

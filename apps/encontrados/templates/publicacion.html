@@ -7,17 +7,17 @@
 <br>
 <br>
 <br>
-<div style="z-index: 100; position: fixed; top: 200px; left: 82%;">
+<div style="z-index: 100; position: fixed; top: 207px; left: 50%; transform: translateX(-50%);">
+   <a href="#"><img src="https://img.icons8.com/small/24/000000/recurring-appointment.png" title="¿Renovar vigencia?"/></a>
    <a href="{% url 'encontrados:editar_publicacion' publicacion.id %}"><img src="https://img.icons8.com/small/24/000000/edit-property.png" title="Editar"/></a>
    <a href="{% url 'encontrados:eliminar_publicacion' publicacion.id %}"><img src="https://img.icons8.com/small/24/000000/trash--v1.png" title="Borrar"/></a>
-   <a href="#"><img src="https://img.icons8.com/small/24/000000/recurring-appointment.png" title="¿Renovar vigencia?"/></a>
 </div>
 <div style="display: flex; justify-content: center; align-items: center; background-color: #1b1b1b; color: #fff; min-height: 100px;">
    <p style="font-size: xx-large;">{{ publicacion.id_mascota.nombre }}</p>
 </div>
-<section style="width: 100%; display: flex; justify-content: center; padding-top: 3em;">
-   <article style="width: 60%;">
-      <div style="display: flex; justify-content: space-between; padding-bottom: 0.5em;">
+<section style="width: 100%; display: flex; justify-content: center; padding: 3em 0; background-color: #faeded;">
+   <article style="width: 60%; padding: 35px 30px; background-color: #fff; border-radius: 20px; box-shadow: 0 0 5px;">
+      <div style="display: flex; justify-content: space-between; padding-bottom: 0.5em;;">
          <span>Localidad: {{ publicacion.id_ubicacion.localidad }}</span>
          <span>Barrio: {{ publicacion.id_ubicacion.barrio }}</span>
          <span>Fecha: {{ publicacion.fecha_evento }}</span>
@@ -26,8 +26,6 @@
          <span>Calle: {{ publicacion.id_ubicacion.calle }}</span>
          <span>N&uacute;mero: {{ publicacion.id_ubicacion.numero }}</span>
          <span>Entre calles: {{ publicacion.id_ubicacion.barrio }}</span>
-      </div>
-      <div style="display: flex; justify-content: space-between; padding-bottom: 0.5em;">
       </div>
       <div style="display: flex; justify-content: space-between; padding-bottom: 0.5em;">
          <span>Especie: {{ publicacion.id_mascota.especie }}</span>

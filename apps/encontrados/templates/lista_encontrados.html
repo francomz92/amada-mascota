@@ -3,7 +3,6 @@
 {% block title %} | Encontrados {% endblock %}
 
 {% block content %}
-<link rel="stylesheet" href="">
 <br>
 <br>
 <br>
@@ -13,13 +12,13 @@
    ¡Ac&aacute; pued&eacute;s ver tus publicaciones de avistamientos!
    <a href="{% url 'encontrados:publicar' %}" class="btn get-started-btn" style="margin-left: 50px;">Publicar avistamiento</a>
 </div>
-<div style="padding: 2em 1em; display: flex;">
-   <section style="padding: 0 1em; display: flex; flex-direction: row; flex-wrap: wrap; gap: 1em; text-align: center; align-items: center; justify-content: start;">
+<div style="padding: 2em 1em; display: flex; background-color: #faeded;">
+   <section style="padding: 1em; display: flex; flex-direction: row; flex-wrap: wrap; gap: 1em; text-align: center; align-items: center; justify-content: start;">
    {% for publicacion in publicaciones %}
-   <div class="box" style="flex-basis: 15em;">
+   <div class="box" style="flex-basis: 15em; background-color: #fff; border-radius: 20px; box-shadow: 0 0 5px;">
 
       
-      <div class="container border" style="padding: 1em;">
+      <div class="container" style="padding: 1em;">
          <div style="position: relative; display: flex; flex-direction: row; justify-content: flex-end; gap: 5px;">
             <a href="#" style="z-index: 100; position: absolute; top: 0; left: 0;"><img src="https://img.icons8.com/small/16/000000/recurring-appointment.png" title="¿Renovar vigencia?"/></a>
             <a href="{% url 'encontrados:editar_publicacion' publicacion.id %}"><img src="https://img.icons8.com/small/16/000000/edit-property.png" title="Editar"/></a>
