@@ -7,20 +7,22 @@
     <section class="sign-in" style="padding-bottom: 2em; padding-left: 2em; padding-right: 2em;margin-bottom: 0px;" >
         <div class="container" style="width: 50%;">
             <div class="abs-center">
-                <h1>Publicar adopcion</h1>   
+                <h1>Publicar adopcion</h1><hr>
                 <form method="POST" enctype="multipart/form-data">
                     {% csrf_token %}
                     <!-- Formulario de adopcion-->
                     <h2>Adopcion</h2>
                     {{form.as_p}}
                     <!-- Formulario de ubicacion-->
+                    <hr>
                     <h2>Ubicacion</h2>
                     {{form2.as_p}}
                     <!--Formulario mascota-->
+                    <hr>
                     <h2>Mascota</h2>
                     {{form3.as_p}}
                     <div style="display: flex; justify-content: center; gap: 5px">
-                        <a href="{% url 'encontrados:lista_encontrados' %}" class="btn btn-dark">Cancelar</a>
+                        <a href="{% url 'adopcion:adopciones_listar' %}" class="btn btn-dark">Cancelar</a>
                         <button type="submit" class="btn get-started-btn">Publicar</button>
                      </div>
                 </form>

@@ -33,7 +33,7 @@ class MascotaForm(forms.ModelForm):
          'color': forms.TextInput(attrs= {'class': 'form-control'}),
          'otro_dato': forms.Textarea(attrs= {'class': 'form-control', 'rows': 5, 'style': 'resize: none;'}),
          'edad': forms.TextInput(attrs= {'class': 'form-control'}),
-         'tamaño': forms.TextInput(attrs= {'class': 'form-control'}),
+         'tamaño': forms.Select(attrs= {'class': 'form-control'}),
          'fotos': forms.FileInput(attrs= {'class': 'form-control'}),
         }
         labels = {
@@ -49,5 +49,5 @@ class AdopcionForm(forms.ModelForm):
         fields = '__all__'
         exclude =  ['id_usuario','id_mascota','id_ubicacion','fecha_entrega','fecha_publicacion']
         widgets = {
-            'condicion':forms.Textarea(attrs= {'class': 'form-control', 'rows': 5, 'style': 'resize: none;'}),
+            'condicion':forms.Textarea(attrs= {'class': 'form-control', 'rows': 3, 'style': 'resize: none;'}),
         }

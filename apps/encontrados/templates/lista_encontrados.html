@@ -3,31 +3,58 @@
 {% block title %} | Encontrados {% endblock %}
 
 {% block content %}
+<link rel="stylesheet" href="">
 <br>
 <br>
 <br>
 <br>
-<div style="display: flex; justify-content: space-between;">
-   <a href="{% url 'encontrados:publicar' %}" class="btn" style="background-color: #e53e6a; color: #fff; margin-left: 0.5em;">Publicar avistamiento</a>
-   <form action="{% url 'encontrados:buscar' %}" method="GET" style="padding-right: 1em; display: flex;">
-      {% csrf_token %}
-      <input type="text" name="buscar" placeholder="Especie, Raza, Localidad, Barrio" style="margin-right: 0.5em" class="form-control">
-      <input type="submit" value="Buscar" class="btn" style="background-color: #e53e6a; color: #fff;">
-   </form>
+<h5 style="text-align: center; font: 900 32px bold;padding: 1.5em 0; background-color: #1b1b1b; color: #fff; margin: 0;">Encontrados o Avistados</h5>
+<div style="text-align: center; background-color: #1b1b1b; color: #fff; min-height: 50px;  padding: 0;">
+   ¡Ac&aacute; pued&eacute;s ver tus publicaciones de avistamientos!
+   <a href="{% url 'encontrados:publicar' %}" class="btn get-started-btn" style="margin-left: 50px;">Publicar avistamiento</a>
 </div>
-<section>
-   <h5>En casa</h5>
+<div style="padding: 2em 1em; display: flex;">
+   <section style="padding: 0 1em; display: flex; flex-direction: row; flex-wrap: wrap; gap: 1em; text-align: center; align-items: center; justify-content: start;">
    {% for publicacion in publicaciones %}
-   <div>
-      <img src="{{ publicacion.id_mascota.fotos.url }}" alt="">
-      <h6>{{ publicacion.id_mascota.nombre }}</h6>
-      <span>{{ publicacion.fecha_publicacion }}</span>
-      <span>{{ publicacion.id_mascota.raza }}</span>
-      <span>{{ publicacion.id_mascota.sexo }}</span>
-      {% if request.user.id == publicacion.id_usuario.id %}
-      <a href="{% url 'editar_publicacion' publicacion.id %}"></a>
-      {% endif %}
+   <div class="box" style="flex-basis: 15em;">
+
+      
+      <div class="container border" style="padding: 1em;">
+
+         <div style="display: flex; flex-direction: row; justify-content: flex-end; gap: 5px;">
+            <a href="{% url 'encontrados:editar_publicacion' publicacion.id %}"><img src="https://img.icons8.com/small/16/000000/edit-property.png"/></a>
+            <a href="{% url 'encontrados:eliminar_publicacion' publicacion.id %}"><img src="https://img.icons8.com/small/16/000000/trash--v1.png"/></a>
+         </div>
+
+         <div class="row" style="align-items: center; justify-content: center;">
+            
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12" style="width: 100%;">
+               
+               <div class="box-part text-center" style="display: flex;flex-direction: column; align-items: center; justify-content: center;">
+                  <div style="display: flex; block-size: 220px; align-items: center; justify-content: center;">
+                     <img src="{{ publicacion.id_mascota.fotos.url }}" alt="" style="object-fit: cover; width: 100%;">
+                  </div>    
+                  <div class="title">
+                     <h4 style="font-size: 16px;">{{ publicacion.id_mascota.nombre }}</h4>
+                  </div>
+                  <div class="text">
+                       <span>{{ publicacion.id_ubicacion.localidad }}</span> -
+                       <span>{{ publicacion.id_ubicacion.barrio }}</span>
+                    </div>
+                    <div style="margin-top: 10px; display: flex; gap: 0.5em;">
+                     <a class="btn get-started-btn" href="{% url 'encontrados:publicacion' publicacion.id %}" style="margin: 0; color: #fff;">Ver</a>
+                     <!-- {% if request.user.id == publicacion.id_usuario.id %}
+                     <a class="btn get-started-btn" href="{% url 'encontrados:editar_publicacion' publicacion.id %}" style="margin: 0; color: #fff;">Editar</a>
+                     {% endif %}      -->
+                  </div>
+               </div>
+            </div>	 
+            
+            
+         </div>		
+      </div>
    </div>
    {% endfor %}
-</section>
+   </section>
+</div>
 {% endblock %}

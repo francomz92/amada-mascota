@@ -3,10 +3,9 @@
 {% block title %} Adopciones{% endblock %}
 
 {% block content %}
-<div class="main" style="padding-top: 3em;padding-bottom: 0px;">
-    <section class="sign-in" style="padding-bottom: 2em; padding-left: 2em; padding-right: 2em;margin-bottom: 0px;" >
-        <div class="containerr w-100 p-4 " >
-            <div class="table-responsive" style="padding-top: 1em;padding-bottom: 1em;">
+<div class="main">
+        <div class="container w-100 p-4" >
+            <div class="table-responsive">
                 <h1>Historial de adopciones</h1>
                 <table class="table table-hover">
                     <thead>
@@ -21,28 +20,28 @@
                     </thead>
                     <tbody>
                     {% if object_list %}
-                    {% for i in object_list %}
-                        <tr>
-                            
-                            <td>{{ i.id_mascota }}</td>
-                            <td>{{ i.condicion }}</td>
-                            <td>{{ i.fecha_publicacion }}</td>
-                            <td><img  style="height: 8em; width: 10em;" src="{{  i.id_mascota.fotos.url }}"/></td>
-                            <td>{{ i.observaciones }}</td>
-                            <td>
-                                <a class="btn btn-primary" href="{% url 'adopcion:adopcion_eliminar' i.id %}">Eliminar</a>
-                                <a class="btn btn-primary" href="{% url 'adopcion:adopcion_editar' i.id %}">Editar</a>
-                            </td>
+                        {% for i in object_list %}
+                            <tr>
+                                
+                                <td>{{ i.id_mascota }}</td>
+                                <td>{{ i.condicion }}</td>
+                                <td>{{ i.fecha_publicacion }}</td>
+                                <td><img  style="height: 8em; width: 10em;" src="{{  i.id_mascota.fotos.url }}"/></td>
+                                <td>{{ i.observaciones }}</td>
+                                <td>
+                                    <a class="btn btn-primary" href="{% url 'adopcion:adopcion_eliminar' i.id %}">Eliminar</a>
+                                    <a class="btn btn-primary" href="{% url 'adopcion:adopcion_editar' i.id %}">Editar</a>
+                                </td>
 
-                        </tr>
-                    {% endfor %}
-                    {% else %}
-                    <h1>No hay registros de adopciones</h1>
-                    {% endif %}
+                            </tr>
+                        {% endfor %}
+                        {% else %}
+                            <h1>No hay registros de adopciones</h1>
+                        {% endif %}
                     </tbody>
                 </table>
             </div>
-        </div>
+        
     </section>
 </div>
 {% endblock %}
