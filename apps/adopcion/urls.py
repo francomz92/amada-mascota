@@ -1,10 +1,11 @@
 from django.urls import path
 from . import views
+from django.contrib.auth.decorators import login_required
 app_name = 'adopcion'
 urlpatterns = [
-    path('',views.index),
-    path('listar/',views.AdopcionList.as_view(),name="adopciones_listar"),
-    path('crear/',views.AdopcionCrear.as_view(),name="adopcion_crear"),
-    path('editar/<int:pk>/',views.AdopcionActualizar.as_view(),name="adopcion_editar"),
-    path('eliminar/<int:pk>/', views.AdopcionEliminar.as_view(),name="adopcion_eliminar"),
+    path('',views.index,name="inicio"),
+    path('listar/',login_required(views.AdopcionList.as_view()),name="adopciones_listar"),
+    path('crear/',login_required(views.AdopcionCrear.as_view()),name="adopcion_crear"),
+    path('editar/<int:pk>/',login_required(views.AdopcionActualizar.as_view()),name="adopcion_editar"),
+    path('eliminar/<int:pk>/',login_required(views.AdopcionEliminar.as_view()),name="adopcion_eliminar"),
 ]

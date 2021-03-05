@@ -13,9 +13,7 @@ class UbicacionForm(forms.ModelForm):
          'calle': forms.TextInput(attrs= {'class': 'form-control'}),
          'otros_datos': forms.Textarea(attrs= {'class': 'form-control', 'rows': 2, 'style': 'resize: none;'}),
         }
-        labels = {
-            'otros_datos': 'Alguna referencia',
-        }
+ 
         
 
 class MascotaForm(forms.ModelForm):
@@ -31,7 +29,7 @@ class MascotaForm(forms.ModelForm):
          'especie': forms.Select(attrs= {'class': 'form-control'}),
          'sexo': forms.Select(attrs= {'class': 'form-control'}),
          'color': forms.TextInput(attrs= {'class': 'form-control'}),
-         'otro_dato': forms.Textarea(attrs= {'class': 'form-control', 'rows': 5, 'style': 'resize: none;'}),
+         'otro_dato': forms.Textarea(attrs= {'class': 'form-control', 'rows': 3, 'style': 'resize: none;'}),
          'edad': forms.TextInput(attrs= {'class': 'form-control'}),
          'tamaño': forms.Select(attrs= {'class': 'form-control'}),
          'fotos': forms.FileInput(attrs= {'class': 'form-control'}),
