@@ -64,17 +64,18 @@ class EncontroForm(forms.ModelForm):
          'id_usuario',
          'id_mascota',
          'id_ubicacion',
-         'fecha_evento',
          'fecha_entrega',
       ]
       widgets = {
          'cuida': forms.Select(choices= Encontro.en_transito, attrs= {'class': 'form-control', 'name': 'cuida'}),
          'fecha_limite': forms.DateInput(attrs= {'class': 'form-control', 'placeholder': 'mm/dd/aaaa'}),
-         'observaciones': forms.Textarea(attrs= {'class': 'form-control', 'rows': 3, 'style': 'resize: none;'}),
+         'fecha_evento': forms.DateInput(attrs= {'class': 'form-control', 'placeholder': 'mm/dd/aaaa'}),
+         'observaciones': forms.Textarea(attrs= {'class': 'form-control', 'rows': 3, 'style': 'resize: none;', 'placeholder': 'Algun dato mas que }),
       }
       labels = {
+         'fecha_evento': 'Cuándo lo encontro.?',
          'cuida': 'Lo esta cuidando.?',
-         'fecha_limite': 'Hasta cuando.?',
+         'fecha_limite': 'Hasta cuándo.?',
       }
       help_texts = {
          'fecha_limite': 'En caso de cuidarlo indique hasta cuando',
