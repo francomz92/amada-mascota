@@ -45,7 +45,7 @@ class AdopcionForm(forms.ModelForm):
     class Meta:
         model = Adopcion
         fields = '__all__'
-        exclude =  ['id_usuario','id_mascota','id_ubicacion','fecha_entrega','fecha_publicacion']
+        exclude =  ['id_usuario','id_mascota','id_ubicacion','fecha_publicacion']
         widgets = {
             'condicion':forms.Textarea(attrs= {'class': 'form-control', 'rows': 3, 'style': 'resize: none;'}),
         }
