@@ -3,27 +3,39 @@
 {% block title %} | Encontrados {% endblock %}
 
 {% block content %}
-<link rel="stylesheet" href="">
+<style>
+@media (max-width: 574px) {
+   .responsive-lista {
+      /* display: flex;
+      flex-direction: column !; */
+      justify-content: center !important;
+   }
+   .boton-publicar {
+      margin-left: 0 !important;
+   }
+}
+</style>
 <br>
 <br>
 <br>
 <br>
 <h5 style="text-align: center; font: 900 32px bold;padding: 1.5em 0; background-color: #1b1b1b; color: #fff; margin: 0;">Encontrados o Avistados</h5>
-<div style="text-align: center; background-color: #1b1b1b; color: #fff; min-height: 50px;  padding: 0;">
+<div style="text-align: center; background-color: #1b1b1b; color: #fff;">
    ¡Ac&aacute; pued&eacute;s ver tus publicaciones de avistamientos!
-   <a href="{% url 'encontrados:publicar' %}" class="btn get-started-btn" style="margin-left: 50px;">Publicar avistamiento</a>
+   <a href="{% url 'encontrados:publicar' %}" class="btn get-started-btn boton-publicar" style="margin: 1em 0; margin-left: 50px;">Publicar avistamiento</a>
 </div>
-<div style="padding: 2em 1em; display: flex;">
-   <section style="padding: 0 1em; display: flex; flex-direction: row; flex-wrap: wrap; gap: 1em; text-align: center; align-items: center; justify-content: start;">
+<div style="padding: 2em 1em; display: flex; background-color: #faeded;">
+   {% if publicaciones %}
+   <section class="responsive-lista" style="padding: 1em; display: flex; flex-direction: row; flex-wrap: wrap; gap: 1em; text-align: center; align-items: center; justify-content: start;">
    {% for publicacion in publicaciones %}
-   <div class="box" style="flex-basis: 15em;">
+   <div class="box" style="flex-basis: 15em; background-color: #fff; border-radius: 20px; box-shadow: 0 0 5px;">
 
       
-      <div class="container border" style="padding: 1em;">
-
-         <div style="display: flex; flex-direction: row; justify-content: flex-end; gap: 5px;">
-            <a href="{% url 'encontrados:editar_publicacion' publicacion.id %}"><img src="https://img.icons8.com/small/16/000000/edit-property.png"/></a>
-            <a href="{% url 'encontrados:eliminar_publicacion' publicacion.id %}"><img src="https://img.icons8.com/small/16/000000/trash--v1.png"/></a>
+      <div class="container" style="padding: 1em;">
+         <div style="position: relative; display: flex; flex-direction: row; justify-content: flex-end; gap: 5px;">
+            <a href="#" style="z-index: 100; position: absolute; top: 0; left: 0;"><img src="https://img.icons8.com/small/16/000000/recurring-appointment.png" title="¿Renovar vigencia?"/></a>
+            <a href="{% url 'encontrados:editar_publicacion' publicacion.id %}"><img src="https://img.icons8.com/small/16/000000/edit-property.png" title="Editar"/></a>
+            <a href="{% url 'encontrados:eliminar_publicacion' publicacion.id %}"><img src="https://img.icons8.com/small/16/000000/trash--v1.png" title="Borrar"/></a>
          </div>
 
          <div class="row" style="align-items: center; justify-content: center;">
@@ -43,9 +55,6 @@
                     </div>
                     <div style="margin-top: 10px; display: flex; gap: 0.5em;">
                      <a class="btn get-started-btn" href="{% url 'encontrados:publicacion' publicacion.id %}" style="margin: 0; color: #fff;">Ver</a>
-                     <!-- {% if request.user.id == publicacion.id_usuario.id %}
-                     <a class="btn get-started-btn" href="{% url 'encontrados:editar_publicacion' publicacion.id %}" style="margin: 0; color: #fff;">Editar</a>
-                     {% endif %}      -->
                   </div>
                </div>
             </div>	 
@@ -56,5 +65,12 @@
    </div>
    {% endfor %}
    </section>
+   {% else %}
+   <section style="width: 100%; display: flex; justify-content: center; align-items: center;">
+      <div class="box" style="width: 80%; min-height: 100px; background-color: #fff; border-radius: 20px; box-shadow: 0 0 5px; margin: 0; display: flex;justify-content: center; align-items: center;">
+         <p>No tiene ninguna publicaci&oacute;n</p>
+      </div>
+   </section>
+   {% endif %}
 </div>
 {% endblock %}

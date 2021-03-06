@@ -5,21 +5,23 @@
 {% block content %}
 
 {% if request.user.is_authenticated %}
-<section>
-   <br>
-   <br>
-   <h5 style="text-align: left; font: 900 32px bold;padding: 0.5em 0; padding-left: 2em; background-color: #1b1b1b; color: #fff; margin: 0;">Editar publicación</h5>
-   <div style="text-align: center; background-color: #1b1b1b; color: #fff; min-height: 50px;  padding: 0;">
-      ¡Recurda estar pendiente de tus publicaciones!
-   </div>
-   <div class="container" style="width: 50%;">
+<br>
+<br>
+<br>
+<br>
+<h5 style="text-align: left; font: 900 32px bold;padding: 0.5em 0; padding-left: 2em; background-color: #1b1b1b; color: #fff; margin: 0;">Editar publicación</h5>
+<div style="text-align: center; background-color: #1b1b1b; color: #fff; min-height: 50px;  padding: 0;">
+   ¡Recurda estar pendiente de tus publicaciones!
+</div>
+<section style="background-color: #faeded; padding: 60px 0;">
+   <div class="container" style="width: 50%; border-radius: 20px; padding: 20px 15px; background-color: #fff; box-shadow: 0 0 5px;">
       <div class="abs-center">
          <form method="POST" class="p-3 form abs-center" enctype="multipart/form-data">
             {% csrf_token %}
             {{ mascota.as_p }}
             {{ ubicacion.as_p }}
             {{ encontro.as_p }}
-            <div style="display: flex; justify-content: center;">
+            <div style="display: flex; justify-content: center; gap: 5px;">
                <a href="{% url 'encontrados:lista_encontrados' %}" class="btn btn-dark">Cancelar</a>
                <button type="submit" class="btn get-started-btn">Guardar</button>
             </div>

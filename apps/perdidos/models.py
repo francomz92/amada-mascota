@@ -74,9 +74,9 @@ lista_localidades = (
 class Ubicacion(models.Model):
     localidad = models.CharField(max_length=30,choices=lista_localidades,null=False)
     barrio = models.CharField(max_length=50,null=False)
-    entre_calles = models.CharField(max_length=50,null=True, blank = True)
-    numero = models.CharField(max_length=5,default="S/N")
     calle = models.CharField(max_length=50,null=False)
+    numero = models.CharField(max_length=5,default="S/N")
+    entre_calles = models.CharField(max_length=50,null=True, blank = True)
     otros_datos = models.CharField(max_length=50,default="Sin particular")
 
     def __str__(self):
@@ -107,17 +107,17 @@ class Mascota(models.Model):
         help_text="Indica su nombre si lo conoces"
         )
     familia = models.CharField(max_length=50,default="Desconocido")
-    raza = models.CharField(max_length=50,default="Desconocido")
     especie = models.CharField(
         max_length=17,
         choices=lista_especies,
         null=False,
         help_text="Indica la especie")
+    raza = models.CharField(max_length=50,default="Desconocido")
+    tamaño = models.CharField(max_length=8,choices=tamanos)
     edad = models.CharField(max_length=2,default="N")
     sexo = models.CharField(max_length=11,choices=sexos,null=False)
-    fotos = models.ImageField(upload_to ='mascota') 
     color = models.CharField(max_length=30,null=True,blank=True)
-    tamaño = models.CharField(max_length=8,choices=tamanos)
+    fotos = models.ImageField(upload_to ='mascota') 
     otro_dato = models.CharField(max_length=200,null=True, blank= True, default=None)
 
     def __str__(self):
@@ -159,11 +159,11 @@ class Publicacion(models.Model):
         null=False,
         on_delete = models.DO_NOTHING
     )
+    observaciones = models.CharField(max_length=100,default="Sin observaciones")        
     fecha_publicacion = models.DateField(auto_now_add=True)
     fecha_evento = models.DateField(default=timezone.now)
     valido_hasta = models.DateField(default= (timezone.now() + timezone.timedelta(days=7)))
     fecha_entrega = models.DateField(null=True, blank = True)
-    observaciones = models.CharField(max_length=100,default="Sin observaciones")        
 
     def __str__(self):
         #Conformacion del titulo de la publicacion
