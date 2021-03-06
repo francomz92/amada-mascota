@@ -44,7 +44,9 @@
    </article>
    {% if user.is_authenticated %}
    <div style="margin-top: 1em;">
-      <a href="#"><img src="https://img.icons8.com/small/24/000000/recurring-appointment.png" title="¿Renovar vigencia?"/></a>
+      {% if fecha_actual > publicacion.valido_hasta %}
+      <a href="{% url 'encontrados:renovar_publicacion' publicacion.id %}"><img src="https://img.icons8.com/small/24/000000/recurring-appointment.png" title="¿Renovar vigencia?"/></a>
+      {% endif %}
       <a href="{% url 'encontrados:editar_publicacion' publicacion.id %}"><img src="https://img.icons8.com/small/24/000000/edit-property.png" title="Editar"/></a>
       <a href="{% url 'encontrados:eliminar_publicacion' publicacion.id %}"><img src="https://img.icons8.com/small/24/000000/trash--v1.png" title="Borrar"/></a>
    </div>

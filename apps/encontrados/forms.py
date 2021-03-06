@@ -80,6 +80,7 @@ class EncontroForm(forms.ModelForm):
          'id_mascota',
          'id_ubicacion',
          'fecha_entrega',
+         'valido_hasta',
       ]
       widgets = {
          'cuida': forms.Select(choices= Encontro.en_transito, attrs= {'class': 'form-control', 'name': 'cuida'}),
