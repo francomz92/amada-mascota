@@ -21,7 +21,7 @@
             {{ mascota.as_p }}
             {{ ubicacion.as_p }}
             {{ encontro.as_p }}
-            <div style="display: flex; justify-content: center;">
+            <div style="display: flex; justify-content: center; gap: 5px;">
                <a href="{% url 'encontrados:lista_encontrados' %}" class="btn btn-dark">Cancelar</a>
                <button type="submit" class="btn get-started-btn">Guardar</button>
             </div>

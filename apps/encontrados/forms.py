@@ -35,10 +35,21 @@ class MascotaForm(forms.ModelForm):
       }
       labels = {
          'id_dueño': '',
-         'nombre': 'Mascota',
+         'nombre': 'Mascota*',
+         'familia': 'Familia*',
          'otro_dato': 'Alguna descripción adicional',
-         'edad': 'Edad aproximada',
+         'edad': 'Edad aproximada*',
+         'especie': 'Especie*',
+         'raza': 'Raza*',
+         'tamaño': 'Tamaño*',
+         'sexo': 'Sexo*',
+         'fotos': 'Foto*',
       }
+      help_texts = {
+         'familia': 'Indique la familia de la mascota en caso de conocerla',
+         'especie': '',
+      }
+      
 class UbicacionForm(forms.ModelForm):
    
    class Meta:
@@ -53,7 +64,11 @@ class UbicacionForm(forms.ModelForm):
          'otros_datos': forms.Textarea(attrs= {'class': 'form-control', 'rows': 2, 'style': 'resize: none;'}),
       }
       labels = {
-         'otros_datos': 'Alguna referencia',
+         'localidad': 'Localidad*',
+         'barrio': 'Barrio*',
+         'calle': 'Calle*',
+         'numero': 'Número*',
+         'otros_datos': 'Alguna referencia*',
       }
 
 class EncontroForm(forms.ModelForm):
@@ -73,8 +88,9 @@ class EncontroForm(forms.ModelForm):
          'observaciones': forms.Textarea(attrs= {'class': 'form-control', 'rows': 3, 'style': 'resize: none;'}),
       }
       labels = {
-         'fecha_evento': 'Cuándo lo encontro.?',
-         'cuida': 'Lo esta cuidando.?',
+         'observaciones': 'Observaciones*',
+         'fecha_evento': 'Cuándo lo encontro.?*',
+         'cuida': 'Lo esta cuidando.?*',
          'fecha_limite': 'Hasta cuándo.?',
       }
       help_texts = {

@@ -98,6 +98,7 @@ class Mascota(models.Model):
     id_dueño = models.ForeignKey(
         User,
         default=None,
+        null =True,
         on_delete = models.CASCADE,
         )
     nombre = models.CharField(
@@ -161,6 +162,7 @@ class Publicacion(models.Model):
     observaciones = models.CharField(max_length=100,default="Sin observaciones")        
     fecha_publicacion = models.DateField(auto_now_add=True)
     fecha_evento = models.DateField(default=timezone.now)
+    valido_hasta = models.DateField(default= (timezone.now() + timezone.timedelta(days=7)))
     fecha_entrega = models.DateField(null=True, blank = True)
 
     def __str__(self):

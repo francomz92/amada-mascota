@@ -15,6 +15,7 @@
       <div class="container" style="width: 50%; background-color: #fff; border-radius: 20px; box-shadow: 0 0 5px;">
          <div class="abs-center">
             <form method="POST" class="p-3 form abs-center" enctype="multipart/form-data">
+               <p style="font-size: 12px;">Todos los campos marcados con (*) son obligatorios.</p>
                {% csrf_token %}
                {{ mascota.as_p }}
                {{ ubicacion.as_p }}
@@ -29,5 +30,3 @@
    </section>
 
 {% endblock %}
-
-<input type="number" name="" id="" max="">
