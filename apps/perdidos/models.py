@@ -161,6 +161,7 @@ class Publicacion(models.Model):
     )
     fecha_publicacion = models.DateField(auto_now_add=True)
     fecha_evento = models.DateField(default=timezone.now)
+    valido_hasta = models.DateField(default= (timezone.now() + timezone.timedelta(days=7)))
     fecha_entrega = models.DateField(null=True, blank = True)
     observaciones = models.CharField(max_length=100,default="Sin observaciones")        
 

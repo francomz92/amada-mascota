@@ -4,43 +4,42 @@
 
 {% block content %}
 <div class="main w-100" style="padding-top:40px;">
-        <div class="container w-100 p-5">
-            <div class="table-responsive">
-                <h1>Historial de adopciones</h1>
-                <table class="table table-hover">
-                    <thead>
-                        <tr >
-                            <td>Foto</td>
-                            <td >Mascota</td>
-                            <td>Ubicacion</td>
-                            <td>Fecha publicacion</td>
-                            <td>observaciones</td>
-                            <td>Operar</td>
+    <div class="container w-100 p-5">
+        <div class="table-responsive">
+            <h1>Historial de adopciones</h1>
+            <table class="table table-hover">
+                <thead>
+                    <tr >
+                        <td>Foto</td>
+                        <td >Mascota</td>
+                        <td>Ubicacion</td>
+                        <td>Fecha publicacion</td>
+                        <td>observaciones</td>
+                        <td>Operar</td>
+                    <tr>
+                </thead>
+                <tbody>
+                {% if object_list %}
+                    {% for i in object_list %}
                         <tr>
-                    </thead>
-                    <tbody>
-                    {% if object_list %}
-                        {% for i in object_list %}
-                            <tr>
-                                <td><img  style="height: 6em; width: 8em;" src="{{  i.id_mascota.fotos.url }}"/></td>
-                                <td>{{ i.id_mascota }}</td>
-                                <td>{{ i.condicion }}</td>
-                                <td>{{ i.fecha_publicacion }}</td>
-                                <td>{{ i.observaciones }}</td>
-                                <td>
-                                    <a class="btn btn-primary" href="{% url 'adopcion:adopcion_eliminar' i.id %}">Eliminar</a>
-                                    <a class="btn btn-primary" href="{% url 'adopcion:adopcion_editar' i.id %}">Editar</a>
-                                </td>
+                            <td><img  style="height: 6em; width: 8em;" src="{{  i.id_mascota.fotos.url }}"/></td>
+                            <td>{{ i.id_mascota }}</td>
+                            <td>{{ i.condicion }}</td>
+                            <td>{{ i.fecha_publicacion }}</td>
+                            <td>{{ i.observaciones }}</td>
+                            <td>
+                                <a class="btn btn-primary" href="{% url 'adopcion:adopcion_eliminar' i.id %}">Eliminar</a>
+                                <a class="btn btn-primary" href="{% url 'adopcion:adopcion_editar' i.id %}">Editar</a>
+                            </td>
 
-                            </tr>
-                        {% endfor %}
-                        {% else %}
-                            <h1>No hay registros de adopciones</h1>
-                        {% endif %}
-                    </tbody>
-                </table>
+                        </tr>
+                    {% endfor %}
+                    {% else %}
+                        <h1>No hay registros de adopciones</h1>
+                    {% endif %}
+                </tbody>
+            </table>
             </div>
-        
-    </section>
+    </div>
 </div>
 {% endblock %}
