@@ -13,6 +13,7 @@
    <a href="{% url 'encontrados:publicar' %}" class="btn get-started-btn" style="margin-left: 50px;">Publicar avistamiento</a>
 </div>
 <div style="padding: 2em 1em; display: flex; background-color: #faeded;">
+   {% if publicaciones %}
    <section style="padding: 1em; display: flex; flex-direction: row; flex-wrap: wrap; gap: 1em; text-align: center; align-items: center; justify-content: start;">
    {% for publicacion in publicaciones %}
    <div class="box" style="flex-basis: 15em; background-color: #fff; border-radius: 20px; box-shadow: 0 0 5px;">
@@ -42,9 +43,6 @@
                     </div>
                     <div style="margin-top: 10px; display: flex; gap: 0.5em;">
                      <a class="btn get-started-btn" href="{% url 'encontrados:publicacion' publicacion.id %}" style="margin: 0; color: #fff;">Ver</a>
-                     <!-- {% if request.user.id == publicacion.id_usuario.id %}
-                     <a class="btn get-started-btn" href="{% url 'encontrados:editar_publicacion' publicacion.id %}" style="margin: 0; color: #fff;">Editar</a>
-                     {% endif %}      -->
                   </div>
                </div>
             </div>	 
@@ -55,5 +53,12 @@
    </div>
    {% endfor %}
    </section>
+   {% else %}
+   <section style="width: 100%; display: flex; justify-content: center; align-items: center;">
+      <div class="box" style="width: 80%; min-height: 100px; background-color: #fff; border-radius: 20px; box-shadow: 0 0 5px; margin: 0; display: flex;justify-content: center; align-items: center;">
+         <p>No tiene ninguna publicaci&oacute;n</p>
+      </div>
+   </section>
+   {% endif %}
 </div>
 {% endblock %}
