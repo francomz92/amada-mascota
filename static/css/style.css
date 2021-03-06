@@ -1255,7 +1255,7 @@ section {
   margin-bottom: 20px;
   overflow: hidden;
   border-radius: 5px;
-  background: #fff;
+  background: #fff; 
 }
 
 .team .member .member-img {
@@ -2141,7 +2141,7 @@ section {
 }
 
 /*--------------------------------------------------------------
-# foto de consultas - magui
+#  para el HTML de consultas - magui
 --------------------------------------------------------------*/
 .foto1 { 
   padding: 5px; 
@@ -2151,3 +2151,44 @@ section {
   position: relative;
   overflow: hidden;
   }
+
+  .texto1 {
+    font-family: 'Open Sans';
+    color: #444444;
+    font-weight: 500;   /*como la Negrita*/  
+    margin-top: 0.5rem;
+    margin-left: 0.5rem;
+    font-size: 0.8rem;
+  }
+
+* {
+  box-sizing: :border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.grid-container > *{
+  box-shadow: -1px 1px 7px 0px rgba(0, 0, 0, 0.75);
+  border-radius: 1em;
+  margin: 1em auto;
+  margin-left: 1rem;
+  padding: 0.5em;
+  text-align: left;
+}
+
+
+.grid-container{
+  display: grid;
+  gap: 5em;
+  grid-template:
+    "asideform"
+    "listadoform" ;
+}
+
+@media (min-width: 600px){
+  .grid-container{
+    grid-template: 
+      "asideform  listadoform" auto /         /*filas*/
+      10rem       auto  ;        /*columnas*/
+  }
+}

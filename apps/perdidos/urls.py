@@ -5,7 +5,6 @@ from . import views
     path('agregar/', views.AgregarPublicacion.as_view(), name='agregar')
 ]
 """
-
 urlpatterns = [
    path('publicar/', views.publicar, name='publicar'),
    path('', views.lista_encontrados, name='lista_encontrados'),

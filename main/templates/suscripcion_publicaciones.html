@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<head>
+   {# el título aparece en la Barra de Título del Navegador #}
+   {% block title %}
+       Consultar Perdidos
+   {% endblock %}
+</head>
+
+<body  style="background-color:#faeded; padding: 60px 0;">
+   <section >
+       <div class="container-fluid" data-aos="fade-up">
+           <header2 class="section-title">
+               <h2>Suscripciones a Notificación</h2>
+               <p>Para recibir novedades de las últimas publicaciones de mascotas Perdias, Encontradas y/o en Adopción, Suscríbete!</p>
+           </header2>
+       </div>
+
+       <div class="grid-container"> 
+            <aside class="asideform" data-aos="fade-up">
+               <div class="texto1">
+                  <form action ="" method="POST"> {% csrf_token%}
+                     Opciones
+                     
+                        {% include "barra_opciones.html" %}
+                      
+                     
+                  </form>
+               </div>
+            </aside> 
+         
+
+           <article class="listadoform" data-aos="fade-up">
+               <div class="texto1">
+                  <strong> Para suscribirte completar los siguientes datos: </strong>
+                  <form action ="" method="POST" class="p-3 form abs-center"> {% csrf_token%}
+                     <table>
+           
+                        {{ suscrip_per.as_p }}
+                           
+                     </table>
+
+                     <div style="display: flex; justify-content: center; gap: 3px">
+                        <button type="submit" class="btn get-started-btn">Enviar</button>
+                     </div>
+                  
+                  </form>
+               </div>
+           </article>
+
+         </div>
+
+   </section>
+
+{% endblock %}
+
