@@ -3,16 +3,16 @@
 {% block title %} | Publicar {% endblock %}
 
 {% block content %}
-
-<!-- {% if user.is_authenticated %} -->
-   <section>
-      <br>
-      <br>
-      <h5 style="text-align: left; font: 900 32px bold;padding: 0.5em 0; padding-left: 2em; background-color: #1b1b1b; color: #fff; margin: 0;">Publicar</h5>
-      <div style="text-align: center; background-color: #1b1b1b; color: #fff; min-height: 50px;  padding: 0;">
-         ¡Nosotros te ayudamos a encontrar a su familia!
-      </div>
-      <div class="container" style="width: 50%;">
+<br>
+<br>
+<br>
+<br>
+<h5 style="text-align: left; font: 900 32px bold;padding: 0.5em 0; padding-left: 2em; background-color: #1b1b1b; color: #fff; margin: 0;">Publicar</h5>
+<div style="text-align: center; background-color: #1b1b1b; color: #fff; min-height: 50px;  padding: 0;">
+   ¡Nosotros te ayudamos a encontrar a su familia!
+</div>
+<section style="background-color: #faeded; padding: 60px 0;">
+      <div class="container" style="width: 50%; background-color: #fff; border-radius: 20px; box-shadow: 0 0 5px;">
          <div class="abs-center">
             <form method="POST" class="p-3 form abs-center" enctype="multipart/form-data">
                {% csrf_token %}
@@ -27,6 +27,7 @@
          </div>
       </div>
    </section>
-<!-- {% endif %} -->
 
 {% endblock %}
+
+<input type="number" name="" id="" max="">
