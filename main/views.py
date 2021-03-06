@@ -4,7 +4,7 @@ from main.forms import FormularioContacto
 from django.http import HttpResponse, HttpResponseRedirect
 
 #magui para consultas y para suscripciones
-from django.views.generic import ListView ## para vistas x class dsps borrar Magui
+from django.views.generic import ListView , UpdateView ## para vistas x class dsps borrar Magui
 from apps.perdidos.models import Notificacion, Publicacion, Mascota, Ubicacion, Perdido, Encontro, lista_especies, lista_localidades
 from .forms_consultas import FomularioConsultas
 from .forms_suscripcion import SusPerdidoForm
@@ -12,6 +12,7 @@ from datetime import datetime, date, time, timedelta
 from django.contrib import messages
 from django.shortcuts import redirect, get_object_or_404
 from django.contrib.auth.models import User
+from django.urls import reverse_lazy
 
 # Create your views here.
 def home(request):
@@ -32,67 +33,46 @@ def about(request):
 
 
 
-def consultas_perdidos(request):
-    if request.method=="POST":
-        miFormulario= FomularioConsultas(request.POST)
-        if miFormulario.is_valid():
-            
-            info_forms=miFormulario.cleaned_data
-        
-            espe = str(info_forms['especie_choice'])
-            loca = str(info_forms['localidad_choice'])
-            sex= str(info_forms['sexo_choice'])
-            
-            lista_perdidos=Perdido.objects.filter(id_mascota__especie__icontains=espe)
-        
-    else:
-        lista_perdidos=Perdido.objects.all()
-        miFormulario=FomularioConsultas()
-    
-    lista_perdidos=lista_perdidos.exclude(fecha_entrega__isnull=False).order_by("fecha_evento").reverse()[:10]
-    ctx={
-        "form": miFormulario,
-        "lista_perdidos":lista_perdidos,
-        }
-    return render(request, "consultas_perdidos.html", ctx)
-
-
-class ConsultasEncontradosView(ListView):
-    model=Encontro
-    queryset=Encontro.objects.all()
-    context_object_name = 'lista_encontrados'
-    template_name='consultas_encontrados.html'
-
-
-
 def suscripciones(request):
    current_user = request.user
    
-   sus_per = SusPerdidoForm(initial= {'id_dueño': current_user})
+   suscrip = SusPerdidoForm(initial= {'id_dueño': current_user})
    
    if request.method == 'POST':
       
-      sus_per = SusPerdidoForm(data=request.POST, files=request.FILES)
+      suscrip = SusPerdidoForm(data=request.POST, files=request.FILES)
       
-      if sus_per.is_valid():
-         suscripto = sus_per.save(commit=False)
+      if suscrip.is_valid():
+         suscripto = suscrip.save(commit=False)
          suscripto.id_usuario= current_user
          suscripto.save()
+         messages.success(request, message='Suscripcion Correcta!!')
+         return redirect(to='suscripciones')
       else:
          messages.error(request, message='Error. Vuelva a cargar los datos.')
-         sus_per = SusPerdidoForm(data=request.POST, files=request.FILES)
+         suscrip = SusPerdidoForm(data=request.POST, files=request.FILES)
          
    ctx = {
-      'suscrip_per': sus_per,
+      'suscrip_per': suscrip,
       }
    return render(request, 'suscripcion_publicaciones.html', ctx)
+
 
 
 def suscripciones_ver(request):
     usuario_login=request.user.id
     lista= Notificacion.objects.filter(id_usuario__id=usuario_login).exclude(fecha_hasta__lt = datetime.now())
+    lista=lista.order_by("fecha_desde").reverse()[:12]
     ctx = {
-      'lista_suscripciones': lista,
-      'nombre':request.user.id,
+        'lista_suscripciones': lista,
       }
     return render(request, 'suscripcion_publicacionVer.html', ctx)
+
+
+
+class SuscripcionModificar(UpdateView):
+    model = Notificacion
+    form_class = SusPerdidoForm
+    template_name = 'suscripcion_publicacionMod.html'
+    success_url = reverse_lazy('suscripciones_ver')
+    

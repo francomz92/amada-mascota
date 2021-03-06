@@ -1,18 +1,16 @@
 from django.urls import path, include
 from . import views
 
-from django.conf.urls import url  #magui
+#magui
+from django.contrib.auth.decorators import login_required
 
 urlpatterns = [
     path('', views.home, name='home'),
     path('acerca-de/', views.about, name='about'),
     
-    path('consultas_perdidos/', views.consultas_perdidos, name='consultas_perdidos'),
-    url(r'^consultas_encontrados/$',views.ConsultasEncontradosView.as_view(), name='consultas_encontrados'),
-    
-    path('suscripciones/', views.suscripciones, name='suscripciones'),
-    path('suscripciones_ver/', views.suscripciones_ver, name='suscripciones_ver'),
-
+    path('suscripciones/', login_required(views.suscripciones), name='suscripciones'),
+    path('suscripciones_ver/', login_required(views.suscripciones_ver), name='suscripciones_ver'),
+    path('suscripciones_mod/<int:pk>/',login_required(views.SuscripcionModificar.as_view()),name="suscripciones_mod"),
 
     #path('encontrados/', include('encontrados.urls'))
 ]

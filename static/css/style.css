@@ -2141,7 +2141,7 @@ section {
 }
 
 /*--------------------------------------------------------------
-#  para el HTML de consultas - magui
+#  para el HTML de CONSULTAS/SUSCRIPCIONES - magui
 --------------------------------------------------------------*/
 .foto1 { 
   padding: 5px; 
@@ -2173,22 +2173,30 @@ section {
   margin: 1em auto;
   margin-left: 1rem;
   padding: 0.5em;
-  text-align: left;
+  text-align: match-parent;
 }
 
 
-.grid-container{
+.grid-container{     /* sirve too, para celular*/
   display: grid;
   gap: 5em;
   grid-template:
-    "asideform"
-    "listadoform" ;
+    "asideform" auto
+    "listadoform" auto;
 }
 
-@media (min-width: 600px){
+@media (min-width: 900px){   /* Dispositivos medianos Ordenadores (≥992px)*/
   .grid-container{
     grid-template: 
       "asideform  listadoform" auto /         /*filas*/
-      10rem       auto  ;        /*columnas*/
+       300px      auto  ;                    /*columnas*/
+  }
+}
+
+@media (min-width: 700px){      /* Dispositivos pequeños Tablets (≥768px)*/
+  .grid-container {
+    grid-template: 
+      "asideform  listadoform" auto /   
+      200px       auto  ;       
   }
 }
