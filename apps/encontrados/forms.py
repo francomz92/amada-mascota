@@ -80,3 +80,37 @@ class EncontroForm(forms.ModelForm):
       help_texts = {
          'fecha_limite': 'En caso de cuidarlo indique hasta cuando',
       }
+
+class Barrio(forms.ModelForm):
+   class Meta:
+      model = Ubicacion
+      fields = ['barrio']
+
+
+class SearchForm(forms.Form):
+   buscar = forms.CharField(max_length=30, required = False)
+   ORDER_OPCIONES = (
+      ("sin", "Sin Orden"),
+      ("Fecha",(
+         ("antiguo", "Publicaciones antiguas"),
+         ("nuevo", "Publicaciones recientes"))
+      ))
+   n  = ("sin","Sin eleccion")
+   l = list(lista_especies)
+   l.append(n) 
+   l_especies = tuple(l)
+
+   l = list(lista_localidades)
+   l.append(n) 
+   l_localidades = tuple(l)
+
+   orden = forms.ChoiceField(choices=ORDER_OPCIONES, required = False, initial="nuevo")
+   especie = forms.ChoiceField(choices=l_especies, required = False, initial = "sin")
+   localidad = forms.ChoiceField(choices=l_localidades, required = False, initial="sin")
+   #barrio = forms.ModelChoiceField(queryset=Ubicacion.objects.all(), widget=forms.SelectMultiple, required = False)
+   #permitir_comentarios = forms.BooleanField(required = False)
+    
+   def __init__(self, *args, **kwargs):
+        super(SearchForm, self).__init__(*args, **kwargs)
+        self.fields["buscar"].widget.attrs["placeholder"] = "Barrio"
+        #self.fields["permitir_comentarios"].widget.attrs["class"] ="with-gap"

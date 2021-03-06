@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from apps.perdidos.models import Publicacion, Mascota, Ubicacion, Encontro
-from .forms import MascotaForm, UbicacionForm, EncontroForm
+from .forms import MascotaForm, UbicacionForm, EncontroForm, SearchForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.db.models import  Q
 
 # Create your views here.
 
@@ -88,3 +89,48 @@ def eliminar_publicacion(request, id_publicacion):
    publicacion = get_object_or_404(Encontro, id=id_publicacion)
    publicacion.delete()
    return redirect(to='encontrados:lista_encontrados')
+
+
+def buscar(request):
+   if request.GET:
+      search_form = SearchForm(request.GET)
+   else:
+      search_form = SearchForm()
+
+   filtro = request.GET.get("buscar", "") ## recibe barrio
+   especie = request.GET.get("especie","")
+   orden_post = request.GET.get("orden", None)
+   param_comentarios_habilitados = request.GET.get("permitir_comentarios", None)
+   param_categorias = request.GET.getlist("barrio")
+
+   publicaciones=Encontro.objects.all().filter(id_ubicacion__barrio__icontains = filtro)
+   
+   if especie and especie != "sin":
+      publicaciones = publicaciones.filter(id_mascota__especie__icontains = especie)
+  
+   #posts = Ubicacion.objects.filter(barrio__icontains = filtro_barrio).values_list('barrio')
+   
+   if orden_post == "sin":
+      publicaciones = publicaciones.order_by()
+   elif orden_post == "antiguo":
+      publicaciones == publicaciones.order_by("-fecha_evento")
+   elif orden_post == "nuevo":
+      publicaciones == publicaciones.order_by("fecha_evento")
+   '''if param_comentarios_habilitados:
+      posts = posts.filter(permitir_comentarios = True)
+   if param_categorias:
+      posts = posts.filter(categoria__id__in = param_categorias)
+
+   if orden_post == "buscar":
+      posts= posts.order_by("titulo")
+   elif orden_post == "antiguo":
+      posts= posts.order_by("fecha_creado")
+   elif orden_post == "nuevo":
+      posts= posts.order_by("-fecha_creado")
+   '''
+   #print(publicaciones)
+   contexto = {"publicaciones":publicaciones,
+              "search_form":search_form,
+               }
+   return render(request, "index_encontrados.html",contexto)
+   
