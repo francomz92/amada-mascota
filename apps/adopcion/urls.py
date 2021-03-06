@@ -9,5 +9,5 @@ urlpatterns = [
     path('crear/',login_required(views.AdopcionCrear.as_view()),name="adopcion_crear"),
     path('editar/<int:pk>/',login_required(views.AdopcionActualizar.as_view()),name="adopcion_editar"),
     path('eliminar/<int:pk>/',login_required(views.AdopcionEliminar.as_view()),name="adopcion_eliminar"),
-    path('renovar/<int:pk>',login_required(views.AdopcionRenovar.as_view()),name="adopcion_renovar"),
+    path('renovar/<int:id>',views.renovar_publicacion,name="adopcion_renovar"),
 ]
