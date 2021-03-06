@@ -100,7 +100,6 @@ def eliminar_publicacion(request, id_publicacion):
    ubicacion.delete()
    return redirect(to='encontrados:lista_encontrados')
 
-<<<<<<< HEAD
 
 def buscar_e(request):
    if request.GET:
@@ -138,7 +137,6 @@ def buscar_e(request):
                }
    return render(request, "index_encontrados.html",contexto)
    
-=======
 @login_required
 def renovar_publicacion(request, id_publicacion):
    current_user = request.user
@@ -151,4 +149,3 @@ def renovar_publicacion(request, id_publicacion):
       publicacion.save()
       # print('SI')
    return redirect(to='encontrados:lista_encontrados')
->>>>>>> dev
