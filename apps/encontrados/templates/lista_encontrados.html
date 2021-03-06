@@ -3,18 +3,30 @@
 {% block title %} | Encontrados {% endblock %}
 
 {% block content %}
+<style>
+@media (max-width: 574px) {
+   .responsive-lista {
+      /* display: flex;
+      flex-direction: column !; */
+      justify-content: center !important;
+   }
+   .boton-publicar {
+      margin-left: 0 !important;
+   }
+}
+</style>
 <br>
 <br>
 <br>
 <br>
 <h5 style="text-align: center; font: 900 32px bold;padding: 1.5em 0; background-color: #1b1b1b; color: #fff; margin: 0;">Encontrados o Avistados</h5>
-<div style="text-align: center; background-color: #1b1b1b; color: #fff; min-height: 50px;  padding: 0;">
+<div style="text-align: center; background-color: #1b1b1b; color: #fff;">
    ¡Ac&aacute; pued&eacute;s ver tus publicaciones de avistamientos!
-   <a href="{% url 'encontrados:publicar' %}" class="btn get-started-btn" style="margin-left: 50px;">Publicar avistamiento</a>
+   <a href="{% url 'encontrados:publicar' %}" class="btn get-started-btn boton-publicar" style="margin: 1em 0; margin-left: 50px;">Publicar avistamiento</a>
 </div>
 <div style="padding: 2em 1em; display: flex; background-color: #faeded;">
    {% if publicaciones %}
-   <section style="padding: 1em; display: flex; flex-direction: row; flex-wrap: wrap; gap: 1em; text-align: center; align-items: center; justify-content: start;">
+   <section class="responsive-lista" style="padding: 1em; display: flex; flex-direction: row; flex-wrap: wrap; gap: 1em; text-align: center; align-items: center; justify-content: start;">
    {% for publicacion in publicaciones %}
    <div class="box" style="flex-basis: 15em; background-color: #fff; border-radius: 20px; box-shadow: 0 0 5px;">
 
