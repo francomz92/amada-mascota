@@ -1,6 +1,5 @@
 from django.urls import path
 from . import views
-from django.urls import reverse_lazy
 
 """urlpatterns = [
     path('agregar/', views.AgregarPublicacion.as_view(), name='agregar')

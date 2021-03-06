@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.urls import reverse_lazy
 from django.utils import timezone
+from datetime import datetime, timedelta
 
 # Create your views here.
 
@@ -15,6 +16,7 @@ def lista_encontrados(request):
    publicaciones = Encontro.objects.filter(id_usuario=current_user)
    ctx = {
       'publicaciones': publicaciones,
+      'fecha_actual': datetime.now().date(),
    }
    return render(request, 'lista_encontrados.html', ctx)
 
@@ -36,7 +38,7 @@ def publicar(request):
          enc.id_mascota = masc
          enc.id_ubicacion = ubic
          enc.save()
-         vigencia = encontro.cleaned_data['fecha_limite']
+         vigencia = encontro.cleaned_data['valido_hasta']
          messages.success(request, f'Su publicación ha sido un exito.!! Recuerda renovarla antes del {vigencia}')
          return redirect(to='encontrados:lista_encontrados')
       else:
@@ -77,18 +79,20 @@ def editar_publicacion(request, id_publicacion):
    }
    return render(request, 'editar_publicacion.html', ctx)
 
-@login_required
+# @login_required
 def publicacion(request, id_publicacion):
    current_user = request.user
    publicacion = get_object_or_404(Encontro, id=id_publicacion, id_usuario=current_user)
    ctx = {
       'publicacion': publicacion,
+      'fecha_actual': datetime.now().date(),
    }
    return render(request, 'publicacion.html', ctx)
 
 @login_required
 def eliminar_publicacion(request, id_publicacion):
-   publicacion = get_object_or_404(Encontro, id=id_publicacion)
+   current_user = request.user
+   publicacion = get_object_or_404(Encontro, id=id_publicacion, id_usuario=current_user)
    mascota = Mascota.objects.get(id=publicacion.id_mascota.id)
    ubicacion = Ubicacion.objects.get(id=publicacion.id_ubicacion.id)
    publicacion.delete()
@@ -96,6 +100,7 @@ def eliminar_publicacion(request, id_publicacion):
    ubicacion.delete()
    return redirect(to='encontrados:lista_encontrados')
 
+<<<<<<< HEAD
 
 def buscar_e(request):
    if request.GET:
@@ -133,3 +138,17 @@ def buscar_e(request):
                }
    return render(request, "index_encontrados.html",contexto)
    
+=======
+@login_required
+def renovar_publicacion(request, id_publicacion):
+   current_user = request.user
+   fecha_actual = datetime.now().date()
+   publicacion = get_object_or_404(Encontro, id=id_publicacion, id_usuario=current_user)
+   # print(fecha_actual)
+   # print(publicacion.valido_hasta)
+   if fecha_actual > publicacion.valido_hasta:
+      publicacion.valido_hasta = fecha_actual + timedelta(days=7)
+      publicacion.save()
+      # print('SI')
+   return redirect(to='encontrados:lista_encontrados')
+>>>>>>> dev
