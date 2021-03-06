@@ -102,37 +102,30 @@ def buscar(request):
    else:
       search_form = SearchForm()
 
-   filtro = request.GET.get("buscar", "") ## recibe barrio
+   barrio = request.GET.get("barrio", "") ## recibe barrio
    especie = request.GET.get("especie","")
    orden_post = request.GET.get("orden", None)
-   param_comentarios_habilitados = request.GET.get("permitir_comentarios", None)
-   param_categorias = request.GET.getlist("barrio")
+   localidad = request.GET.get("localidad","")
+   #param_comentarios_habilitados = request.GET.get("permitir_comentarios", None)
+   #param_categorias = request.GET.getlist("barrio")
 
-   publicaciones=Encontro.objects.all().filter(id_ubicacion__barrio__icontains = filtro)
+   publicaciones=Encontro.objects.all().filter(id_ubicacion__barrio__icontains = barrio).order_by("-fecha_evento")
    
    if especie and especie != "sin":
       publicaciones = publicaciones.filter(id_mascota__especie__icontains = especie)
   
+   if localidad and localidad !="sin":
+      publicaciones = publicaciones.filter(id_ubicacion__localidad__icontains = localidad)
    #posts = Ubicacion.objects.filter(barrio__icontains = filtro_barrio).values_list('barrio')
    
    if orden_post == "sin":
       publicaciones = publicaciones.order_by()
    elif orden_post == "antiguo":
-      publicaciones == publicaciones.order_by("-fecha_evento")
+      publicaciones = publicaciones.order_by("fecha_evento")
    elif orden_post == "nuevo":
-      publicaciones == publicaciones.order_by("fecha_evento")
-   '''if param_comentarios_habilitados:
-      posts = posts.filter(permitir_comentarios = True)
-   if param_categorias:
-      posts = posts.filter(categoria__id__in = param_categorias)
+      print('pasa nuevo')
+      publicaciones = publicaciones.order_by("-fecha_evento")
 
-   if orden_post == "buscar":
-      posts= posts.order_by("titulo")
-   elif orden_post == "antiguo":
-      posts= posts.order_by("fecha_creado")
-   elif orden_post == "nuevo":
-      posts= posts.order_by("-fecha_creado")
-   '''
    #print(publicaciones)
    contexto = {"publicaciones":publicaciones,
               "search_form":search_form,

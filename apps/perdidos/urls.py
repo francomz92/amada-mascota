@@ -8,7 +8,7 @@ from . import views
 
 urlpatterns = [
    path('publicar/', views.publicar, name='publicar'),
-   path('', views.lista_encontrados, name='lista_encontrados'),
+   path('', views.lista_encontrados, name='lista_perdidos'),
    path('editar/<id>', views.editar_publicacion, name='editar_publicacion'),
    # path('encontrados/resultado-busqueda/', buscar, name='buscar'),
 ]

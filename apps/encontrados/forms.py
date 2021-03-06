@@ -88,7 +88,7 @@ class Barrio(forms.ModelForm):
 
 
 class SearchForm(forms.Form):
-   buscar = forms.CharField(max_length=30, required = False)
+   barrio = forms.CharField(max_length=30, required = False)
    ORDER_OPCIONES = (
       ("sin", "Sin Orden"),
       ("Fecha",(
@@ -112,5 +112,5 @@ class SearchForm(forms.Form):
     
    def __init__(self, *args, **kwargs):
         super(SearchForm, self).__init__(*args, **kwargs)
-        self.fields["buscar"].widget.attrs["placeholder"] = "Barrio"
+        self.fields["barrio"].widget.attrs["placeholder"] = "Barrio"
         #self.fields["permitir_comentarios"].widget.attrs["class"] ="with-gap"
