@@ -75,7 +75,7 @@ def editar_publicacion(request, id_publicacion):
    }
    return render(request, 'editar_publicacion.html', ctx)
 
-@login_required
+# @login_required
 def publicacion(request, id_publicacion):
    current_user = request.user
    publicacion = get_object_or_404(Encontro, id=id_publicacion, id_usuario=current_user)
@@ -93,3 +93,7 @@ def eliminar_publicacion(request, id_publicacion):
    mascota.delete()
    ubicacion.delete()
    return redirect(to='encontrados:lista_encontrados')
+
+# def renovar_publicacion(request, id_publicacion):
+#    current_user = request.user
+#    publicacion = get_object_or_404(Encontro, )
