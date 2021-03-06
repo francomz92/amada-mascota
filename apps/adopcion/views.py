@@ -3,6 +3,8 @@ from .forms import *
 from . import models
 from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect,HttpResponse
+from datetime import datetime, timedelta
+from django.utils import timezone
 from django.views.generic import ListView,CreateView,UpdateView,DeleteView
 
 def index(request):
@@ -50,6 +52,27 @@ class AdopcionCrear(CreateView):
             return HttpResponseRedirect(self.get_success_url())
         else:
             return self.render_to_response(self.get_context_data(form = form,form2=form2,form3=form3))
+
+class AdopcionRenovar(UpdateView):
+    model = Adopcion
+    form_class = AdopcionForm
+    template_name = 'adopcion_renovar.html'
+    success_url = reverse_lazy('adopcion:adopciones_listar')
+
+    def get_context_data(self,**kwargs):
+        context = super(AdopcionRenovar,self).get_context_data(**kwargs)
+        return context
+
+    def post(self,request,*args,**kwargs):
+        self.object = self.get_object()
+        form = self.form_class(request.POST,instance = self.get_object())
+        if  form.is_valid():
+            adopcion = form.save(commit=False)
+            adopcion.valido_hasta = timezone.now() + timezone.timedelta(days=7)
+            adopcion.save()
+            return HttpResponseRedirect(self.get_success_url())
+        else:
+            return HttpResponse("fallo")
 
 class AdopcionActualizar(UpdateView):
     model = Adopcion
