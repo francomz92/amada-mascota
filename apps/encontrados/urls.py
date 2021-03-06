@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import publicar, lista_encontrados, editar_publicacion, publicacion, eliminar_publicacion, buscar
+from .views import publicar, lista_encontrados, editar_publicacion, publicacion, eliminar_publicacion, buscar_e
 
 app_name = 'encontrados'
 
@@ -8,7 +8,9 @@ urlpatterns = [
    path('listar/', lista_encontrados, name='lista_encontrados'),
    path('editar/<id_publicacion>/', editar_publicacion, name='editar_publicacion'),
    path('borrar/<id_publicacion>/', eliminar_publicacion, name='eliminar_publicacion'),
-   path('buscar/', buscar, name='buscar'),
+   path('buscar/', buscar_e, name='buscar'),
+   path('publicacion/<id_publicacion>/', publicacion, name='publicacion'),
+   
 ]
 
 #path('<id_publicacion>/', publicacion, name='publicacion'),

@@ -23,7 +23,7 @@ class MascotaAdmin(admin.ModelAdmin):
 
 
 class PerdidoAdmin(admin.ModelAdmin):
-    list_display = ["nombre_usuario","nombre_mascota","color_mascota", "foto_mascota", "fecha_publicacion","fecha_evento", "gratificacion"]
+    list_display = ["nombre_usuario","nombre_mascota","color_mascota", "foto_mascota", "fecha_publicacion","fecha_evento", "valido_hasta", "gratificacion"]
     list_filter = ["id_usuario__last_name", "id_mascota__color","id_mascota__especie"]
     date_hierarchy = "fecha_publicacion" #filtro avanzado para campo fecha y hora
     ordering=["-fecha_publicacion"]
@@ -45,7 +45,7 @@ class PerdidoAdmin(admin.ModelAdmin):
     foto_mascota.short_description ="Foto Mascota"
 
 class EncontradoAdmin(admin.ModelAdmin):
-    list_display = ["nombre_usuario","nombre_mascota","color_mascota", "foto_mascota", "fecha_publicacion","fecha_evento", "cuida"]
+    list_display = ["nombre_usuario","nombre_mascota","color_mascota", "foto_mascota", "fecha_publicacion","fecha_evento", "valido_hasta", "cuida"]
     list_filter = ["id_usuario__last_name", "id_mascota__color","id_mascota__especie"]
     date_hierarchy = "fecha_publicacion" #filtro avanzado para campo fecha y hora
     ordering=["-fecha_publicacion"]
@@ -68,7 +68,7 @@ class EncontradoAdmin(admin.ModelAdmin):
 
 
 class AdopcionAdmin(admin.ModelAdmin):
-    list_display = ["nombre_usuario","nombre_mascota","color_mascota", "foto_mascota", "fecha_publicacion","fecha_evento", "condicion"]
+    list_display = ["nombre_usuario","nombre_mascota","color_mascota", "foto_mascota", "fecha_publicacion","fecha_evento", "valido_hasta", "condicion"]
     list_filter = ["id_usuario__last_name", "id_mascota__color","id_mascota__especie"]
     date_hierarchy = "fecha_publicacion" #filtro avanzado para campo fecha y hora
     ordering=["-fecha_publicacion"]

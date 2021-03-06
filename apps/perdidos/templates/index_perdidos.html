@@ -1,18 +1,18 @@
 {% extends 'base.html' %}
 
-{% block title %} | Encontrados {% endblock %}
+{% block title %} | Perdidos {% endblock %}
 
 {% block content %}
 <br>
 <br>
 <br>
-<h5 style="text-align: center; font: 900 32px bold;padding: 1.5em 0; background-color: #1b1b1b; color: #fff; margin: 0;">Encontrados o Avistados</h5>
+<h5 style="text-align: center; font: 900 32px bold;padding: 1.5em 0; background-color: #1b1b1b; color: #fff; margin: 0;">Perdidos</h5>
 <section style="padding: 1em 2em;">
    <div class="row">
       <div class="col-md-2">
          <div style="display: flex; justify-content: space-between; padding-bottom: 1.5em; width: 100%;">
             <!--a href="{% url 'encontrados:publicar' %}" class="get-started-btn scrollto" style="margin-left: 1em;">Publicar nuevo</a-->
-            <form action="{% url 'encontrados:buscar' %}" method="GET" role= "form" style="padding-right: 1em; display: flex-column;  " >
+            <form action="{% url 'perdidos:buscar_perdidos' %}" method="GET" role= "form" style="padding-right: 1em; display: flex-column;  " >
                
                <!--{{search_form.as_p}}-->
                <div class="form-group" style="padding: 1em 1em 0 1em;">
@@ -66,7 +66,7 @@
                                  <span>Fecha evento: {{publicacion.fecha_evento}}</span>
                               </div>
                            <div style="display: flex; gap: 0.5em; font-size: 12px;" >
-                              <a href="{% url 'encontrados:publicacion' publicacion.id %}">Ver</a>
+                              {#<!--<a href="{% url 'perdidos:publicar' publicacion.id %}">Ver</a>-->#}
                               <!--{% if request.user.id == publicacion.id_usuario.id %}
                                  <a href="{% url 'encontrados:editar_publicacion' publicacion.id %}">Editar</a>
                               {% endif %}     -->

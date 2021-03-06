@@ -4,7 +4,8 @@ from .forms import MascotaForm, UbicacionForm, EncontroForm, SearchForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.db.models import  Q
+from django.urls import reverse_lazy
+from django.utils import timezone
 
 # Create your views here.
 
@@ -96,7 +97,7 @@ def eliminar_publicacion(request, id_publicacion):
    return redirect(to='encontrados:lista_encontrados')
 
 
-def buscar(request):
+def buscar_e(request):
    if request.GET:
       search_form = SearchForm(request.GET)
    else:
@@ -109,8 +110,8 @@ def buscar(request):
    #param_comentarios_habilitados = request.GET.get("permitir_comentarios", None)
    #param_categorias = request.GET.getlist("barrio")
 
-   publicaciones=Encontro.objects.all().filter(id_ubicacion__barrio__icontains = barrio).order_by("-fecha_evento")
-   
+   publicaciones=Encontro.objects.all().filter(id_ubicacion__barrio__icontains = barrio, valido_hasta__gt = timezone.now()).order_by("-fecha_evento")
+   publicaciones.exclude(fecha_entrega__isnull=False)
    if especie and especie != "sin":
       publicaciones = publicaciones.filter(id_mascota__especie__icontains = especie)
   
