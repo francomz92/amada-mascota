@@ -1,0 +1,22 @@
+{% extends 'base.html' %}  
+{% block title %}{% endblock %}
+{% block content %}
+<div class="main w-100" style="padding-top:40px;">
+    <div class="container w-100 p-5">
+        <h1>Editar mis datos</h1>
+        <div class="align-self-center text-center" style="margin-left: auto;margin-right: auto; width:70%; background-color: #fff; border-radius: 20px; box-shadow: 0 0 5px;">
+            
+            <hr>
+            <p>Edita lo que quieras, recuerda confirmar tu contraseña</p>
+            <form method="POST" style="width:70%;margin-left: auto;margin-right: auto;">
+                <hr>
+                {% csrf_token %}
+                {{ form.as_p }}
+                <hr>
+                <a class="btn btn-primary" type="submit" href="{% url 'editar' %}">Guardar</a>
+                <hr>
+            </form>                
+        </div>
+    </div>
+</div>
+{% endblock %}

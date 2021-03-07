@@ -1,0 +1,23 @@
+{% extends 'base.html' %}  
+{% block title %}{% endblock %}
+{% block content %}
+<div class="main w-100" style="padding-top:40px;">
+    <div class="container w-100 p-5">
+        <h1>Mis datos</h1>
+        <div class="align-self-center text-center" style="margin-left: auto;margin-right: auto; width:70%; background-color: #fff; border-radius: 20px; box-shadow: 0 0 5px;">
+            <h3>Nombre de usuario</h3>
+            {{ perfil.username }}
+            <h3>Nombre</h3>
+            {{ perfil.first_name }}
+            <h3>Apellido</h3>
+            {{ perfil.last_name }}
+            <h3>Email</h3>
+            {{ perfil.email }}
+            <hr>
+            <a class="btn btn-primary" href='/'>Volver</a>
+            <a class="btn btn-primary" href="{% url 'editar' %}">Editar datos</a>
+            <hr>
+        </div>
+    </div>
+</div>
+{% endblock %}

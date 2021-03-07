@@ -4,6 +4,9 @@ from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
 from . import forms
 from django.contrib.auth import views as auth_views
+from django.contrib.auth.models import User
+from django.shortcuts import render, redirect, get_object_or_404
+from django.views.generic import UpdateView
 
 # Create your views here.
 
@@ -17,3 +20,26 @@ class LoginUsuario(auth_views.LoginView):
     form_class = forms.LoginForm
     template_name = 'registration/login.html'
     success_url = reverse_lazy('home')
+
+def perfil(request):
+    current_user = request.user.id
+    perfil = get_object_or_404(User, id=current_user)
+    ctx = {
+        'perfil':perfil
+    }
+    return render(request,'mi_perfil/mis_datos.html', ctx)
+
+def perfilActualizar(request):
+    perfil = get_object_or_404(User, id=request.user.id)
+    if request.method=="GET":
+        form = forms.Actualizar(instance=perfil)
+    else:
+        forms.Actualizar(request.POST,instance = perfil)
+        if form.is_valid():
+            form.user_name = request.POST['user_name']
+            form.first_name = request.POST['first_name']
+            """form.last_name = request.POST['last_name']
+            form.email = request.POST['email']"""
+            form.save()
+        return redirect('mi_perfil/mis_datos.html')
+    return render(request, "mi_perfil/editar_datos.html", {'form':form}) 
