@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,get_object_or_404
 from .forms import *
 from . import models
 from django.urls import reverse_lazy
@@ -6,6 +6,7 @@ from django.http import HttpResponseRedirect,HttpResponse
 from datetime import datetime, timedelta
 from django.utils import timezone
 from django.views.generic import ListView,CreateView,UpdateView,DeleteView
+from django.contrib.auth.decorators import login_required
 
 def index(request):
     context = {}
@@ -53,26 +54,15 @@ class AdopcionCrear(CreateView):
         else:
             return self.render_to_response(self.get_context_data(form = form,form2=form2,form3=form3))
 
-class AdopcionRenovar(UpdateView):
-    model = Adopcion
-    form_class = AdopcionForm
-    template_name = 'adopcion_renovar.html'
-    success_url = reverse_lazy('adopcion:adopciones_listar')
-
-    def get_context_data(self,**kwargs):
-        context = super(AdopcionRenovar,self).get_context_data(**kwargs)
-        return context
-
-    def post(self,request,*args,**kwargs):
-        self.object = self.get_object()
-        form = self.form_class(request.POST,instance = self.get_object())
-        if  form.is_valid():
-            adopcion = form.save(commit=False)
-            adopcion.valido_hasta = timezone.now() + timezone.timedelta(days=7)
-            adopcion.save()
-            return HttpResponseRedirect(self.get_success_url())
-        else:
-            return HttpResponse("fallo")
+@login_required
+def renovar_publicacion(request, id):
+    current_user = request.user
+    fecha_actual = datetime.now().date()
+    publicacion = get_object_or_404(Adopcion, id=id, id_usuario=current_user)
+    if fecha_actual > publicacion.valido_hasta:
+        publicacion.valido_hasta = fecha_actual + timedelta(days=7)
+        publicacion.save()
+    return redirect(to='adopcion:adopciones_listar')
 
 class AdopcionActualizar(UpdateView):
     model = Adopcion
