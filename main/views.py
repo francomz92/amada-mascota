@@ -4,7 +4,7 @@ from main.forms import FormularioContacto
 from django.http import HttpResponse, HttpResponseRedirect
 
 #magui para consultas y para suscripciones
-from django.views.generic import ListView , UpdateView ## para vistas x class dsps borrar Magui
+from django.views.generic import ListView , UpdateView, DeleteView ## para vistas x class dsps borrar Magui
 from apps.perdidos.models import Notificacion, Publicacion, Mascota, Ubicacion, Perdido, Encontro, lista_especies, lista_localidades
 from .forms_suscripcion import SusPerdidoForm
 from django.contrib import messages
@@ -46,7 +46,7 @@ def suscripciones(request):
          suscripto.id_usuario= current_user
          suscripto.save()
          messages.success(request, message='Suscripcion Correcta!!')
-         return redirect(to='suscrip:suscripciones')
+         return redirect(to='suscripciones')
       else:
          messages.error(request, message='Error. Vuelva a cargar los datos.')
          suscrip = SusPerdidoForm(data=request.POST, files=request.FILES)
@@ -57,11 +57,41 @@ def suscripciones(request):
    return render(request, 'suscripcion_publicaciones.html', ctx)
 
 
-def suscripciones_ver(request):
+def suscripciones_ver(request, de_donde):
     usuario_login=request.user.id
     lista= Notificacion.objects.filter(id_usuario__id=usuario_login).exclude(fecha_hasta__lt = datetime.now())
-    lista=lista.order_by("fecha_desde")[:12]
+    lista=lista.order_by("fecha_desde").reverse()[:12]
     ctx = {
         'lista_suscripciones': lista,
+        'de_donde':de_donde
       }
     return render(request, 'suscripcion_publicacionVer.html', ctx) 
+
+
+class SuscripcionActualizar(UpdateView):
+    model = Notificacion
+    form_class = SusPerdidoForm
+    template_name = 'suscripcion_publicaciones.html'
+    success_url = reverse_lazy('suscripciones_ver', kwargs={'de_donde': 0})
+
+    def get_context_data(self,**kwargs):
+        context = super(SuscripcionActualizar,self).get_context_data(**kwargs)
+        return context
+
+    def post(self,request,args,*kwargs):
+        current_user = request.user
+        self.object = self.get_object
+        suscrip_per = self.form_class(request.POST,initial={'id_usuario': current_user},instance = self.get_object())
+        
+        if suscrip_per.is_valid():
+            suscripcion = suscrip_per.save(commit=False)
+            suscripcion.id_usuario = current_user
+            suscripcion.save()
+            return HttpResponseRedirect(self.get_success_url())
+        else:
+            return self.render_to_response(self.get_context_data(suscrip_per = suscrip_per))
+
+class SuscripcionCancelar(DeleteView):
+    model = Notificacion
+    template_name = 'suscripcion_publicacionCan.html'
+    success_url = reverse_lazy('suscripciones_ver', kwargs={'de_donde': 0})
