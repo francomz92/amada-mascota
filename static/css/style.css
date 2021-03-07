@@ -2189,7 +2189,7 @@ section {
   .grid-container{
     grid-template: 
       "asideformmagui  listadoformmagui" auto /         /*filas*/
-       300px      auto  ;                    /*columnas*/
+       300px auto  ;                    /*columnas*/
   }
 }
 
@@ -2197,6 +2197,6 @@ section {
   .grid-container {
     grid-template: 
       "asideformmagui  listadoformmagui" auto /   
-      200px       auto  ;       
+      300px auto  ;       
   }
 }
