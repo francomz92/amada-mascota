@@ -42,9 +42,10 @@
                     <td> {{ xObj.fecha_desde}}</td>  
                     <td> {{ xObj.fecha_hasta }}</td> 
                     <td>
+                        {% comment %}
                         <!-- <a class="btn btn-primary" href="{% url '' xIbj.id %}">Eliminar</a>
                        <a class="btn btn-primary" href="{% url 'suscripciones_mod' xObj.id %}">Editar</a> -->
-                
+                        {% endcomment %}
                     </td>
                 </tr>
                 {% endfor %}
