@@ -65,24 +65,3 @@ def suscripciones_ver(request):
         'lista_suscripciones': lista,
       }
     return render(request, 'suscripcion_publicacionVer.html', ctx) 
-
-
-def consultas(request):
-    ctx={
-        'de_donde':"Consultar",
-        'url_P': "consultas_perdidos",
-        'url_E': "consultas_encontrados"
-        }
-    return render(request, "consultas.html",ctx)
-
-class ConsultasPerdidosView(ListView):
-    model=Perdido
-    queryset=Perdido.objects.all()
-    context_object_name = 'lista_perdidos'
-    template_name='consultas_perdidos.html'
-
-class ConsultasEncontradosView(ListView):
-    model=Encontro
-    queryset=Encontro.objects.all()
-    context_object_name = 'lista_encontrados'
-    template_name='consultas_encontrados.html'

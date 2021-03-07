@@ -57,15 +57,9 @@
     
             <li class="dropdown"><a href="#"><span> Consultas </span> <i class="bi bi-chevron-down"></i></a>
               <ul>
-<<<<<<< HEAD
                 <li><a href="{% url 'perdidos:buscar_perdidos' %}">Perdidos</a></li>
                 <li><a href="{% url 'encontrados:buscar' %}">Encontrados</a></li>
                 <li><a href="{% url 'adopcion:inicio' %}">Adopciones</a></li>
-=======
-                <li><a href="#">Perdidos</a></li>
-                <li><a href="#">Encontrados</a></li>
-                <li><a href="#">Adopciones</a></li>
->>>>>>> magui
               </ul>
             </li>
 
@@ -73,7 +67,7 @@
             <li class="dropdown"><a href="#"><span>Publicaciones</span> <i class="bi bi-chevron-down"></i></a>
               <ul>
                 <li><a href="#">Perdidos</a></li>
-                <li><a href="{% url 'lista_encontrados' %}">Encontrados</a></li>
+                <li><a href="{% url 'encontrados:lista_encontrados' %}">Encontrados</a></li>
                 <li><a href="#">Adopción</a></li>
               </ul>
             </li>
