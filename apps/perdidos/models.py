@@ -231,7 +231,3 @@ class tiene_notificacion(models.Model):
     def __str__(self):
         x = Notificacion.objects.get(id = self.id_notificacion.id) #.only('tipo','especie')
         return x.tipo+':'+x.especie
-
-
-        """ tipo,especie = Notificacion.objects.get(id = self.id_notificacion).only('tipo','especie')
-        return self.tipo_notificacion+':'+self.especie """

@@ -23,7 +23,11 @@ class MascotaAdmin(admin.ModelAdmin):
 
 
 class PerdidoAdmin(admin.ModelAdmin):
+<<<<<<< HEAD
     list_display = ["nombre_usuario","nombre_mascota","color_mascota", "foto_mascota", "fecha_publicacion","fecha_evento", "valido_hasta", "gratificacion"]
+=======
+    list_display = ["nombre_usuario","nombre_mascota","color_mascota", "foto_mascota", "fecha_publicacion","fecha_evento", "fecha_entrega","gratificacion"]
+>>>>>>> magui
     list_filter = ["id_usuario__last_name", "id_mascota__color","id_mascota__especie"]
     date_hierarchy = "fecha_publicacion" #filtro avanzado para campo fecha y hora
     ordering=["-fecha_publicacion"]

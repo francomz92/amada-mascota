@@ -1,0 +1,27 @@
+<html>
+{# ESTA BARRA se "incrusta" en las plantillas "home" y las otras #}
+
+<style>
+    #barra{
+        margin: 2;
+        padding: 1em;;
+        list-style: none;
+        text-transform: capitalize;
+    }
+ 
+    #barra li{
+        margin:0 0.5em;
+    }
+ </style>
+ 
+     <Body>
+
+        <ul id="barra">
+            <li><i class="bx bx-chevron-right"></i> <a href="{% url 'suscripciones' %}">Suscribirse</a></li>
+            <li><i class="bx bx-chevron-right"></i> <a href="">Modificar</a></li>
+            <li><i class="bx bx-chevron-right"></i> <a href="">Cancelar</a></li>
+            <li><i class="bx bx-chevron-right"></i> <a href="{% url 'suscripciones_ver'%}">Ver</a></li>
+        </ul>
+
+    </Body>
+</html>

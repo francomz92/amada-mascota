@@ -57,9 +57,15 @@
     
             <li class="dropdown"><a href="#"><span> Consultas </span> <i class="bi bi-chevron-down"></i></a>
               <ul>
+<<<<<<< HEAD
                 <li><a href="{% url 'perdidos:buscar_perdidos' %}">Perdidos</a></li>
                 <li><a href="{% url 'encontrados:buscar' %}">Encontrados</a></li>
                 <li><a href="{% url 'adopcion:inicio' %}">Adopciones</a></li>
+=======
+                <li><a href="#">Perdidos</a></li>
+                <li><a href="#">Encontrados</a></li>
+                <li><a href="#">Adopciones</a></li>
+>>>>>>> magui
               </ul>
             </li>
 
@@ -67,20 +73,14 @@
             <li class="dropdown"><a href="#"><span>Publicaciones</span> <i class="bi bi-chevron-down"></i></a>
               <ul>
                 <li><a href="#">Perdidos</a></li>
-                <li><a href="{% url 'encontrados:lista_encontrados' %}">Encontrados</a></li>
+                <li><a href="{% url 'lista_encontrados' %}">Encontrados</a></li>
                 <li><a href="#">Adopción</a></li>
               </ul>
             </li>
             {% endif %}
 
             {% if user.is_authenticated %}
-            <li class="dropdown"><a href="#"><span>Suscripciones</span> <i class="bi bi-chevron-down"></i></a>
-              <ul>
-                <li><a href="#">Perdidos</a></li>
-                <li><a href="#">Encontrados</a></li>
-                <li><a href="#">Adopción</a></li>
-              </ul>
-            </li>
+            <li><a class="nav-link scrollto" href="{% url 'suscripciones_ver'%}">Suscripciones</a></li>              
             {% endif %}
 
             <li class="dropdown"><a href="#"><span> Nosotros</span> <i class="bi bi-chevron-down"></i></a>
@@ -174,7 +174,7 @@
           &copy; Copyright <strong><span>Amada Mascota</span></strong>. All Rights Reserved
         </div>
         <div class="credits">
-          Designed by <a href="{% url 'about' %}#team">Zoe, Enzo, Franco, Mimi, Magui, David</a>
+          Designed by <a href="{% url 'about' %}#team">Zoe, Enzo, Franco, Noemí, Magdalena</a>
         </div>
       </div>
 

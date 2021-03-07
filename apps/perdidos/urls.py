@@ -5,8 +5,11 @@ from . import views
     path('agregar/', views.AgregarPublicacion.as_view(), name='agregar')
 ]
 """
+<<<<<<< HEAD
 app_name = 'perdidos'
 
+=======
+>>>>>>> magui
 urlpatterns = [
    path('publicar/', views.publicar, name='publicar'),
    path('', views.lista_encontrados, name='lista_perdidos'),
