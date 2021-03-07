@@ -10,7 +10,5 @@ urlpatterns = [
     
     path('suscripciones/', login_required(views.suscripciones), name='suscripciones'),
     path('suscripciones_ver/', login_required(views.suscripciones_ver), name='suscripciones_ver'),
-    path('suscripciones_mod/<int:pk>/',login_required(views.SuscripcionModificar.as_view()),name="suscripciones_mod"),
-
-    #path('encontrados/', include('encontrados.urls'))
+    #path('suscripciones_mod/<int:pk>/',login_required(views.SuscripcionActualizar.as_view()),name="suscripciones_mod"),
 ]

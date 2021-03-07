@@ -6,10 +6,9 @@ from django.http import HttpResponse, HttpResponseRedirect
 #magui para consultas y para suscripciones
 from django.views.generic import ListView , UpdateView ## para vistas x class dsps borrar Magui
 from apps.perdidos.models import Notificacion, Publicacion, Mascota, Ubicacion, Perdido, Encontro, lista_especies, lista_localidades
-from .forms_consultas import FomularioConsultas
 from .forms_suscripcion import SusPerdidoForm
-from datetime import datetime, date, time, timedelta
 from django.contrib import messages
+from datetime import datetime, date, time, timedelta
 from django.shortcuts import redirect, get_object_or_404
 from django.contrib.auth.models import User
 from django.urls import reverse_lazy
@@ -58,21 +57,11 @@ def suscripciones(request):
    return render(request, 'suscripcion_publicaciones.html', ctx)
 
 
-
 def suscripciones_ver(request):
     usuario_login=request.user.id
     lista= Notificacion.objects.filter(id_usuario__id=usuario_login).exclude(fecha_hasta__lt = datetime.now())
-    lista=lista.order_by("fecha_desde").reverse()[:12]
+    lista=lista.order_by("fecha_desde")[:12]
     ctx = {
         'lista_suscripciones': lista,
       }
-    return render(request, 'suscripcion_publicacionVer.html', ctx)
-
-
-
-class SuscripcionModificar(UpdateView):
-    model = Notificacion
-    form_class = SusPerdidoForm
-    template_name = 'suscripcion_publicacionMod.html'
-    success_url = reverse_lazy('suscripciones_ver')
-    
+    return render(request, 'suscripcion_publicacionVer.html', ctx) 

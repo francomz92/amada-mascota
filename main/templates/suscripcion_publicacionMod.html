@@ -19,7 +19,7 @@
        </div>
 
        <div class="grid-container"> 
-            <aside class="asideform" data-aos="fade-up">
+            <aside class="asideformmagui" data-aos="fade-up">
                <div class="texto1">
                   <form action ="" method="POST"> {% csrf_token%}
                      Opciones
@@ -32,31 +32,18 @@
          
 
 
-            <article class="listadoform" data-aos="fade-up">
+            <article class="listadoformmagui" data-aos="fade-up">
                <div class="texto1">
-                  {% if object_list %} 
-                  {% for xObj in object_list %}
-                    
-                            <tr> 
-                              <td> {{ xObj.tipo }}</td>
-                              <td> {{ xObj.especie }} </td>   
-                              <td> {{ xObj.localidad }}</td>  
-                              <td> {{ xObj.fecha_desde}}</td>  
-                              <td> {{ xObj.fecha_hasta }}</td> 
-                              <td>
-                                    <a class="btn btn-primary" href="{% url 'suscripciones_mod' xObj.id %}" >Editar</a>
-                                    <a class="btn btn-primary" href="#" >Borrar</a>
-                              </td>  
-                            </tr>
-
-                            
-                    {% endfor %}
-
-                  
-                  {%else%}
-                          <h4>Usted NO está SUSCRIPTO a publicaciones</h4>
-                          <p>Disculpe las molestias.</p>
-                  {%endif%}
+                  <form method="POST" enctype="multipart/form-data">
+                     {% csrf_token %}
+                     
+                     {{ form.as_p }} 
+                     
+                     <div style="display: flex; justify-content: center;">
+                        <a href="{% url 'suscripciones_ver' %}" class="btn btn-dark">Cancelar</a>
+                        <button type="submit" class="btn get-started-btn">Guardar</button>
+                     </div>
+                  </form>
                </div>
            </article>
 

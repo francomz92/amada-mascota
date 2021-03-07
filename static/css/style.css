@@ -2181,14 +2181,14 @@ section {
   display: grid;
   gap: 5em;
   grid-template:
-    "asideform" auto
-    "listadoform" auto;
+    "asideformmagui" auto
+    "listadoformmagui" auto;
 }
 
 @media (min-width: 900px){   /* Dispositivos medianos Ordenadores (≥992px)*/
   .grid-container{
     grid-template: 
-      "asideform  listadoform" auto /         /*filas*/
+      "asideformmagui  listadoformmagui" auto /         /*filas*/
        300px      auto  ;                    /*columnas*/
   }
 }
@@ -2196,7 +2196,7 @@ section {
 @media (min-width: 700px){      /* Dispositivos pequeños Tablets (≥768px)*/
   .grid-container {
     grid-template: 
-      "asideform  listadoform" auto /   
+      "asideformmagui  listadoformmagui" auto /   
       200px       auto  ;       
   }
 }
