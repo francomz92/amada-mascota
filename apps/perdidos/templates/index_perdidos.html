@@ -5,9 +5,13 @@
 {% block content %}
 <br>
 <br>
-<br>
-<h5 style="text-align: center; font: 900 32px bold;padding: 1.5em 0; background-color: #1b1b1b; color: #fff; margin: 0;">Perdidos</h5>
-<section style="padding: 1em 2em;">
+<div class="container-fluid" data-aos="fade-up">
+   <div class="section-title" style= "color: #fff; background-color: #1b1b1b;">
+      <h5 style="text-align: center; font: 900 32px bold; padding: 1.5em  ; margin: 0">Consulta Perdidos</h5>
+      <p style="text-align: center;" >Estas mascotas se encuentran perdidas, si las viste, por favor contactá al dueño.</p>
+   </div>
+</div>
+<section style="padding: 1em 2em; background-color:#faeded;">
    <div class="row">
       <div class="col-md-2">
          <div style="display: flex; justify-content: space-between; padding-bottom: 1.5em; width: 100%;">
@@ -64,12 +68,15 @@
                               </div>
                               <div class="text" style="font-size: 12px;">
                                  <span>Fecha evento: {{publicacion.fecha_evento}}</span>
+                                 <span>Gratificación: {{publicacion.gratificacion}}</span>
                               </div>
                            <div style="display: flex; gap: 0.5em; font-size: 12px;" >
                               {#<!--<a href="{% url 'perdidos:publicar' publicacion.id %}">Ver</a>-->#}
+                              {% comment %}
                               <!--{% if request.user.id == publicacion.id_usuario.id %}
                                  <a href="{% url 'encontrados:editar_publicacion' publicacion.id %}">Editar</a>
                               {% endif %}     -->
+                              {% endcomment %}
                            </div>
                         </div>
                      </div>	 
