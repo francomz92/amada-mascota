@@ -1,0 +1,31 @@
+{% extends 'base.html' %}  
+{% block title %} Adopcion datos {% endblock %}
+{% block content %}
+<div class="main w-100" style="padding-top:40px;">
+    <div class="container w-100 p-5">
+        <h1>Datos de la adopcion</h1>
+        <div class="align-self-center text-center" style="margin-left: auto;margin-right: auto; width:70%; background-color: #fff; border-radius: 20px; box-shadow: 0 0 5px;">
+            <hr>
+            <img style="height: 6em; width: 8em;" src="{{ adopcion.id_mascota.fotos.url }}"></img>
+            <hr>
+            <h3>Mascota</h3>
+            {{ adopcion.id_mascota.nombre }}
+            <h3>Observaciones</h3>
+            {{ adopcion.observaciones }}
+            <h3>Fecha Publicacion</h3>
+            {{ adopcion.fecha_publicacion }}
+            <h3>Fecha Evento</h3>
+            {{ adopcion.fecha_evento }}
+            <h3>Valido hasta</h3>
+            {{ adopcion.valido_hasta }}
+            <h3>Condicion</h3>
+            {{ adopcion.condicion }}
+            <hr>
+            <a class="btn btn-primary" href="{% url 'adopcion:adopcion_eliminar' adopcion.id %}">Eliminar</a>
+            <a class="btn btn-primary" href="{% url 'adopcion:adopcion_editar' adopcion.id %}">Editar</a>
+            <a class="btn btn-primary" href="{% url 'adopcion:adopcion_renovar' adopcion.id %}">Renovar</a>
+            <hr>
+        </div>
+    </div>
+</div>
+{% endblock %}
