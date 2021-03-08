@@ -7,6 +7,7 @@ from datetime import datetime, timedelta
 from django.utils import timezone
 from django.views.generic import ListView,CreateView,UpdateView,DeleteView
 from django.contrib.auth.decorators import login_required
+from apps.encontrados.forms import SearchForm
 
 def index(request):
     context = {}
