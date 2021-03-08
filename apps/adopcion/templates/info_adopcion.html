@@ -1,10 +1,11 @@
 {% extends 'base.html' %}  
 {% block title %} Adopcion datos {% endblock %}
 {% block content %}
-<div class="main w-100" style="padding-top:40px;">
+<div class="main w-100" style="padding-top:40px;background-color: #faeded">
     <div class="container w-100 p-5">
-        <h1>Datos de la adopcion</h1>
+        
         <div class="align-self-center text-center" style="margin-left: auto;margin-right: auto; width:70%; background-color: #fff; border-radius: 20px; box-shadow: 0 0 5px;">
+            <h1 style="text-align:center" >Datos de la adopcion</h1>    
             <hr>
             <img style="height: 6em; width: 8em;" src="{{ adopcion.id_mascota.fotos.url }}"></img>
             <hr>
