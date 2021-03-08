@@ -32,7 +32,7 @@ def about(request):
 
 
 
-def suscripciones(request):
+def suscripciones(request, de_donde):
    current_user = request.user
    
    f_suscripcion = SusPerdidoForm(initial= {'id_dueño': current_user})
@@ -53,6 +53,7 @@ def suscripciones(request):
          
    ctx = {
       'form': f_suscripcion,
+      'de_donde': de_donde
       }
    return render(request, 'suscripcion_publicaciones.html', ctx)
 
