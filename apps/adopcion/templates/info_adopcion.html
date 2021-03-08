@@ -10,6 +10,11 @@
             <hr>
             <h3>Mascota</h3>
             {{ adopcion.id_mascota.nombre }}
+            <h3>Contacto</h3>
+            <p>
+            Nombre: {{ adopcion.id_usuario.first_name}}<br>
+            Correo: {{ adopcion.id_usuario.email}}
+            </p>
             <h3>Observaciones</h3>
             {{ adopcion.observaciones }}
             <h3>Fecha Publicacion</h3>
