@@ -12,10 +12,10 @@ urlpatterns = [
    path('buscar/', buscar_e, name='buscar'),
    path('publicacion/<id_publicacion>/', publicacion, name='publicacion'),  
    path('renovar/<id_publicacion>/', renovar_publicacion, name='renovar_publicacion'),
-   path('lista_encontrados', lista_encontrados, name='lista_encontrados'),
-   path('editar/<id>', editar_publicacion, name='editar_publicacion'),
-
+   #path('lista_encontrados', lista_encontrados, name='lista_encontrados'),
+   #path('editar/<id>', editar_publicacion, name='editar_publicacion'),
+   #path('resultado-busqueda/', buscar, name='buscar'),
 ]
  #  path('resultado-busqueda/', buscar, name='buscar'),
 
-#path('<id_publicacion>/', publicacion, name='publicacion'),
+

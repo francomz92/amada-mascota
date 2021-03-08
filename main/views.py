@@ -4,7 +4,7 @@ from main.forms import FormularioContacto
 from django.http import HttpResponse, HttpResponseRedirect
 
 #magui para consultas y para suscripciones
-from django.views.generic import ListView , UpdateView ## para vistas x class dsps borrar Magui
+from django.views.generic import ListView , UpdateView, DeleteView ## para vistas x class dsps borrar Magui
 from apps.perdidos.models import Notificacion, Publicacion, Mascota, Ubicacion, Perdido, Encontro, lista_especies, lista_localidades
 from .forms_suscripcion import SusPerdidoForm
 from django.contrib import messages
@@ -35,54 +35,47 @@ def about(request):
 def suscripciones(request):
    current_user = request.user
    
-   suscrip = SusPerdidoForm(initial= {'id_dueño': current_user})
+   f_suscripcion = SusPerdidoForm(initial= {'id_dueño': current_user})
    
    if request.method == 'POST':
       
-      suscrip = SusPerdidoForm(data=request.POST, files=request.FILES)
+      f_suscripcion = SusPerdidoForm(data=request.POST, files=request.FILES)
       
-      if suscrip.is_valid():
-         suscripto = suscrip.save(commit=False)
+      if f_suscripcion.is_valid():
+         suscripto = f_suscripcion.save(commit=False)
          suscripto.id_usuario= current_user
          suscripto.save()
          messages.success(request, message='Suscripcion Correcta!!')
          return redirect(to='suscripciones')
       else:
          messages.error(request, message='Error. Vuelva a cargar los datos.')
-         suscrip = SusPerdidoForm(data=request.POST, files=request.FILES)
+         f_suscripcion = SusPerdidoForm(data=request.POST, files=request.FILES)
          
    ctx = {
-      'suscrip_per': suscrip,
+      'form': f_suscripcion,
       }
    return render(request, 'suscripcion_publicaciones.html', ctx)
 
 
-def suscripciones_ver(request):
+def suscripciones_ver(request, de_donde):
     usuario_login=request.user.id
     lista= Notificacion.objects.filter(id_usuario__id=usuario_login).exclude(fecha_hasta__lt = datetime.now())
-    lista=lista.order_by("fecha_desde")[:12]
+    lista=lista.order_by("fecha_desde").reverse()[:12]
     ctx = {
         'lista_suscripciones': lista,
+        'de_donde':de_donde
       }
     return render(request, 'suscripcion_publicacionVer.html', ctx) 
 
 
-def consultas(request):
-    ctx={
-        'de_donde':"Consultar",
-        'url_P': "consultas_perdidos",
-        'url_E': "consultas_encontrados"
-        }
-    return render(request, "consultas.html",ctx)
+class SuscripcionActualizar(UpdateView):
+    model = Notificacion
+    form_class = SusPerdidoForm
+    template_name = 'suscripcion_publicaciones.html'
+    success_url = reverse_lazy('suscripciones_ver', kwargs={'de_donde': 1})
 
-class ConsultasPerdidosView(ListView):
-    model=Perdido
-    queryset=Perdido.objects.all()
-    context_object_name = 'lista_perdidos'
-    template_name='consultas_perdidos.html'
 
-class ConsultasEncontradosView(ListView):
-    model=Encontro
-    queryset=Encontro.objects.all()
-    context_object_name = 'lista_encontrados'
-    template_name='consultas_encontrados.html'
+class SuscripcionCancelar(DeleteView):
+    model = Notificacion
+    template_name = 'suscripcion_publicacionCan.html'
+    success_url = reverse_lazy('suscripciones_ver', kwargs={'de_donde': 1})
