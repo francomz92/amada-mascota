@@ -2,19 +2,7 @@ from django import forms
 from apps.perdidos.models import Publicacion, Mascota, Ubicacion, Encontro, lista_especies, lista_localidades
 from django.contrib.auth.models import User
 
-# class PublicacionForm(forms.ModelForm):
 
-#    class Meta:
-#       model = Publicacion
-#       exclude = {
-#          'id_usuario',
-#          'id_mascota',
-#          'id_ubicacion',
-#       }
-#       widgets = {
-#          'observaciones': forms.Textarea(attrs= {'class': 'form-control', 'rows': 3, 'style': 'resize: none;'}),
-#       }
-      
 class MascotaForm(forms.ModelForm):
 
    class Meta:

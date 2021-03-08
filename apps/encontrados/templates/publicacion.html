@@ -11,11 +11,12 @@
    <p style="font-size: xx-large;">{{ publicacion.id_mascota.nombre }}</p>
 </div>
 <section style="width: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 3em 0; background-color: #faeded;">
+   <span style="padding-bottom: 10px;">Tu publicación vence el <strong>{{ publicacion.valido_hasta }}</strong>, recuerda renovalrla</span>
    <article style="width: 60%; padding: 35px 30px; background-color: #fff; border-radius: 20px; box-shadow: 0 0 5px;">
       <div style="display: flex; flex-wrap: wrap; justify-content: space-between;">
          <span style="padding-bottom: 1em;">Localidad: {{ publicacion.id_ubicacion.localidad }}</span>
          <span style="padding-bottom: 1em;">Barrio: {{ publicacion.id_ubicacion.barrio }}</span>
-         <span style="padding-bottom: 1em;">Fecha: {{ publicacion.fecha_evento }}</span>
+         <span style="padding-bottom: 1em;">Publicado el {{ publicacion.fecha_evento }}</span>
       </div>
       <div style="display: flex; flex-wrap: wrap; justify-content: space-between;">
          <span style="padding-bottom: 1em;">Calle: {{ publicacion.id_ubicacion.calle }}</span>
@@ -42,7 +43,7 @@
       <p style="text-align: center; font-size: 20px;">Referencias</p>
       <p style="padding-bottom: 0.5em;">{{ publicacion.id_ubicacion.otros_datos }}</p>
    </article>
-   {% if user.is_authenticated %}
+   {% if user.is_authenticated  and user == publicacion.id_usuario %} 
    <div style="margin-top: 1em;">
       {% if fecha_actual > publicacion.valido_hasta %}
       <a href="{% url 'encontrados:renovar_publicacion' publicacion.id %}"><img src="https://img.icons8.com/small/24/000000/recurring-appointment.png" title="¿Renovar vigencia?"/></a>
