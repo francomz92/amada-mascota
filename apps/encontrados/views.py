@@ -38,8 +38,7 @@ def publicar(request):
          enc.id_mascota = masc
          enc.id_ubicacion = ubic
          enc.save()
-         vigencia = encontro.cleaned_data['valido_hasta']
-         messages.success(request, f'Su publicación ha sido un exito.!! Recuerda renovarla antes del {vigencia}')
+      
          return redirect(to='encontrados:lista_encontrados')
       else:
          messages.error(request, 'Ups...parece que algo salió mal.!! Vuelve a intentarlo.')
@@ -82,7 +81,7 @@ def editar_publicacion(request, id_publicacion):
 # @login_required
 def publicacion(request, id_publicacion):
    current_user = request.user
-   publicacion = get_object_or_404(Encontro, id=id_publicacion, id_usuario=current_user)
+   publicacion = get_object_or_404(Encontro, id=id_publicacion ) #, id_usuario=current_user)
    ctx = {
       'publicacion': publicacion,
       'fecha_actual': datetime.now().date(),
