@@ -23,7 +23,7 @@
                     {% for i in object_list %}
                         <tr>
                             <td><img  style="height: 6em; width: 8em;" src="{{  i.id_mascota.fotos.url }}"/></td>
-                            <td>{{ i.id_mascota }}</td>
+                            <td><a href="{% url 'adopcion:ver' i.id %}">{{ i.id_mascota }}</a></td>
                             <td>{{ i.condicion }}</td>
                             <td>{{ i.fecha_publicacion }}</td>
                             <td>{{ i.observaciones }}</td>
