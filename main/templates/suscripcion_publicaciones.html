@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% block title %} | Suscripciones {% endblock %}
+{% block content %}
+<br>
+   <body  style="background-color:#faeded; padding: 60px 0;"></body>
+   <div class="row" data-aos="fade-up" >
+   <div class="col-md-12" style= "color: #fff; background-color: #1b1b1b; padding: 1.5em;">
+         <h2 class="text-center">
+             Suscripciones a Publicaciones
+         </h2>
+         <h6 class="text-center">
+         Para recibir novedades de las últimas publicaciones de mascotas Perdidas, Encontradas y/o en Adopción, Suscríbete!
+         </h6>
+     </div>
+   </div>
+
+   <br>
+   
+       <div class="grid-container" data-aos="fade-up"> 
+            <aside class="asideformmagui">
+               <div class="texto1">
+                  <form action ="" method="POST"> {% csrf_token%}
+                     Opciones
+                     
+                        {% include "barra_opciones.html" %}
+                      
+                     
+                  </form>
+               </div>
+            </aside> 
+         
+
+           <article class="listadoformmagui" >
+               <div class="texto1">
+                  <strong> Para suscribirte completar los siguientes datos: </strong>
+                  <form action ="" method="POST" class="p-3 form abs-center"> {% csrf_token%}
+                     <table>
+           
+                        {{ form.as_p }}
+                           
+                     </table>
+
+                     <div style="display: flex; justify-content: center; gap: 3px">
+                        <button type="submit" class="btn get-started-btn">Guardar</button>
+                     </div>
+                  
+                  </form>
+               </div>
+           </article>
+
+         </div>
+<br>
+<br>
+<br>
+<br>
+
+</section>
+
+{% endblock %}
+

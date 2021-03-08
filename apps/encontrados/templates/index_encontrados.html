@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+
+{% block title %} | Encontrados {% endblock %}
+
+{% block content %}
+<br>
+<br>
+<div class="container-fluid" data-aos="fade-up " style="padding: 1.5em;">
+   <div class="row" >
+		<div class="col-md-12" style= "color: #fff; background-color: #1b1b1b; padding: 1.5em;">
+			<h2 class="text-center" >
+				Consulta encontrados
+			</h2>
+			<h6 class="text-center">
+				Estas mascotas se encuentran sin dueño, si las conoces, por favor avisá al dueño.
+			</h6>
+		</div>
+   </div>
+<section style="padding: 1em 2em; background-color:#faeded;">
+   <div class="row">
+      <div class="col-md-2">
+         <div style="display: flex; justify-content: space-between; padding-bottom: 1.5em; width: 100%;">
+            <!--a href="{% url 'encontrados:publicar' %}" class="get-started-btn scrollto" style="margin-left: 1em;">Publicar nuevo</a-->
+            <form action="{% url 'encontrados:buscar' %}" method="GET" role= "form" style="padding-right: 1em; display: flex-column;  " >
+               
+               <!--{{search_form.as_p}}-->
+               <div class="form-group" style="padding: 1em 1em 0 1em;">
+                  {{search_form.orden.label}} {{search_form.orden}}
+               </div>
+               
+               <div class="form-group" style="padding: 1em 1em 0 1em;">
+                  {{search_form.especie.label}} {{search_form.especie}}
+               </div>
+
+               <div class="form-group" style="padding: 1em 1em 0 1em;">
+                  {{search_form.barrio.label}} {{search_form.barrio}}
+               </div>
+               
+               <div class="form-group" style="padding: 1em 1em 0 1em;">
+                  {{search_form.localidad.label}} {{search_form.localidad}}
+               </div>
+               <!--<input type="text" name="buscar" placeholder="Especie, Raza, Localidad, Barrio" class="form-control" style="margin-right: -20px;">-->
+               <div class="form-group" style="padding: 1em 1em 0 1em;">
+                  <input type="submit" value="Buscar" class="btn get-started-btn scrollto" >
+               </div>
+               
+               
+            </form>  
+
+         </div>
+      </div>
+      <div class="col-md-10">>
+         <div style="display: flex; flex-direction: row; flex-wrap: wrap; gap: 1em; text-align: center; align-items: center; justify-content: center;">
+            {% for publicacion in publicaciones %}
+                  
+            <div class="box" style="flex-basis: 15em; height: 100%; background-color: #fff;">
+            
+               <div class="container border" style="padding: 1em; height: 100%;">
+                  
+                  <div class="row" style="align-items: center; justify-content: center;">
+                     
+                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12" style="width: 100%;">
+                        
+                        <div class="box-part text-center" style="display: flex;flex-direction: column; align-items: center; justify-content: center; height: 80%;">
+                           <div style="display: flex; position: relative;">
+                              <img src="{{ publicacion.id_mascota.fotos.url }}" alt="" style="object-fit: contain; width: 100%; height: 100%;">
+                           </div>    
+                           <div class="title">
+                              <h4 style="font-size: 14px;">{{ publicacion.id_mascota.nombre }}</h4>
+                           </div>
+                              <div class="text" style="font-size: 12px;">
+                                 <span>Loc: {{ publicacion.id_ubicacion.localidad }}</span>
+                                 <span>-Barrio: {{ publicacion.id_ubicacion.barrio }}</span>
+                              </div>
+                              <div class="text" style="font-size: 12px;">
+                                 <span>Fecha evento: {{publicacion.fecha_evento}}</span>
+                              </div>
+                           <div style="display: flex; gap: 0.5em; font-size: 12px;" >
+                              <a href="{% url 'encontrados:publicacion' publicacion.id %}">Ver</a>
+                              <!--{% if request.user.id == publicacion.id_usuario.id %}
+                                 <a href="{% url 'encontrados:editar_publicacion' publicacion.id %}">Editar</a>
+                              {% endif %}     -->
+                           </div>
+                        </div>
+                     </div>	 
+                  </div>		
+               </div>
+            </div>
+            {% endfor %}
+         </div>
+      </div>
+   </div>
+</section>
+{% endblock %}

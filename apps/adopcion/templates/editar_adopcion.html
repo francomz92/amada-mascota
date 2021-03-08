@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}Editar{% endblock %}
+
+{% block content %}
+<section id="pricing" class="pricing section-bg">
+    <div class="container" data-aos="fade-up">
+         <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ adopcion.as_p }}
+            {{ ubicacion.as_p }}
+            {{ mascota.as_p }}
+            <div style="display: flex; justify-content: center;">
+               <a href="{% url 'adopcion:adopciones_listar' %}" class="btn btn-dark">Cancelar</a>
+               <button type="submit" class="btn get-started-btn">Guardar</button>
+            </div>
+         </form>
+      </div>
+   </div>
+</section>
+{% endblock %}

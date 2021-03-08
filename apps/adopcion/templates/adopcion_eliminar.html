@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %} Adopciones realizadas{% endblock %}
+
+{% block content %}
+<div class="container h-100  p-5">
+    <div class="row justify-content-center h-100 p-5">
+        <div class="col-sm-6 align-self-center text-center">
+            <div class="card shadow">
+                <div class="card-body">           
+                    <form method="POST">
+                        {% csrf_token %}
+                        <h3>¿Esta seguro de eliminar el registro de adopcion?</h3>
+                        <button class="btm btn-danger" type="submit">Sí, eliminar</button>
+                        <a class="btm btn-default" href="{% url 'adopcion:adopciones_listar' %}">Cancelar</a>
+                    </form>          
+                </div>
+            </div>
+        </div>
+    </div>
+</div>  
+
+{% endblock %}

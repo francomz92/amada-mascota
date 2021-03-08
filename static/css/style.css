@@ -23,7 +23,7 @@ a:hover {
   text-decoration: none;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1, h2, h3, h4, h5, h6  {
   font-family: "Raleway", sans-serif;
 }
 
@@ -1255,7 +1255,7 @@ section {
   margin-bottom: 20px;
   overflow: hidden;
   border-radius: 5px;
-  background: #fff;
+  background: #fff; 
 }
 
 .team .member .member-img {
@@ -2132,4 +2132,74 @@ section {
   background: #e53e6a;
   color: #fff;
   text-decoration: none;
+  
+}
+
+#footer .copyright {
+  padding-top: 5px;
+  font-size: 13px;
+}
+
+/*--------------------------------------------------------------
+#  para el HTML de CONSULTAS/SUSCRIPCIONES - magui
+--------------------------------------------------------------*/
+.foto1 { 
+  padding: 5px; 
+  margin: 5px; 
+  border: 2px solid black; 
+  max-width: 165px;
+  position: relative;
+  overflow: hidden;
+  }
+
+  .texto1 {
+    font-family: 'Open Sans';
+    color: #444444;
+    font-weight: 500;   /*como la Negrita*/  
+    margin-top: 0.5rem;
+    margin-left: 0.5rem;
+    font-size: 0.8rem;
+  }
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.grid-container > *{
+  box-shadow: -1px 1px 7px 0px rgba(0, 0, 0, 0.75);
+  
+  border-radius: 1em;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  padding: 10px;
+  text-align: left;
+}
+
+
+.grid-container{     /* sirve too, para celular*/
+  display: grid;
+  gap: 0.2em;
+  grid-template:
+    "asideformmagui" auto
+    "listadoformmagui" auto;
+}
+
+@media (min-width: 900px){   /* Dispositivos medianos Ordenadores (≥992px)*/
+  .grid-container{
+    grid-template: 
+      "asideformmagui  listadoformmagui" auto /         /*filas*/
+       300px auto  ;                    /*columnas*/
+  }
+}
+
+@media (min-width: 700px){      /* Dispositivos pequeños Tablets (≥768px)*/
+  .grid-container {
+    grid-template: 
+      "asideformmagui  listadoformmagui" auto /   
+      300px auto  ;       
+  }
 }

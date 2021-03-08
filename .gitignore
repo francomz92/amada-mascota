@@ -6,7 +6,8 @@ __pycache__
 # Env
 .env
 venv/
-venv/
+apps/perdidos/migrations/
+media/
 
 # Database
 db.sqlite3
