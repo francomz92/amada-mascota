@@ -13,7 +13,6 @@ class UbicacionForm(forms.ModelForm):
          'calle': forms.TextInput(attrs= {'class': 'form-control'}),
          'otros_datos': forms.Textarea(attrs= {'class': 'form-control', 'rows': 2, 'style': 'resize: none;'}),
         }
- 
         
 
 class MascotaForm(forms.ModelForm):
