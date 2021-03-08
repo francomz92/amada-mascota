@@ -2162,24 +2162,27 @@ section {
   }
 
 * {
-  box-sizing: :border-box;
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
 .grid-container > *{
   box-shadow: -1px 1px 7px 0px rgba(0, 0, 0, 0.75);
+  
   border-radius: 1em;
-  margin: 1em auto;
   margin-left: 1rem;
-  padding: 0.5em;
-  text-align: match-parent;
+  margin-right: 1rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  padding: 10px;
+  text-align: left;
 }
 
 
 .grid-container{     /* sirve too, para celular*/
   display: grid;
-  gap: 5em;
+  gap: 0.2em;
   grid-template:
     "asideformmagui" auto
     "listadoformmagui" auto;
@@ -2189,7 +2192,7 @@ section {
   .grid-container{
     grid-template: 
       "asideformmagui  listadoformmagui" auto /         /*filas*/
-       300px      auto  ;                    /*columnas*/
+       300px auto  ;                    /*columnas*/
   }
 }
 
@@ -2197,6 +2200,6 @@ section {
   .grid-container {
     grid-template: 
       "asideformmagui  listadoformmagui" auto /   
-      200px       auto  ;       
+      300px auto  ;       
   }
 }
