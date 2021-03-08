@@ -11,7 +11,9 @@
    <p style="font-size: xx-large;">{{ publicacion.id_mascota.nombre }}</p>
 </div>
 <section style="width: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 3em 0; background-color: #faeded;">
+   {% if user.is_authenticated  and user == publicacion.id_usuario %}
    <span style="padding-bottom: 10px;">Tu publicación vence el <strong>{{ publicacion.valido_hasta }}</strong>, recuerda renovalrla</span>
+   {% endif %}
    <article style="width: 60%; padding: 35px 30px; background-color: #fff; border-radius: 20px; box-shadow: 0 0 5px;">
       <div style="display: flex; flex-wrap: wrap; justify-content: space-between;">
          <span style="padding-bottom: 1em;">Localidad: {{ publicacion.id_ubicacion.localidad }}</span>
