@@ -57,7 +57,7 @@
     
             <li class="dropdown"><a href="#"><span> Consultas </span> <i class="bi bi-chevron-down"></i></a>
               <ul>
-                <li><a href="{% url 'perdidos:buscar_perdidos' %}">Perdidos</a></li>
+                <li><a href="{% url 'perdidos:buscar' %}">Perdidos</a></li>
                 <li><a href="{% url 'encontrados:buscar' %}">Encontrados</a></li>
                 <li><a href="{% url 'adopcion:inicio' %}">Adopciones</a></li>
               </ul>
@@ -66,7 +66,7 @@
             {% if user.is_authenticated %}
             <li class="dropdown"><a href="#"><span>Publicaciones</span> <i class="bi bi-chevron-down"></i></a>
               <ul>
-                <li><a href="#">Perdidos</a></li>
+                <li><a href="{% url 'perdidos:lista_perdidos' %}">Perdidos</a></li>
                 <li><a href="{% url 'encontrados:lista_encontrados' %}">Encontrados</a></li>
                 <li><a href="{% url 'adopcion:inicio' %}">Adopción</a></li>
               </ul>
