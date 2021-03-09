@@ -3,26 +3,26 @@
 {% block title %} | Perdidos {% endblock %}
 
 {% block content %}
-<br>
-<br>
+<body  style="background-color:#faeded; padding: 60px 0;"></body>
 <div class="container-fluid" data-aos="fade-up " style="padding: 1.5em;">
    <div class="row" >
 		<div class="col-md-12" style= "color: #fff; background-color: #1b1b1b; padding: 1.5em;">
 			<h2 class="text-center" >
-				Consulta perdidos
+				Consulta Perdidos
 			</h2>
 			<h6 class="text-center">
-				Estas mascotas se encuentran perdidas, si las viste, por favor contactá al dueño.
+				Estas mascotas necesitan reencontrarse con sus dueños.
 			</h6>
 		</div>
    </div>
 </div>
+
 <section style="padding: 1em 2em; background-color:#faeded;">
    <div class="row">
       <div class="col-md-2">
          <div style="display: flex; justify-content: space-between; padding-bottom: 1.5em; width: 100%;">
             <!--a href="{% url 'encontrados:publicar' %}" class="get-started-btn scrollto" style="margin-left: 1em;">Publicar nuevo</a-->
-            <form action="{% url 'perdidos:buscar_perdidos' %}" method="GET" role= "form" style="padding-right: 1em; display: flex-column;  " >
+            <form action="{% url 'perdidos:buscar' %}" method="GET" role= "form" style="padding-right: 1em; display: flex-column;  " >
                
                <!--{{search_form.as_p}}-->
                <div class="form-group" style="padding: 1em 1em 0 1em;">
@@ -54,7 +54,7 @@
          <div style="display: flex; flex-direction: row; flex-wrap: wrap; gap: 1em; text-align: center; align-items: center; justify-content: center;">
             {% for publicacion in publicaciones %}
                   
-            <div class="box" style="flex-basis: 15em; height: 25em; background-color: #fff;">
+            <div class="box" style="flex-basis: 15em; height: 22.5em; background-color: #fff;">
             
                <div class="container border" style="padding: 1em; height: 100%;">
                   
@@ -64,26 +64,26 @@
                         
                         <div class="box-part text-center" style="display: flex;flex-direction: column; align-items: center; justify-content: center; height: 80%;">
                            <div style="display: flex; position: relative;">
-                              <img src="{{ publicacion.id_mascota.fotos.url }}" alt="" style="object-fit: contain; width: 100%; height: 18em;">
+                              <img src="{{ publicacion.id_mascota.fotos.url }}" alt="" style="object-fit: contain; width: 100%; height: 100%;">
                            </div>    
                            <div class="title">
                               <h4 style="font-size: 14px;">{{ publicacion.id_mascota.nombre }}</h4>
                            </div>
                               <div class="text" style="font-size: 12px;">
                                  <span>Loc: {{ publicacion.id_ubicacion.localidad }}</span>
-                                 <span>-Barrio: {{ publicacion.id_ubicacion.barrio }}</span>
+                                 <span><br>Barrio: {{ publicacion.id_ubicacion.barrio }}</span>
                               </div>
                               <div class="text" style="font-size: 12px;">
-                                 <span>Fecha evento: {{publicacion.fecha_evento}}</span>
-                                 <span>Gratificación: {{publicacion.gratificacion}}</span>
+                                 <span>Fecha Publ.: {{publicacion.fecha_publicacion}}</span>
+                                 <span><br>Fecha Hasta: {{publicacion.valido_hasta}}</span>
+                                 <span><br>Gratificación: {{publicacion.gratificacion}}</span>
                               </div>
                            <div style="display: flex; gap: 0.5em; font-size: 12px;" >
-                              {#<!--<a href="{% url 'perdidos:publicar' publicacion.id %}">Ver</a>-->#}
+                              <a href="{% url 'perdidos:publicacion' publicacion.id %}">Ver</a>
                               {% comment %}
                               <!--{% if request.user.id == publicacion.id_usuario.id %}
                                  <a href="{% url 'encontrados:editar_publicacion' publicacion.id %}">Editar</a>
                               {% endif %}     -->
-                              {% endcomment %}
                            </div>
                         </div>
                      </div>	 

@@ -32,7 +32,11 @@
 
            <article class="listadoformmagui" >
                <div class="texto1">
-                  <strong> Para suscribirte completar los siguientes datos: </strong>
+                  {%if de_donde == 0 %}
+                  <strong> Para suscribirte, completa los siguientes datos: </strong>
+                  {% else %}
+                  <strong> Para editar la suscripción, completa los siguientes datos: </strong>
+                  {% endif%}
                   <form action ="" method="POST" class="p-3 form abs-center"> {% csrf_token%}
                      <table>
            
@@ -41,6 +45,11 @@
                      </table>
 
                      <div style="display: flex; justify-content: center; gap: 3px">
+                        {%if de_donde == 0 %}
+                        <a class="btn get-started-btn" href="{% url 'suscripciones_ver' 0 %}">Volver</a>
+                        {% else %}
+                        <a class="btn get-started-btn" href="{% url 'suscripciones_ver' 1 %}">Volver</a>
+                        {% endif %}
                         <button type="submit" class="btn get-started-btn">Guardar</button>
                      </div>
                   

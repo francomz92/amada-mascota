@@ -38,6 +38,7 @@ def publicar(request):
          enc.id_mascota = masc
          enc.id_ubicacion = ubic
          enc.save()
+      
          return redirect(to='encontrados:lista_encontrados')
       else:
          messages.error(request, 'Ups...parece que algo salió mal.!! Vuelve a intentarlo.')
