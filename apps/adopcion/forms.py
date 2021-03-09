@@ -1,5 +1,6 @@
 from django import forms
 from apps.perdidos.models import Ubicacion,Mascota,Adopcion
+from apps.perdidos.models import Publicacion, Encontro, lista_especies, lista_localidades
 
 class UbicacionForm(forms.ModelForm):
     class Meta:
@@ -13,7 +14,6 @@ class UbicacionForm(forms.ModelForm):
          'calle': forms.TextInput(attrs= {'class': 'form-control'}),
          'otros_datos': forms.Textarea(attrs= {'class': 'form-control', 'rows': 2, 'style': 'resize: none;'}),
         }
- 
         
 
 class MascotaForm(forms.ModelForm):
@@ -49,3 +49,32 @@ class AdopcionForm(forms.ModelForm):
         widgets = {
             'condicion':forms.Textarea(attrs= {'class': 'form-control', 'rows': 3, 'style': 'resize: none;'}),
         }
+
+
+class SearchForm(forms.Form):
+   barrio = forms.CharField(max_length=30, required = False)
+   ORDER_OPCIONES = (
+      ("sin", "Sin Orden"),
+      ("Fecha",(
+         ("antiguo", "Publicaciones antiguas"),
+         ("nuevo", "Publicaciones recientes"))
+      ))
+   n  = ("sin","Sin eleccion")
+   l = list(lista_especies)
+   l.append(n) 
+   l_especies = tuple(l)
+
+   l = list(lista_localidades)
+   l.append(n) 
+   l_localidades = tuple(l)
+
+   orden = forms.ChoiceField(choices=ORDER_OPCIONES, required = False, initial="nuevo")
+   especie = forms.ChoiceField(choices=l_especies, required = False, initial = "sin")
+   localidad = forms.ChoiceField(choices=l_localidades, required = False, initial="sin")
+   #barrio = forms.ModelChoiceField(queryset=Ubicacion.objects.all(), widget=forms.SelectMultiple, required = False)
+   #permitir_comentarios = forms.BooleanField(required = False)
+    
+   def __init__(self, *args, **kwargs):
+        super(SearchForm, self).__init__(*args, **kwargs)
+        self.fields["barrio"].widget.attrs["placeholder"] = "Barrio"
+        #self.fields["permitir_comentarios"].widget.attrs["class"] ="with-gap"

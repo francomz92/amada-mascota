@@ -3,19 +3,20 @@
 {% block title %} | Perdidos {% endblock %}
 
 {% block content %}
-<br>
-<br>
+<body  style="background-color:#faeded; padding: 60px 0;"></body>
 <div class="container-fluid" data-aos="fade-up " style="padding: 1.5em;">
    <div class="row" >
 		<div class="col-md-12" style= "color: #fff; background-color: #1b1b1b; padding: 1.5em;">
 			<h2 class="text-center" >
-				Consulta perdidos
+				Consulta Perdidos
 			</h2>
 			<h6 class="text-center">
 				Estas mascotas necesitan reencontrarse con sus dueños.
 			</h6>
 		</div>
    </div>
+</div>
+
 <section style="padding: 1em 2em; background-color:#faeded;">
    <div class="row">
       <div class="col-md-2">
@@ -53,7 +54,7 @@
          <div style="display: flex; flex-direction: row; flex-wrap: wrap; gap: 1em; text-align: center; align-items: center; justify-content: center;">
             {% for publicacion in publicaciones %}
                   
-            <div class="box" style="flex-basis: 15em; height: 100%; background-color: #fff;">
+            <div class="box" style="flex-basis: 15em; height: 22.5em; background-color: #fff;">
             
                <div class="container border" style="padding: 1em; height: 100%;">
                   
@@ -70,13 +71,16 @@
                            </div>
                               <div class="text" style="font-size: 12px;">
                                  <span>Loc: {{ publicacion.id_ubicacion.localidad }}</span>
-                                 <span>-Barrio: {{ publicacion.id_ubicacion.barrio }}</span>
+                                 <span><br>Barrio: {{ publicacion.id_ubicacion.barrio }}</span>
                               </div>
                               <div class="text" style="font-size: 12px;">
-                                 <span>Fecha evento: {{publicacion.fecha_evento}}</span>
+                                 <span>Fecha Publ.: {{publicacion.fecha_publicacion}}</span>
+                                 <span><br>Fecha Hasta: {{publicacion.valido_hasta}}</span>
+                                 <span><br>Gratificación: {{publicacion.gratificacion}}</span>
                               </div>
                            <div style="display: flex; gap: 0.5em; font-size: 12px;" >
                               <a href="{% url 'perdidos:publicacion' publicacion.id %}">Ver</a>
+                              {% comment %}
                               <!--{% if request.user.id == publicacion.id_usuario.id %}
                                  <a href="{% url 'encontrados:editar_publicacion' publicacion.id %}">Editar</a>
                               {% endif %}     -->
