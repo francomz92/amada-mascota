@@ -76,7 +76,7 @@ def editar_publicacion(request, id_publicacion):
       'ubicacion': UbicacionForm(instance=ubicacion),
       'encontro': EncontroForm(instance=encontro),
    }
-   return render(request, 'editar_publicacion.html', ctx)
+   return render(request, 'editar_publicacion_e.html', ctx)
 
 def publicacion(request, id_publicacion):
    publicacion = get_object_or_404(Encontro, id=id_publicacion)
