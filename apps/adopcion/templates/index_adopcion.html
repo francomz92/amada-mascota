@@ -21,7 +21,7 @@
       <div class="col-md-2">
          <div style="display: flex; justify-content: space-between; padding-bottom: 1.5em; width: 100%;">
             <!--a href="{% url 'encontrados:publicar' %}" class="get-started-btn scrollto" style="margin-left: 1em;">Publicar nuevo</a-->
-            <form action="{% url 'encontrados:buscar' %}" method="GET" role= "form" style="padding-right: 1em; display: flex-column;  " >
+            <form action="{% url 'adopcion:buscar_a' %}" method="GET" role= "form" style="padding-right: 1em; display: flex-column;  " >
                
                <!--{{search_form.as_p}}-->
                <div class="form-group" style="padding: 1em 1em 0 1em;">
@@ -78,7 +78,7 @@
                                  <span>Condición: {{publicacion.condicion}}</span>
                               </div>
                            <div style="display: flex; gap: 0.5em; font-size: 12px;" >
-                              <a href="#">Ver</a>
+                              <a href="{% url 'adopcion:ver' publicacion.id %}">Ver</a>
                            </div>
                         </div>
                      </div>	 

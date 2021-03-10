@@ -8,7 +8,7 @@
 <br>
 <br>
 <div style="display: flex; justify-content: center; align-items: center; background-color: #1b1b1b; color: #fff; min-height: 100px;">
-   <p style="font-size: xx-large;">{{ publicacion.id_mascota.nombre }}</p>
+   <p style="font-size: xx-large;">Encontrado: {{ publicacion.id_mascota.nombre }}</p>
 </div>
 <section style="width: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 3em 0; background-color: #faeded;">
    {% if user.is_authenticated  and user == publicacion.id_usuario %}
