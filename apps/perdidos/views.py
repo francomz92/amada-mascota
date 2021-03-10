@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from apps.perdidos.models import Publicacion, Mascota, Ubicacion, Encontro
+from apps.perdidos.models import Publicacion, Mascota, Ubicacion, Encontro, Perdido
 from .forms import MascotaForm, UbicacionForm, EncontroForm, SearchForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -52,7 +52,7 @@ def publicar(request):
       'ubicacion': ubicacion,
       'encontro': encontro,
       }
-   return render(request, 'publicar.html', ctx)
+   return render(request, 'publicar_p.html', ctx)
 
 @login_required
 def editar_publicacion(request, id_publicacion):
@@ -81,13 +81,13 @@ def editar_publicacion(request, id_publicacion):
 
 # @login_required
 def publicacion(request, id_publicacion):
-   current_user = request.user
-   publicacion = get_object_or_404(Encontro, id=id_publicacion, id_usuario=current_user)
+   #current_user = request.user
+   publicacion = get_object_or_404(Perdido, id=id_publicacion) #, id_usuario=current_user)
    ctx = {
       'publicacion': publicacion,
       'fecha_actual': datetime.now().date(),
    }
-   return render(request, 'publicacion.html', ctx)
+   return render(request, 'publicacion_p.html', ctx)
 
 @login_required
 def eliminar_publicacion(request, id_publicacion):
@@ -101,7 +101,7 @@ def eliminar_publicacion(request, id_publicacion):
    return redirect(to='encontrados:lista_encontrados')
 
 
-def buscar_e(request):
+def buscar_p(request):
    if request.GET:
       search_form = SearchForm(request.GET)
    else:
@@ -114,7 +114,7 @@ def buscar_e(request):
    #param_comentarios_habilitados = request.GET.get("permitir_comentarios", None)
    #param_categorias = request.GET.getlist("barrio")
 
-   publicaciones=Encontro.objects.all().filter(id_ubicacion__barrio__icontains = barrio, valido_hasta__gt = timezone.now()).order_by("-fecha_evento")
+   publicaciones=Perdido.objects.all().filter(id_ubicacion__barrio__icontains = barrio, valido_hasta__gt = timezone.now()).order_by("-fecha_evento")
    publicaciones.exclude(fecha_entrega__isnull=False)
    if especie and especie != "sin":
       publicaciones = publicaciones.filter(id_mascota__especie__icontains = especie)

@@ -27,9 +27,11 @@
             <h3>Condicion</h3>
             {{ adopcion.condicion }}
             <hr>
+            {% if user.is_authenticated %}
             <a class="btn btn-primary" href="{% url 'adopcion:adopcion_eliminar' adopcion.id %}">Eliminar</a>
             <a class="btn btn-primary" href="{% url 'adopcion:adopcion_editar' adopcion.id %}">Editar</a>
             <a class="btn btn-primary" href="{% url 'adopcion:adopcion_renovar' adopcion.id %}">Renovar</a>
+            {% endif %}
             <hr>
         </div>
     </div>

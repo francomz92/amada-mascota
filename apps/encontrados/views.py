@@ -51,7 +51,7 @@ def publicar(request):
       'ubicacion': ubicacion,
       'encontro': encontro,
       }
-   return render(request, 'publicar.html', ctx)
+   return render(request, 'publicar_e.html', ctx)
 
 @login_required
 def editar_publicacion(request, id_publicacion):
@@ -84,7 +84,7 @@ def publicacion(request, id_publicacion):
       'publicacion': publicacion,
       'fecha_actual': datetime.now().date(),
    }
-   return render(request, 'publicacion.html', ctx)
+   return render(request, 'publicacion_e.html', ctx)
 
 @login_required
 def eliminar_publicacion(request, id_publicacion):

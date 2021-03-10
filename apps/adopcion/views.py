@@ -103,10 +103,10 @@ class AdopcionEliminar(DeleteView):
     template_name = 'adopcion_eliminar.html'
     success_url = reverse_lazy('adopcion:adopciones_listar')
 
-@login_required
+#@login_required
 def verAdopcion(request, id):
-   current_user = request.user.pk
-   adopcion = get_object_or_404(Adopcion, id=id, id_usuario=current_user)
+   #current_user = request.user.pk
+   adopcion = get_object_or_404(Adopcion, id=id,)# id_usuario=current_user)
    ctx = {
       'adopcion': adopcion,
    }
