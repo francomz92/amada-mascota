@@ -20,9 +20,9 @@
                {% csrf_token %}
                {{ mascota.as_p }}
                {{ ubicacion.as_p }}
-               {{ encontro.as_p }}
+               {{ perdido.as_p }}
                <div style="display: flex; justify-content: center; gap: 5px">
-                  <a href="{% url 'encontrados:lista_encontrados' %}" class="btn btn-dark">Cancelar</a>
+                  <a href="{% url 'perdidos:lista_perdidos' %}" class="btn btn-dark">Cancelar</a>
                   <button type="submit" class="btn get-started-btn">Publicar</button>
                </div>
             </form>  

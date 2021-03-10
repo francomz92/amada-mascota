@@ -44,10 +44,13 @@ class AdopcionCrear(CreateView):
         form2 = self.ubicacion_form_class(request.POST)
         form3 = self.mascota_form_class(request.POST, request.FILES,initial={'id_usuario_id': current_user})
         if form.is_valid() and form2.is_valid() and form3.is_valid():
+            masc = form3.save(commit=False)
+            masc.id_dueño = current_user
+            masc.save()
             adopcion = form.save(commit=False)
             adopcion.id_usuario = current_user
             adopcion.id_ubicacion = form2.save()
-            adopcion.id_mascota = form3.save()
+            adopcion.id_mascota = masc
             adopcion.save()
             form3.save()
             return HttpResponseRedirect(self.get_success_url())
