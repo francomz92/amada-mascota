@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
 {% block title %} | Editar {% endblock %}
 
 {% block content %}
@@ -17,7 +19,7 @@
 <section style="background-color: #faeded; padding: 60px 0;">
    <div class="container" style="width: 50%; border-radius: 20px; padding: 20px 15px; background-color: #fff; box-shadow: 0 0 5px;">
       <div class="abs-center">
-         <form method="POST" class="p-3 form abs-center" enctype="multipart/form-data">
+         <form method="POST" class="p-3 form abs-center" enctype="multipart/form-data" id="form">
             {% csrf_token %}
             {{ mascota.as_p }}
             {{ ubicacion.as_p }}
@@ -32,4 +34,12 @@
 </section>
 {% endif %}
 
+<script src="{% static 'js/alertas.js' %}"></script>
+<script>
+   const publicar = document.getElementById('form')
+
+   publicar.addEventListener('submit', ()=> {
+      alertaExito('Tus modificaciones fueron guardadas exitosamente!')
+   })
+</script>
 {% endblock %}
