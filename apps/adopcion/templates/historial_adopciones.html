@@ -6,7 +6,7 @@
 <div class="main w-100" style="padding-top:40px;background-color: #faeded">
     <div class="container w-100 p-5">
         <div class="table-responsive" style="background-color: white;border-radius: 20px; box-shadow: 0 0 5px;">
-            <h1 style="text-align:center">Historial de adopciones</h1>
+            <h1 style="text-align:center">Historial de adopciones</h1><br>
             <table class="table table-hover" style="text-align:center">
                 <thead>
                     <tr >
@@ -28,16 +28,16 @@
                             <td>{{ i.fecha_publicacion }}</td>
                             <td>{{ i.observaciones }}</td>
                             <td>
-                                <a class="btn btn-primary" href="{% url 'adopcion:adopcion_eliminar' i.id %}">Eliminar</a>
-                                <a class="btn btn-primary" href="{% url 'adopcion:adopcion_editar' i.id %}">Editar</a>
+                                <a class="btn btn-danger" href="{% url 'adopcion:adopcion_eliminar' i.id %}">Eliminar</a>
+                                <hr><a class="btn btn-primary" href="{% url 'adopcion:adopcion_editar' i.id %}">Editar</a>
                                 <a class="btn btn-primary" href="{% url 'adopcion:adopcion_renovar' i.id %}">Renovar</a>
                             </td>
 
                         </tr>
                     {% endfor %}
-                    {% else %}
-                        <h1>No hay registros de adopciones</h1>
-                    {% endif %}
+                {% else %}
+                    <h1>No hay registros de adopciones</h1>
+                {% endif %}
                 </tbody>
             </table>
             </div>
