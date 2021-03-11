@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
 {% block title %} | Encontrados {% endblock %}
 
 {% block content %}
@@ -37,7 +39,7 @@
             <a href="{% url 'encontrados:renovar_publicacion' publicacion.id %}" style="z-index: 100; position: absolute; top: 0; left: 0;"><img src="https://img.icons8.com/small/16/000000/recurring-appointment.png" title="¿Renovar vigencia?"/></a>
             {% endif %}
             <a href="{% url 'encontrados:editar_publicacion' publicacion.id %}"><img src="https://img.icons8.com/small/16/000000/edit-property.png" title="Editar"/></a>
-            <a href="{% url 'encontrados:eliminar_publicacion' publicacion.id %}"><img src="https://img.icons8.com/small/16/000000/trash--v1.png" title="Borrar"/></a>
+            <div class="eliminar_publ" id="{{ publicacion.id }}"><img src="https://img.icons8.com/small/16/000000/trash--v1.png" title="Borrar"/></div>
          </div>
 
          <div class="row" style="align-items: center; justify-content: center;">
@@ -75,4 +77,18 @@
    </section>
    {% endif %}
 </div>
+
+<script src="{% static 'js/alertas.js' %}"></script>
+<script>
+   const borrar = document.querySelectorAll('.eliminar_publ');
+
+   borrar.forEach(element => {
+      element.addEventListener('click', () => {
+         let el = element['id'];
+         let url = '/encontrados/borrar/' + el;
+         alertaConfirmar(url);
+      })
+   });
+</script>
+</script>
 {% endblock %}
