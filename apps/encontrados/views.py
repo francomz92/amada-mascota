@@ -97,6 +97,15 @@ def eliminar_publicacion(request, id_publicacion):
    ubicacion.delete()
    return redirect(to='encontrados:lista_encontrados')
 
+@login_required
+def renovar_publicacion(request, id_publicacion):
+   current_user = request.user
+   fecha_actual = datetime.now().date()
+   publicacion = get_object_or_404(Encontro, id=id_publicacion, id_usuario=current_user)
+   if fecha_actual > publicacion.valido_hasta:
+      publicacion.valido_hasta = fecha_actual + timedelta(days=7)
+      publicacion.save()
+   return redirect(to='encontrados:lista_encontrados')
 
 def buscar_e(request):
    if request.GET:
@@ -134,12 +143,3 @@ def buscar_e(request):
                }
    return render(request, "index_encontrados.html",contexto)
    
-@login_required
-def renovar_publicacion(request, id_publicacion):
-   current_user = request.user
-   fecha_actual = datetime.now().date()
-   publicacion = get_object_or_404(Encontro, id=id_publicacion, id_usuario=current_user)
-   if fecha_actual > publicacion.valido_hasta:
-      publicacion.valido_hasta = fecha_actual + timedelta(days=7)
-      publicacion.save()
-   return redirect(to='encontrados:lista_encontrados')

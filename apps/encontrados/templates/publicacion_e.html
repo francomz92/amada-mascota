@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
 {% block title %}{% endblock %}
 
 {% block content %}
@@ -7,13 +9,19 @@
 <br>
 <br>
 <br>
+
+<!-- Título de la sección -->
 <div style="display: flex; justify-content: center; align-items: center; background-color: #1b1b1b; color: #fff; min-height: 100px;">
    <p style="font-size: xx-large;">Encontrado: {{ publicacion.id_mascota.nombre }}</p>
 </div>
+
+<!-- Sección principal -->
 <section style="width: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 3em 0; background-color: #faeded;">
    {% if user.is_authenticated  and user == publicacion.id_usuario %}
    <span style="padding-bottom: 10px;">Tu publicación vence el <strong>{{ publicacion.valido_hasta }}</strong>, recuerda renovalrla</span>
    {% endif %}
+
+   <!-- Tarjeta de publicación -->
    <article style="width: 60%; padding: 35px 30px; background-color: #fff; border-radius: 20px; box-shadow: 0 0 5px;">
       <div style="display: flex; flex-wrap: wrap; justify-content: space-between;">
          <span style="padding-bottom: 1em;">Localidad: {{ publicacion.id_ubicacion.localidad }}</span>
@@ -45,14 +53,29 @@
       <p style="text-align: center; font-size: 20px;">Referencias</p>
       <p style="padding-bottom: 0.5em;">{{ publicacion.id_ubicacion.otros_datos }}</p>
    </article>
+
+   <!-- Iconos editar, borrar, renovar -->
    {% if user.is_authenticated  and user == publicacion.id_usuario %} 
    <div style="margin-top: 1em;">
       {% if fecha_actual > publicacion.valido_hasta %}
       <a href="{% url 'encontrados:renovar_publicacion' publicacion.id %}"><img src="https://img.icons8.com/small/24/000000/recurring-appointment.png" title="¿Renovar vigencia?"/></a>
       {% endif %}
       <a href="{% url 'encontrados:editar_publicacion' publicacion.id %}"><img src="https://img.icons8.com/small/24/000000/edit-property.png" title="Editar"/></a>
-      <a href="{% url 'encontrados:eliminar_publicacion' publicacion.id %}"><img src="https://img.icons8.com/small/24/000000/trash--v1.png" title="Borrar"/></a>
+      <i class="eliminar_publ" id="{{ publicacion.id }}" style="cursor: pointer;"><img src="https://img.icons8.com/small/24/000000/trash--v1.png" title="Borrar"/></i>
    </div>
    {% endif %}
 </section>
+
+<!-- Confirmar eliminar publicación -->
+<script src="{% static 'js/alertas.js' %}"></script>
+<script>
+   const borrar = document.querySelector('.eliminar_publ');
+
+   borrar.addEventListener('click', () => {
+         let el = borrar['id'];
+         let url = '/encontrados/borrar/' + el;
+         alertaConfirmar(url);
+      })
+</script>
+</script>
 {% endblock %}

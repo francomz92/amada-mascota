@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
 {% block title %} | Editar {% endblock %}
 
 {% block content %}
@@ -10,14 +12,17 @@
 <br>
 <br>
 
+<!-- Título de la sección -->
 <h5 style="text-align: center; font: 900 32px bold;padding: 1.5em 0; background-color: #1b1b1b; color: #fff; margin: 0;">Editar Encontrados</h5>
 <div style="text-align: center; background-color: #1b1b1b; color: #fff; min-height: 50px;  padding: 0;">
    ¡Recurda estar pendiente de tus publicaciones!
 </div>
+
+<!-- Sección principal -->
 <section style="background-color: #faeded; padding: 60px 0;">
    <div class="container" style="width: 50%; border-radius: 20px; padding: 20px 15px; background-color: #fff; box-shadow: 0 0 5px;">
       <div class="abs-center">
-         <form method="POST" class="p-3 form abs-center" enctype="multipart/form-data">
+         <form method="POST" class="p-3 form abs-center" enctype="multipart/form-data" id="form">
             {% csrf_token %}
             {{ mascota.as_p }}
             {{ ubicacion.as_p }}
@@ -32,4 +37,13 @@
 </section>
 {% endif %}
 
+<!-- Alerta de actualización exitoso -->
+<script src="{% static 'js/alertas.js' %}"></script>
+<script>
+   const publicar = document.getElementById('form')
+
+   publicar.addEventListener('submit', ()=> {
+      alertaExito('Tus modificaciones fueron guardadas exitosamente!')
+   })
+</script>
 {% endblock %}
