@@ -1,25 +1,25 @@
 {% extends 'base.html' %}
 
+{% block title %} | Suscripciones {% endblock %}
+
 {% block content %}
+<br>
+    <body  style="background-color:#faeded; padding: 60px 0;"></body>
+      <div class="row"  data-aos="fade-up">
+      <div class="col-md-12" style= "color: #fff; background-color: #1b1b1b; padding: 1.5em;">
+            <h2 class="text-center">
+                Suscripciones a Publicaciones
+            </h2>
+            <h6 class="text-center">
+            Para recibir novedades de las últimas publicaciones de mascotas Perdidas, Encontradas y/o en Adopción, Suscríbete!
+            </h6>
+        </div>
+      </div>
 
-<head>
-   {# el título aparece en la Barra de Título del Navegador #}
-   {% block title %}
-        Suscripciones-Ver
-   {% endblock %}
-</head>
-
-<body  style="background-color:#faeded; padding: 60px 0;">
-   <section >
-       <div class="container-fluid" data-aos="fade-up">
-           <header2 class="section-title">
-               <h2>Suscripciones a Publicaciones</h2>
-               <p>Para recibir novedades de las últimas publicaciones de mascotas Perdidas, Encontradas y/o en Adopción, Suscríbete!</p>
-           </header2>
-       </div>
-
-       <div class="grid-container"> 
-            <aside class="asideformmagui" data-aos="fade-up">
+      <br>
+    
+       <div class="grid-container" data-aos="fade-up"> 
+            <aside class="asideformmagui">
                <div class="texto1">
                   <form action ="" method="POST"> {% csrf_token%}
                      Opciones
@@ -30,24 +30,35 @@
                </div>
             </aside> 
          
-
-           <article class="listadoformmagui" data-aos="fade-up">
-            
-            {% if lista_suscripciones %}
-                {% for xObj in lista_suscripciones %}
-                <tr>
-                    <td> {{ xObj.tipo }}</td>
-                    <td> {{ xObj.especie }} </td>   
-                    <td> {{ xObj.localidad }}</td>  
-                    <td> {{ xObj.fecha_desde}}</td>  
-                    <td> {{ xObj.fecha_hasta }}</td> 
-                    <td>
-                        <!-- <a class="btn btn-primary" href="{% url '' xIbj.id %}">Eliminar</a>
-                       <a class="btn btn-primary" href="{% url 'suscripciones_mod' xObj.id %}">Editar</a> -->
-                
-                    </td>
-                </tr>
-                {% endfor %}
+            <article class="listadoformmagui" data-aos="fade-up">
+                <div class="row" style="align-items: center; ">
+                    {% if lista_suscripciones %}
+                    <strong> Suscripciones realizadas: </strong>
+                    {% for xObj in lista_suscripciones %}                 
+                  
+                        <div class="col-lg-3 col-md-6 d-flex align-items-stretc">
+                            <div class="member" >
+                                <div class="texto1">
+                                
+                                <h7> 
+                                <span><strong>Tipo: {{ xObj.tipo }} </strong></span>
+                                <span><br>Especie: {{ xObj.especie }} </span>   
+                                <span><br>Localidad: {{ xObj.localidad }}</span>  
+                                <span><br>F. Desde: {{ xObj.fecha_desde}}</span>  
+                                <span><br>F. Hasta: {{ xObj.fecha_hasta }}</span> 
+                                </h7>
+                                
+                                {% if de_donde == 1 %}
+                                <div style="display: flex; gap: 0.5em; font-size: 12px;" >
+                                    <a href="{% url 'suscripciones_mod' xObj.id %}">Editar</a>
+                                    <a href="{% url 'suscripciones_can' xObj.id %}">Eliminar</a>
+                                </div>
+                                {%endif%}
+                                
+                                </div>
+                             </div>
+                        </div>          
+                    {% endfor %}
                           
             {%else%}
                 <h4>Usted NO está SUSCRIPTO a publicaciones</h4>
@@ -56,8 +67,11 @@
            </article>
 
          </div>
-
-   </section>
+         <br>
+         <br>
+         <br>
+         <br>
+         
 
 {% endblock %}
 

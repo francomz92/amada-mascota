@@ -1,100 +1,105 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from apps.perdidos.models import Publicacion, Mascota, Ubicacion, Encontro, Perdido
-from .forms import PublicacionForm, MascotaForm, UbicacionForm, EncontroForm
+from apps.perdidos.models import Publicacion, Mascota, Ubicacion, Perdido
+from .forms import MascotaForm, UbicacionForm, PerdidoForm, SearchForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from apps.encontrados.forms import SearchForm
-from django.utils import timezone
+from django.contrib.auth.models import User
 from django.urls import reverse_lazy
+from django.utils import timezone
+from datetime import datetime, timedelta
 
 # Create your views here.
 
-def lista_encontrados(request):
-   publicaciones = Publicacion.objects.all()
+@login_required
+def lista_perdidos(request):
+   current_user = request.user
+   publicaciones = Perdido.objects.filter(id_usuario=current_user)
    ctx = {
       'publicaciones': publicaciones,
+      'fecha_actual': datetime.now().date(),
    }
-   return render(request, 'lista_encontrados.html', ctx)
+   return render(request, 'lista_perdidos.html', ctx)
 
-# @login_required
+@login_required
 def publicar(request):
-   publicacion = PublicacionForm()
-   mascota = MascotaForm()
+   current_user = request.user
+   mascota = MascotaForm(initial= {'id_dueño': current_user})
    ubicacion = UbicacionForm()
-   encontro = EncontroForm()
-   if request.method == 'GET':
-      publicacion = PublicacionForm(data=request.GET)
-      mascota = MascotaForm(data=request.GET, files=request.FILES)
-      ubicacion = UbicacionForm(data=request.GET)
-      encontro = EncontroForm(data=request.GET)
-      if publicacion.is_valid() and mascota.is_valid() and ubicacion.is_valid() and encontro.is_valid():
-         publicacion.save()
-         mascota.save()
-         ubicacion.save()
-         encontro.save()
-         vigencia = encontro.cleaned_data['fecha_limite']
-         messages.success(request, message=f'Su publicación ha sido un exito.!! Recuerda renovarla antes del {vigencia}')
-         return redirect(to='encontrados:lista_encontrados')
+   perdido = PerdidoForm(initial= {'id_usuario': current_user})
+   if request.method == 'POST':
+      mascota = MascotaForm(data=request.POST, files=request.FILES)
+      ubicacion = UbicacionForm(data=request.POST)
+      perdido = PerdidoForm(data=request.POST, initial={'id_usuario': current_user})
+      if mascota.is_valid() and ubicacion.is_valid() and perdido.is_valid():
+         masc = mascota.save()
+         ubic = ubicacion.save()
+         per = perdido.save(commit=False)
+         per.id_usuario = current_user
+         per.id_mascota = masc
+         per.id_ubicacion = ubic
+         per.save()
+        
+         messages.success(request, f'Su publicación ha sido un exito!! Recuerda renovarla antes de 7 días.')
+         return redirect(to='perdidos:lista_perdidos')
       else:
-         messages.error(request, message='Ups...parece que algo salió mal.!! Vuelve a intentarlo.')
-         publicacion = PublicacionForm(data=request.GET)
-         mascota = MascotaForm(data=request.GET, files=request.FILES)
-         ubicacion = UbicacionForm(data=request.GET)
-         encontro = EncontroForm(data=request.GET)
+         messages.error(request, 'Ups...parece que algo salió mal.!! Vuelve a intentarlo.')
+         mascota = MascotaForm(data=request.POST, files=request.FILES)
+         ubicacion = UbicacionForm(data=request.POST)
+         perdido = PerdidoForm(data=request.POST)
+   
    ctx = {
-      'publicacion': publicacion,
       'mascota': mascota,
       'ubicacion': ubicacion,
+      'perdido': perdido,
       }
-   return render(request, 'publicar.html', ctx)
+   return render(request, 'publicar_p.html', ctx)
 
-# @login_required
+@login_required
 def editar_publicacion(request, id_publicacion):
    current_user = request.user
-   publicacion = get_object_or_404(Publicacion, id=id_publicacion, id_usuario=current_user)
-   mascota = get_object_or_404(Mascota, id=publicacion.id_mascota.id)
-   ubicacion = get_object_or_404(Ubicacion, id=publicacion.id_ubicacion.id)
-   encontro = get_object_or_404(Encontro, id_publicacion=id_publicacion)
-   ctx = {
-      'publicacion': PublicacionForm(instance=publicacion),
-      'mascota': MascotaForm(instance=mascota),
-      'ubicacion': UbicacionForm(instance=ubicacion),
-      'encontro': EncontroForm(instance=encontro),
-   }
-   if request.method == 'GET':
-      publicacion = PublicacionForm(data=request.GET, instance=publicacion)
-      mascota = MascotaForm(data=request.GET, files=request.GET, instance=mascota)
-      ubicacion = UbicacionForm(data=request.GET, instance=ubicacion)
-      encontro = EncontroForm(data=request.GET, instance=encontro)
-      if publicacion.is_valid() and mascota.is_valid() and ubicacion.is_valid() and encontro.is_valid():
-         publicacion.save()
+   perdido = get_object_or_404(Perdido, id=id_publicacion, id_usuario=current_user)
+   mascota = get_object_or_404(Mascota, id=perdido.id_mascota.id)
+   ubicacion = get_object_or_404(Ubicacion, id=perdido.id_ubicacion.id)
+   if request.method == 'POST':
+      mascota = MascotaForm(data=request.POST, files=request.POST, instance=mascota)
+      ubicacion = UbicacionForm(data=request.POST, instance=ubicacion)
+      perdido = PerdidoForm(data=request.POST, instance=perdido)
+      if mascota.is_valid() and ubicacion.is_valid() and perdido.is_valid():
          mascota.save()
          ubicacion.save()
-         encontro.save()
-         messages.success(request, message='Guardado')
-         return redirect(to='encontrados:lista_encontrados')
+         perdido.save()
+         messages.success(request, 'Guardado')
+         return redirect(to='perdidos:lista_perdidos')
       else:
-         messages.error(request, message='Ups...parece que algo salió mal.!! Vuelve a intentarlo.')
+         messages.error(request, 'Ups...parece que algo salió mal.!! Vuelve a intentarlo.')
    ctx = {
-      'publicacion': PublicacionForm(instance=publicacion),
       'mascota': MascotaForm(instance=mascota),
       'ubicacion': UbicacionForm(instance=ubicacion),
-      'encontro': EncontroForm(instance=encontro),
+      'perdido': PerdidoForm(instance=perdido),
    }
-   return render(request, 'editar_publicacion.html', ctx)
+   return render(request, 'editar_publicacion_p.html', ctx)
 
+# @login_required
+def publicacion(request, id_publicacion):
+   #current_user = request.user
+   publicacion = get_object_or_404(Perdido, id=id_publicacion) #, id_usuario=current_user)
+   ctx = {
+      'publicacion': publicacion,
+      'fecha_actual': datetime.now().date(),
+   }
+   return render(request, 'publicacion_p.html', ctx)
 
-"""from django.shortcuts import render
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from . import models
-from . import forms
+@login_required
+def eliminar_publicacion(request, id_publicacion):
+   current_user = request.user
+   publicacion = get_object_or_404(Perdido, id=id_publicacion, id_usuario=current_user)
+   mascota = Mascota.objects.get(id=publicacion.id_mascota.id)
+   ubicacion = Ubicacion.objects.get(id=publicacion.id_ubicacion.id)
+   publicacion.delete()
+   mascota.delete()
+   ubicacion.delete()
+   return redirect(to='perdidos:lista_perdidos')
 
-# Create your views here.
-class AgregarPublicacion(CreateView):
-	model = models.Publicacion
-	form_class = forms.FormularioPublicacion
-	template_name = 'agregar_publicacion.html'
-	#fields = '__all__'"""
 
 def buscar_p(request):
    if request.GET:
@@ -131,3 +136,16 @@ def buscar_p(request):
               "search_form":search_form,
                }
    return render(request, "index_perdidos.html",contexto)
+   
+@login_required
+def renovar_publicacion(request, id_publicacion):
+   current_user = request.user
+   fecha_actual = datetime.now().date()
+   publicacion = get_object_or_404(Perdido, id=id_publicacion, id_usuario=current_user)
+   # print(fecha_actual)
+   # print(publicacion.valido_hasta)
+   if fecha_actual > publicacion.valido_hasta:
+      publicacion.valido_hasta = fecha_actual + timedelta(days=7)
+      publicacion.save()
+      # print('SI')
+   return redirect(to='perdidos:lista_perdidos')

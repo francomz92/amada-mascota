@@ -8,12 +8,12 @@
             
             <hr>
             <p>Edita lo que quieras, recuerda confirmar tu contraseña</p>
-            <form method="POST" style="width:70%;margin-left: auto;margin-right: auto;">
+            <form action ="" method="POST" style="width:70%;margin-left: auto;margin-right: auto;">
                 <hr>
                 {% csrf_token %}
                 {{ form.as_p }}
                 <hr>
-                <a class="btn btn-primary" type="submit" href="{% url 'editar' %}">Guardar</a>
+                <button type="submit" class="btn get-started-btn">Guardar</button>
                 <hr>
             </form>                
         </div>

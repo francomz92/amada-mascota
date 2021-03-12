@@ -32,14 +32,14 @@ def perfil(request):
 def perfilActualizar(request):
     perfil = get_object_or_404(User, id=request.user.id)
     if request.method=="GET":
-        form = forms.Actualizar(instance=perfil)
+        form = forms.Actualizar(instance=request.user)
     else:
-        forms.Actualizar(request.POST,instance = perfil)
+        form = forms.Actualizar(data=request.POST,instance = request.user)
         if form.is_valid():
-            form.user_name = request.POST['user_name']
+            """form.user_name = request.POST['user_name']
             form.first_name = request.POST['first_name']
-            """form.last_name = request.POST['last_name']
+            form.last_name = request.POST['last_name']
             form.email = request.POST['email']"""
             form.save()
-        return redirect('mi_perfil/mis_datos.html')
+        return redirect('perfil')
     return render(request, "mi_perfil/editar_datos.html", {'form':form}) 

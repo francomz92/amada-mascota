@@ -44,10 +44,13 @@ class AdopcionCrear(CreateView):
         form2 = self.ubicacion_form_class(request.POST)
         form3 = self.mascota_form_class(request.POST, request.FILES,initial={'id_usuario_id': current_user})
         if form.is_valid() and form2.is_valid() and form3.is_valid():
+            masc = form3.save(commit=False)
+            masc.id_dueño = current_user
+            masc.save()
             adopcion = form.save(commit=False)
             adopcion.id_usuario = current_user
             adopcion.id_ubicacion = form2.save()
-            adopcion.id_mascota = form3.save()
+            adopcion.id_mascota = masc
             adopcion.save()
             form3.save()
             return HttpResponseRedirect(self.get_success_url())
@@ -102,4 +105,49 @@ class AdopcionEliminar(DeleteView):
     form_class = AdopcionForm
     template_name = 'adopcion_eliminar.html'
     success_url = reverse_lazy('adopcion:adopciones_listar')
+
+#@login_required
+def verAdopcion(request, id):
+   #current_user = request.user.pk
+   adopcion = get_object_or_404(Adopcion, id=id,)# id_usuario=current_user)
+   ctx = {
+      'adopcion': adopcion,
+   }
+   return render(request, 'info_adopcion.html', ctx)
     
+
+def buscar_a(request):
+   if request.GET:
+      search_form = SearchForm(request.GET)
+   else:
+      search_form = SearchForm()
+
+   barrio = request.GET.get("barrio", "") ## recibe barrio
+   especie = request.GET.get("especie","")
+   orden_post = request.GET.get("orden", None)
+   localidad = request.GET.get("localidad","")
+   #param_comentarios_habilitados = request.GET.get("permitir_comentarios", None)
+   #param_categorias = request.GET.getlist("barrio")
+
+   publicaciones=Adopcion.objects.all().filter(id_ubicacion__barrio__icontains = barrio, valido_hasta__gt = timezone.now()).order_by("-fecha_evento")
+   publicaciones.exclude(fecha_entrega__isnull=False)
+   if especie and especie != "sin":
+      publicaciones = publicaciones.filter(id_mascota__especie__icontains = especie)
+  
+   if localidad and localidad !="sin":
+      publicaciones = publicaciones.filter(id_ubicacion__localidad__icontains = localidad)
+   #posts = Ubicacion.objects.filter(barrio__icontains = filtro_barrio).values_list('barrio')
+   
+   if orden_post == "sin":
+      publicaciones = publicaciones.order_by()
+   elif orden_post == "antiguo":
+      publicaciones = publicaciones.order_by("fecha_evento")
+   elif orden_post == "nuevo":
+      print('pasa nuevo')
+      publicaciones = publicaciones.order_by("-fecha_evento")
+
+   #print(publicaciones)
+   contexto = {"publicaciones":publicaciones,
+              "search_form":search_form,
+               }
+   return render(request, "index_adopcion.html",contexto)

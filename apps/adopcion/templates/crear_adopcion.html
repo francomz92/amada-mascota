@@ -4,11 +4,11 @@
 
 {% block content %}
 <div class="main" style="padding-top: 3em;padding-bottom: 0px;">
-    <section class="sign-in" style="padding-bottom: 2em; padding-left: 2em; padding-right: 2em;margin-bottom: 0px;" >
-        <div class="container" style="width: 50%;">
-            <div class="abs-center">
-                <h1>Publicar adopcion</h1><hr>
-                <form method="POST" enctype="multipart/form-data">
+    <section class="sign-in" style="background-color: #faeded;padding-bottom: 2em; padding-left: 2em; padding-right: 2em;margin-bottom: 0px;" >
+        <div class="container" style="background-color:white;width: 50%; border-radius: 20px; box-shadow: 0 0 5px;">
+            <div>
+                <h1 style="text-align:center">Publicar adopcion</h1><hr>
+                <form method="POST" enctype="multipart/form-data" style="text-align:center">
                     {% csrf_token %}
                     <!-- Formulario de adopcion-->
                     <h2>Adopcion</h2>

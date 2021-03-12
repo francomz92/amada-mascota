@@ -5,15 +5,17 @@ from django.utils import timezone
 
 global lista_especies
 lista_especies = (
-        ('Perro','Perro'),
-        ('Gallo','Gallo'),
-        ('Gato','Gato'),
-        ('Vaca','Vaca'),
         ('Cerdo','Cerdo'),
-        ('Pato','Pato'),
-        ('Tortuga de tierra','Tortuga de tierra'),
+	    ('Conejo','Conejo'), 	
+        ('Erizo de tierra','Erizo de tierra'),
+        ('Gallo','Gallo'),
+        ('Gato','Gato'),    
         ('Hámster','Hámster'),
-        ('Erizo de tierra','Erizo de tierra')
+        ('Loro','Loro'),
+        ('Pato','Pato'),
+        ('Perro','Perro'),
+        ('Tortuga de tierra','Tortuga de tierra'),
+        ('Vaca','Vaca'),
     )
 
 global lista_localidades
@@ -57,6 +59,7 @@ lista_localidades = (
     ('Pampa del Infierno','Pampa del Infierno'),
     ('Presidencia de la Plaza','Presidencia de la Plaza'),
     ('Presidencia Roca','Presidencia Roca'),
+    ('Presidencia Roque Sáenz Peña','Presidencia Roque Sáenz Peña'),
     ('Puerto Bermejo','Puerto Bermejo'),
     ('Puerto Las Palmas','Puerto Las Palmas'),
     ('Puerto Tirol','Puerto Tirol'),

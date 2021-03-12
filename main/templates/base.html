@@ -57,16 +57,16 @@
     
             <li class="dropdown"><a href="#"><span> Consultas </span> <i class="bi bi-chevron-down"></i></a>
               <ul>
-                <li><a href="{% url 'perdidos:buscar_perdidos' %}">Perdidos</a></li>
-                <li><a href="{% url 'encontrados:buscar' %}">Encontrados</a></li>
-                <li><a href="{% url 'adopcion:inicio' %}">Adopciones</a></li>
+                <li><a href="{% url 'perdidos:buscar_p' %}">Perdidos</a></li>
+                <li><a href="{% url 'encontrados:buscar_e' %}">Encontrados</a></li>
+                <li><a href="{% url 'adopcion:buscar_a' %}">Adopciones</a></li>
               </ul>
             </li>
 
             {% if user.is_authenticated %}
             <li class="dropdown"><a href="#"><span>Publicaciones</span> <i class="bi bi-chevron-down"></i></a>
               <ul>
-                <li><a href="#">Perdidos</a></li>
+                <li><a href="{% url 'perdidos:lista_perdidos' %}">Perdidos</a></li>
                 <li><a href="{% url 'encontrados:lista_encontrados' %}">Encontrados</a></li>
                 <li><a href="{% url 'adopcion:inicio' %}">Adopción</a></li>
               </ul>
@@ -74,7 +74,7 @@
             {% endif %}
 
             {% if user.is_authenticated %}
-            <li><a class="nav-link scrollto" href="{% url 'suscripciones_ver'%}">Suscripciones</a></li>              
+            <li><a class="nav-link scrollto" href="{% url 'suscripciones_ver' 0 %}">Suscripciones</a></li>              
             {% endif %}
 
             <li class="dropdown"><a href="#"><span> Nosotros</span> <i class="bi bi-chevron-down"></i></a>
@@ -198,6 +198,9 @@
 
   <!-- Template Main JS File -->
   <script src="{% static 'js/main.js' %}"></script>
+
+  <!-- sweetalert2 JS CDN -->
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
 </body>
 

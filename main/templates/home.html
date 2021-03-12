@@ -62,7 +62,7 @@
           <div class="col-lg-3 col-md-6 mt-5 mt-lg-0">
             <div class="count-box">
               <i class="bi bi-people"></i>
-              <span data-purecounter-start="0" data-purecounter-end="15" data-purecounter-duration="1" class="purecounter"></span>
+              <span data-purecounter-start="0" data-purecounter-end="1500" data-purecounter-duration="1" class="purecounter"></span>
               <p>Horas Trababjadas</p>
             </div>
           </div>
@@ -79,19 +79,25 @@
 
         <div class="section-title">
           <h2>Amada Mascota</h2>
-          <p> Primer paso: registrarse como usuario (Iniciar). <br> 
-            Segundo paso: realizar una publicación en: ¿Perdiste?, ¿Encontraste? o ¿Adopciones?. 
+          <p> Primer paso: registrarse como usuario. <br> </p>
+
+          {% if user.is_authenticated %}
+
+            <p> Segundo paso: realizar una publicación en: ¿Perdiste?, ¿Encontraste? o ¿Adopciones?. 
             Revisar la sección de ¿Adotar? si se quiere adoptar una mascota. <br>
             Por último: ¡Suscríbete! a uno de los tres tipos de publicaciones.</p>
+          {% endif %}
         </div>
 
         <div class="row">
+
+        {% if user.is_authenticated %}
 
           <div class="col-lg-4 col-md-6">
             <div class="box featured" data-aos="fade-up" data-aos-delay="100">
               <h3>¿Perdiste?</h3>
               <div class="btn-wrap">  
-                <a href="#" class="btn-buy">Postear</a>
+                <a href="{% url 'perdidos:lista_perdidos' %}" class="btn-buy">Postear</a>
               </div>
             </div>
           </div>
@@ -100,7 +106,7 @@
             <div class="box featured" data-aos="fade-up" data-aos-delay="100">
               <h3>¿Encontraste?</h3>
               <div class="btn-wrap">
-                <a href="#" class="btn-buy">Postear</a>
+                <a href=" {% url 'encontrados:lista_encontrados' %}" class="btn-buy">Postear</a>
               </div>
             </div>
           </div>
@@ -109,7 +115,7 @@
             <div class="box featured" data-aos="fade-up" data-aos-delay="100">
               <h3>¿Adopciones?</h3>
               <div class="btn-wrap">
-                <a href="#" class="btn-buy">Postear</a>
+                <a href="{% url 'adopcion:inicio' %}" class="btn-buy">Postear</a>
               </div>
             </div>
           </div>
@@ -119,7 +125,7 @@
             <div class="box featured" data-aos="fade-up" data-aos-delay="100">
               <h3>¿Adoptar?</h3>
               <div class="btn-wrap">
-                <a href="#" class="btn-buy">Ver mascotas</a>
+                <a href="{% url 'adopcion:buscar_a' %}" class="btn-buy">Ver mascotas</a>
               </div>
             </div>
           </div>
@@ -129,12 +135,21 @@
             <div class="box featured" data-aos="fade-up" data-aos-delay="100">
               <h3>¡Suscríbete!</h3>
               <div class="btn-wrap">
-                <a href="#" class="btn-buy">Suscirbirse</a>
+                <a href="{% url 'suscripciones_ver' 0 %}" class="btn-buy">Suscirbirse</a>
               </div>
             </div>
           </div>
 
-
+          {%else %}
+          <div class="col-lg-4 col-md-6 mt-4 mt-lg-5">
+            <div class="box featured" data-aos="fade-up" data-aos-delay="100">
+              <h3>¡Regístrate!</h3>
+              <div class="btn-wrap">
+                <a href="{% url 'login' %}" class="btn-buy">Registrar</a>
+              </div>
+            </div>
+          </div>
+          {% endif %}
         </div>
 
       </div>
