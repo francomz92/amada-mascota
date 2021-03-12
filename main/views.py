@@ -46,7 +46,7 @@ def suscripciones(request, de_donde):
          suscripto.id_usuario= current_user
          suscripto.save()
          messages.success(request, message='Suscripcion Correcta!!')
-         return redirect(to='suscripciones')
+         return redirect(to='suscripciones_ver', de_donde=0)
       else:
          messages.error(request, message='Error. Vuelva a cargar los datos.')
          f_suscripcion = SusPerdidoForm(data=request.POST, files=request.FILES)
