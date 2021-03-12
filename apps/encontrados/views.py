@@ -7,11 +7,9 @@ from django.contrib.auth.models import User
 from django.urls import reverse_lazy
 from django.utils import timezone
 from datetime import datetime, timedelta
-
 from django.conf import settings
 from django.core import mail
-from django.core.mail import EmailMultiAlternatives#, EmailMessage, send_mail
-# from email.mime.image import MIMEImage
+from django.core.mail import send_mail
 
 # Create your views here.
 
@@ -44,35 +42,21 @@ def publicar(request):
          enc.id_ubicacion = ubic
          enc.save()
          
-         user_notificacion = Notificacion.objects.filter(especie=masc.especie, localidad=ubic.localidad, tipo=Encontro)
-         to_email = [usuario.id_usuario.email for usuario in user_notificacion if usuario.fecha_hasta <= enc.fecha_publicacion]
-         html_content =f'''
-         <div style="display: flex; justify-content: center; align-items: center; width: 300px;"><div><span>Localidad: <strong>{ubic.localidad}</strong></span>&nbsp;&nbsp;&nbsp;&nbsp;<span>Barrio: <strong>{ubic.barrio}</strong></span></div>
-         <img src="{masc.fotos}" style="width: 100%;"></div>'''
+         user_notificacion = Notificacion.objects.filter(especie=masc.especie, localidad=ubic.localidad, tipo='Encontro')
+         to_email = [usuario.id_usuario.email for usuario in user_notificacion if usuario.fecha_hasta >= enc.fecha_publicacion]
+         html_content = f'<span>Acaban de encontrar un {masc.especie} {masc.tamaño} de raza {masc.raza} en el barrio {ubic.barrio} de {ubic.localidad}, </span><a href="localhost/encontrados/publicacion/{enc.id}">ve a ver</a>'
          
-         with mail.get_connection() as conexion:
-            email = EmailMultiAlternatives(
-               subject = '[Amada Mascota] Suscripción a Encontrados',
-               body = f'Acaban de publicar un {masc.especie} en {ubic.localidad}, ve a ver',
-               from_email = settings.EMAIL_HOST_USER,
-               to = to_email,
-               connection= conexion
-            )
-            email.attach_alternative(html_content, "text/html")
-            email.send()
-         
-         '''
          with mail.get_connection() as conexion:
             send_mail(
                subject = '[Amada Mascota] Suscripción a Encontrados',
-               message = f'Acaban de publicar un {masc.especie} en {ubic.localidad}, ve a ver',
+               message = f'Acaban de encontrar un {masc.especie} {masc.tamaño} de raza {masc.raza} en el barrio {ubic.barrio} de {ubic.localidad}, ve a ver localhost/encontrados/publicacion/{enc.id}',
                from_email = settings.EMAIL_HOST_USER,
                recipient_list = to_email,
                fail_silently = False,
                html_message = html_content,
                connection = conexion
             )
-          '''  
+          
          return redirect(to='encontrados:lista_encontrados')
       else:
          messages.error(request, 'Ups...parece que algo salió mal.!! Vuelve a intentarlo.')
