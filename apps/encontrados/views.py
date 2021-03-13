@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from apps.perdidos.models import Publicacion, Mascota, Ubicacion, Encontro
+from apps.perdidos.models import Publicacion, Mascota, Ubicacion, Encontro, tiene_notificacion, Notificacion
 from .forms import MascotaForm, UbicacionForm, EncontroForm, SearchForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -7,6 +7,9 @@ from django.contrib.auth.models import User
 from django.urls import reverse_lazy
 from django.utils import timezone
 from datetime import datetime, timedelta
+from django.conf import settings
+from django.core import mail
+from django.core.mail import send_mail
 
 # Create your views here.
 
@@ -38,7 +41,22 @@ def publicar(request):
          enc.id_mascota = masc
          enc.id_ubicacion = ubic
          enc.save()
-      
+         
+         user_notificacion = Notificacion.objects.filter(especie=masc.especie, localidad=ubic.localidad, tipo='Encontro')
+         to_email = [usuario.id_usuario.email for usuario in user_notificacion if usuario.fecha_hasta >= enc.fecha_publicacion]
+         html_content = f'<span>Acaban de encontrar un {masc.especie} {masc.tamaño} de raza {masc.raza} en el barrio {ubic.barrio} de {ubic.localidad}, </span><a href="localhost/encontrados/publicacion/{enc.id}">ve a ver</a>'
+         
+         with mail.get_connection() as conexion:
+            send_mail(
+               subject = '[Amada Mascota] Suscripción a Encontrados',
+               message = f'Acaban de encontrar un {masc.especie} {masc.tamaño} de raza {masc.raza} en el barrio {ubic.barrio} de {ubic.localidad}, ve a ver localhost/encontrados/publicacion/{enc.id}',
+               from_email = settings.EMAIL_HOST_USER,
+               recipient_list = to_email,
+               fail_silently = False,
+               html_message = html_content,
+               connection = conexion
+            )
+          
          return redirect(to='encontrados:lista_encontrados')
       else:
          messages.error(request, 'Ups...parece que algo salió mal.!! Vuelve a intentarlo.')

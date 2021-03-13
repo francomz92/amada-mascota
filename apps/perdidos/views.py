@@ -33,11 +33,11 @@ def publicar(request):
       if mascota.is_valid() and ubicacion.is_valid() and perdido.is_valid():
          masc = mascota.save()
          ubic = ubicacion.save()
-         per = perdido.save(commit=False)
-         per.id_usuario = current_user
-         per.id_mascota = masc
-         per.id_ubicacion = ubic
-         per.save()
+         enc = perdido.save(commit=False)
+         enc.id_usuario = current_user
+         enc.id_mascota = masc
+         enc.id_ubicacion = ubic
+         enc.save()
         
          messages.success(request, f'Su publicación ha sido un exito!! Recuerda renovarla antes de 7 días.')
          return redirect(to='perdidos:lista_perdidos')
