@@ -10,7 +10,7 @@ urlpatterns = [
     path('editar/',views.perfilActualizar,name='editar'),
     
     path('password/change/', 
-        auth_views.PasswordChangeView.as_view(template_name='mi_perfil/password_change.html'), 
+        auth_views.PasswordChangeView.as_view(template_name='mi_perfil/password_change_form.html'), 
         name='password_change0'),
 
     path('password/change/done/',
