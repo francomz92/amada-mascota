@@ -13,9 +13,10 @@
                 {% csrf_token %}
                 {{ form.as_p }}
                 <hr>
-                <button type="submit" class="btn get-started-btn">Guardar</button>
+                <button type="submit" class="btn get-started-btn">Guardar</button><a style="font-size: medium;padding-left: 20px;" href="{% url 'password_change' %}">Cambiar contraseña</a>
                 <hr>
             </form>                
+            
         </div>
     </div>
 </div>
