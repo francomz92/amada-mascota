@@ -3,7 +3,7 @@ function alertaConfirmar(url) {
    const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
       confirmButton: 'btn get-started-btn',
-      cancelButton: 'btn btn-dark'
+      cancelButton: 'btn get-cancel-btn'
       },
       buttonsStyling: false
    })

@@ -2203,3 +2203,22 @@ section {
       300px auto  ;       
   }
 }
+
+/* Boton cancelar */
+.get-cancel-btn {
+   margin-left: 30px;
+   background: #1b1b1b;
+   color: #fff;
+   border-radius: 4px;
+   padding: 8px 25px;
+   white-space: nowrap;
+   transition: 0.3s;
+   font-size: 14px;
+   font-weight: 600;
+   display: inline-block;
+ }
+ 
+ .get-cancel-btn:hover {
+   background: #777;
+   color: #fff;
+ }
