@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 
 class MascotaForm(forms.ModelForm):
 
-   fotos = forms.ImageField(required=True)
+   fotos = forms.ImageField(required=True, label='Foto*')
    
    class Meta:
       model = Mascota
@@ -21,7 +21,6 @@ class MascotaForm(forms.ModelForm):
          'otro_dato': forms.Textarea(attrs= {'class': 'form-control', 'rows': 5, 'style': 'resize: none;'}),
          'edad': forms.NumberInput(attrs= {'class': 'form-control', 'maxlength': '2'}),
          'tamaño': forms.Select(attrs= {'class': 'form-control'}),
-         # 'fotos': forms.FileInput(attrs= {'class': 'form-control'}),
       }
       labels = {
          'id_dueño': '',
@@ -33,7 +32,6 @@ class MascotaForm(forms.ModelForm):
          'raza': 'Raza*',
          'tamaño': 'Tamaño*',
          'sexo': 'Sexo*',
-         'fotos': 'Foto*',
       }
       help_texts = {
          'familia': 'Indique la familia de la mascota en caso de conocerla',
