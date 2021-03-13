@@ -10,27 +10,27 @@ urlpatterns = [
     path('editar/',views.perfilActualizar,name='editar'),
     
     path('password/change/', 
-        auth_views.PasswordChangeView.as_view(), 
-        name='password_change'),
+        auth_views.PasswordChangeView.as_view(template_name='mi_perfil/password_change.html'), 
+        name='password_change0'),
 
     path('password/change/done/',
-            auth_views.PasswordChangeDoneView.as_view(), 
-            name='password_change_done'),
+            auth_views.PasswordChangeDoneView.as_view(template_name='mi_perfil/password_change_done.html'), 
+            name='password_change_done0'),
     
     path('password/reset/', 
-            auth_views.PasswordResetView.as_view(), 
-            name='password_reset'),
+            auth_views.PasswordResetView.as_view(template_name='mi_perfil/password_reset_form.html'), 
+            name='password_reset0'),
 
     path('password/reset/done/', 
-            auth_views.PasswordResetDoneView.as_view(), 
-            name='password_reset_done'),
+            auth_views.PasswordResetDoneView.as_view(template_name='mi_perfil/password_reset_done.html'), 
+            name='password_reset_done0'),
 
     path('password/reset/<uidb64>/<token>/', 
-            auth_views.PasswordResetConfirmView.as_view(), 
-            name='password_reset_confirm'),
+            auth_views.PasswordResetConfirmView.as_view(template_name='mi_perfil/password_reset_confirm.html'), 
+            name='password_reset_confirm0'),
 
     path('password/reset/complete/', 
-            auth_views.PasswordResetCompleteView.as_view(), 
-            name='password_reset_complete'),
+            auth_views.PasswordResetCompleteView.as_view(template_name='mi_perfil/password_reset_complete.html'), 
+            name='password_reset_complete0'),
 ]
 
