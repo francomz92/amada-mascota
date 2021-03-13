@@ -13,7 +13,7 @@ urlpatterns = [
         auth_views.PasswordChangeView.as_view(template_name='mi_perfil/password_change_form.html'), 
         name='password_change0'),
 
-    path('password/change/done/',
+    path('password_change/done/',
             auth_views.PasswordChangeDoneView.as_view(template_name='mi_perfil/password_change_done.html'), 
             name='password_change_done0'),
     
@@ -21,7 +21,7 @@ urlpatterns = [
             auth_views.PasswordResetView.as_view(template_name='mi_perfil/password_reset_form.html'), 
             name='password_reset0'),
 
-    path('password/reset/done/', 
+    path('password_reset/done/', 
             auth_views.PasswordResetDoneView.as_view(template_name='mi_perfil/password_reset_done.html'), 
             name='password_reset_done0'),
 
