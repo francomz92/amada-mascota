@@ -7,6 +7,7 @@ from datetime import datetime, timedelta
 from django.utils import timezone
 from django.views.generic import ListView,CreateView,UpdateView,DeleteView
 from django.contrib.auth.decorators import login_required
+from apps.encontrados.forms import SearchForm
 
 def index(request):
     context = {}
@@ -44,10 +45,13 @@ class AdopcionCrear(CreateView):
         form2 = self.ubicacion_form_class(request.POST)
         form3 = self.mascota_form_class(request.POST, request.FILES,initial={'id_usuario_id': current_user})
         if form.is_valid() and form2.is_valid() and form3.is_valid():
+            masc = form3.save(commit=False)
+            masc.id_dueño = current_user
+            masc.save()
             adopcion = form.save(commit=False)
             adopcion.id_usuario = current_user
             adopcion.id_ubicacion = form2.save()
-            adopcion.id_mascota = form3.save()
+            adopcion.id_mascota = masc
             adopcion.save()
             form3.save()
             return HttpResponseRedirect(self.get_success_url())
@@ -103,10 +107,10 @@ class AdopcionEliminar(DeleteView):
     template_name = 'adopcion_eliminar.html'
     success_url = reverse_lazy('adopcion:adopciones_listar')
 
-@login_required
+#@login_required
 def verAdopcion(request, id):
-   current_user = request.user.pk
-   adopcion = get_object_or_404(Adopcion, id=id, id_usuario=current_user)
+   #current_user = request.user.pk
+   adopcion = get_object_or_404(Adopcion, id=id,)# id_usuario=current_user)
    ctx = {
       'adopcion': adopcion,
    }

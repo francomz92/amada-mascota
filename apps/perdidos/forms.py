@@ -1,19 +1,7 @@
 from django import forms
-from apps.perdidos.models import Publicacion, Mascota, Ubicacion, Encontro, lista_especies, lista_localidades
+from apps.perdidos.models import Publicacion, Mascota, Ubicacion, Perdido, lista_especies, lista_localidades
 from django.contrib.auth.models import User
 
-# class PublicacionForm(forms.ModelForm):
-
-#    class Meta:
-#       model = Publicacion
-#       exclude = {
-#          'id_usuario',
-#          'id_mascota',
-#          'id_ubicacion',
-#       }
-#       widgets = {
-#          'observaciones': forms.Textarea(attrs= {'class': 'form-control', 'rows': 3, 'style': 'resize: none;'}),
-#       }
       
 class MascotaForm(forms.ModelForm):
 
@@ -71,10 +59,10 @@ class UbicacionForm(forms.ModelForm):
          'otros_datos': 'Alguna referencia*',
       }
 
-class EncontroForm(forms.ModelForm):
+class PerdidoForm(forms.ModelForm):
    
    class Meta:
-      model = Encontro
+      model = Perdido
       exclude = [
          'id_usuario',
          'id_mascota',
@@ -83,20 +71,15 @@ class EncontroForm(forms.ModelForm):
          'valido_hasta',
       ]
       widgets = {
-         'cuida': forms.Select(choices= Encontro.en_transito, attrs= {'class': 'form-control', 'name': 'cuida'}),
-         'fecha_limite': forms.DateInput(attrs= {'class': 'form-control', 'placeholder': 'mm/dd/aaaa'}),
          'fecha_evento': forms.DateInput(attrs= {'class': 'form-control', 'placeholder': 'mm/dd/aaaa'}),
          'observaciones': forms.Textarea(attrs= {'class': 'form-control', 'rows': 3, 'style': 'resize: none;'}),
       }
       labels = {
          'observaciones': 'Observaciones*',
-         'fecha_evento': 'Cuándo lo encontro.?*',
-         'cuida': 'Lo esta cuidando.?*',
-         'fecha_limite': 'Hasta cuándo.?',
+         'fecha_evento': 'Cuándo lo perdió.?*',
+         'Gratificación': 'Gratificará la devolución.?*',
       }
-      help_texts = {
-         'fecha_limite': 'En caso de cuidarlo indique hasta cuando',
-      }
+      
 
 class Barrio(forms.ModelForm):
    class Meta:

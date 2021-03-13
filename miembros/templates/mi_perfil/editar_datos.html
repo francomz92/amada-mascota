@@ -1,7 +1,7 @@
 {% extends 'base.html' %}  
 {% block title %}{% endblock %}
 {% block content %}
-<div class="main w-100" style="padding-top:40px;">
+<div class="main w-100" style="padding-top:40px;background-color:#faeded">
     <div class="container w-100 p-5">
         <h1>Editar mis datos</h1>
         <div class="align-self-center text-center" style="margin-left: auto;margin-right: auto; width:70%; background-color: #fff; border-radius: 20px; box-shadow: 0 0 5px;">
@@ -13,9 +13,10 @@
                 {% csrf_token %}
                 {{ form.as_p }}
                 <hr>
-                <button type="submit" class="btn get-started-btn">Guardar</button>
+                <button type="submit" class="btn get-started-btn">Guardar</button><a style="font-size: medium;padding-left: 20px;" href="{% url 'password_change0' %}">Cambiar contraseña</a>
                 <hr>
             </form>                
+            
         </div>
     </div>
 </div>

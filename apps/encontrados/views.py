@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from apps.perdidos.models import Publicacion, Mascota, Ubicacion, Encontro
+from apps.perdidos.models import Publicacion, Mascota, Ubicacion, Encontro, Notificacion
 from .forms import MascotaForm, UbicacionForm, EncontroForm, SearchForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -7,6 +7,10 @@ from django.contrib.auth.models import User
 from django.urls import reverse_lazy
 from django.utils import timezone
 from datetime import datetime, timedelta
+from django.conf import settings
+from django.core import mail
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
 
 # Create your views here.
 
@@ -38,7 +42,23 @@ def publicar(request):
          enc.id_mascota = masc
          enc.id_ubicacion = ubic
          enc.save()
-      
+         
+         # Envio de notificación por email a usuarios con una determinada suscripción de encontrados
+         user_notificacion = Notificacion.objects.filter(especie=masc.especie, localidad=ubic.localidad, tipo='Encontro')
+         to_email = [usuario.id_usuario.email for usuario in user_notificacion if usuario.fecha_hasta >= enc.fecha_publicacion]
+         html_content = render_to_string('correo_notificacion_e.html', {'publicacion': enc})
+         
+         with mail.get_connection() as conexion:
+            send_mail(
+               subject = '[Amada Mascota] Suscripción a Encontrados',
+               message = f'Acaban de encontrar un {masc.especie} {masc.tamaño} de raza {masc.raza} en el barrio {ubic.barrio} de {ubic.localidad}, ve a ver',# localhost/encontrados/publicacion/{enc.id}',
+               from_email = settings.EMAIL_HOST_USER,
+               recipient_list = to_email,
+               fail_silently = False,
+               html_message = html_content,
+               connection = conexion
+            )
+          
          return redirect(to='encontrados:lista_encontrados')
       else:
          messages.error(request, 'Ups...parece que algo salió mal.!! Vuelve a intentarlo.')
@@ -51,7 +71,7 @@ def publicar(request):
       'ubicacion': ubicacion,
       'encontro': encontro,
       }
-   return render(request, 'publicar.html', ctx)
+   return render(request, 'publicar_e.html', ctx)
 
 @login_required
 def editar_publicacion(request, id_publicacion):
@@ -70,13 +90,13 @@ def editar_publicacion(request, id_publicacion):
          messages.success(request, 'Guardado')
          return redirect(to='encontrados:lista_encontrados')
       else:
-         messages.error(request, 'Ups...parece que algo salió mal.!! Vuelve a intentarlo.')
+         messages.error(request, message='Ups...parece que algo salió mal.!! Vuelve a intentarlo.')
    ctx = {
       'mascota': MascotaForm(instance=mascota),
       'ubicacion': UbicacionForm(instance=ubicacion),
       'encontro': EncontroForm(instance=encontro),
    }
-   return render(request, 'editar_publicacion.html', ctx)
+   return render(request, 'editar_publicacion_e.html', ctx)
 
 def publicacion(request, id_publicacion):
    publicacion = get_object_or_404(Encontro, id=id_publicacion)
@@ -84,7 +104,7 @@ def publicacion(request, id_publicacion):
       'publicacion': publicacion,
       'fecha_actual': datetime.now().date(),
    }
-   return render(request, 'publicacion.html', ctx)
+   return render(request, 'publicacion_e.html', ctx)
 
 @login_required
 def eliminar_publicacion(request, id_publicacion):
@@ -97,6 +117,15 @@ def eliminar_publicacion(request, id_publicacion):
    ubicacion.delete()
    return redirect(to='encontrados:lista_encontrados')
 
+@login_required
+def renovar_publicacion(request, id_publicacion):
+   current_user = request.user
+   fecha_actual = datetime.now().date()
+   publicacion = get_object_or_404(Encontro, id=id_publicacion, id_usuario=current_user)
+   if fecha_actual > publicacion.valido_hasta:
+      publicacion.valido_hasta = fecha_actual + timedelta(days=7)
+      publicacion.save()
+   return redirect(to='encontrados:lista_encontrados')
 
 def buscar_e(request):
    if request.GET:
@@ -134,12 +163,3 @@ def buscar_e(request):
                }
    return render(request, "index_encontrados.html",contexto)
    
-@login_required
-def renovar_publicacion(request, id_publicacion):
-   current_user = request.user
-   fecha_actual = datetime.now().date()
-   publicacion = get_object_or_404(Encontro, id=id_publicacion, id_usuario=current_user)
-   if fecha_actual > publicacion.valido_hasta:
-      publicacion.valido_hasta = fecha_actual + timedelta(days=7)
-      publicacion.save()
-   return redirect(to='encontrados:lista_encontrados')

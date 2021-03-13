@@ -49,10 +49,12 @@
                                 </h7>
                                 
                                 {% if de_donde == 1 %}
-                                <div style="display: flex; gap: 0.5em; font-size: 12px;" >
-                                    <a href="{% url 'suscripciones_mod' xObj.id %}">Editar</a>
-                                    <a href="{% url 'suscripciones_can' xObj.id %}">Eliminar</a>
-                                </div>
+                                    {% if user.is_authenticated and user == xObj.id_usuario %}
+                                    <div style="display: flex; gap: 0.5em; font-size: 12px;" >
+                                        <a href="{% url 'suscripciones_mod' xObj.id %}">Editar</a>
+                                        <a href="{% url 'suscripciones_can' xObj.id %}">Eliminar</a>
+                                    </div>
+                                    {%endif%}
                                 {%endif%}
                                 
                                 </div>

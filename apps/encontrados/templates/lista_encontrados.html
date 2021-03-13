@@ -1,13 +1,13 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
 {% block title %} | Encontrados {% endblock %}
 
 {% block content %}
 <style>
 @media (max-width: 574px) {
    .responsive-lista {
-      /* display: flex;
-      flex-direction: column !; */
       justify-content: center !important;
    }
    .boton-publicar {
@@ -19,27 +19,39 @@
 <br>
 <br>
 <br>
+
+{# <!-- Título de la sección --> #}
 <h5 style="text-align: center; font: 900 32px bold;padding: 1.5em 0; background-color: #1b1b1b; color: #fff; margin: 0;">Encontrados o Avistados</h5>
 <div style="text-align: center; background-color: #1b1b1b; color: #fff;">
    ¡Ac&aacute; pued&eacute;s ver tus publicaciones de avistamientos!
    <a href="{% url 'encontrados:publicar' %}" class="btn get-started-btn boton-publicar" style="margin: 1em 0; margin-left: 50px;">Publicar avistamiento</a>
 </div>
-<div style="padding: 2em 1em; display: flex; background-color: #faeded;">
+
+{# <!-- Listado de publicaciones --> #}
+<div style="padding: 2em 1em; display: flex; flex-direction: column; align-items: center; background-color: #faeded;">
+   <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; margin-top: -10px; margin-bottom: 10px; padding: 0.5em; border: solid 1px #999; border-radius: 5px; background-color: #FAF4A5;">
+      <p style="margin:0; text-align: center;">¡Recuerda revisar la sección de consultas antes de realizar una publicación!</p>
+   </div>
    {% if publicaciones %}
    <section class="responsive-lista" style="padding: 1em; display: flex; flex-direction: row; flex-wrap: wrap; gap: 1em; text-align: center; align-items: center; justify-content: start;">
+
+   {# <!-- Tarjetas de publicaciones --> #}
    {% for publicacion in publicaciones %}
    <div class="box" style="flex-basis: 15em; background-color: #fff; border-radius: 20px; box-shadow: 0 0 5px;">
 
       
       <div class="container" style="padding: 1em;">
+
+         {# <!-- Iconos editar, borrar, renovar --> #}
          <div style="position: relative; display: flex; flex-direction: row; justify-content: flex-end; gap: 5px;">
             {% if fecha_actual > publicacion.valido_hasta %}
             <a href="{% url 'encontrados:renovar_publicacion' publicacion.id %}" style="z-index: 100; position: absolute; top: 0; left: 0;"><img src="https://img.icons8.com/small/16/000000/recurring-appointment.png" title="¿Renovar vigencia?"/></a>
             {% endif %}
             <a href="{% url 'encontrados:editar_publicacion' publicacion.id %}"><img src="https://img.icons8.com/small/16/000000/edit-property.png" title="Editar"/></a>
-            <a href="{% url 'encontrados:eliminar_publicacion' publicacion.id %}"><img src="https://img.icons8.com/small/16/000000/trash--v1.png" title="Borrar"/></a>
+            <i class="eliminar_publ" id="{{ publicacion.id }}" style="cursor: pointer;"><img src="https://img.icons8.com/small/16/000000/trash--v1.png" title="Borrar"/></i>
          </div>
-
+         
+         {# <!-- Datos importantes de publicación --> #}
          <div class="row" style="align-items: center; justify-content: center;">
             
             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12" style="width: 100%;">
@@ -68,6 +80,8 @@
    {% endfor %}
    </section>
    {% else %}
+
+   {# <!-- Sección vacía --> #}
    <section style="width: 100%; display: flex; justify-content: center; align-items: center;">
       <div class="box" style="width: 80%; min-height: 100px; background-color: #fff; border-radius: 20px; box-shadow: 0 0 5px; margin: 0; display: flex;justify-content: center; align-items: center;">
          <p>No tiene ninguna publicaci&oacute;n</p>
@@ -75,4 +89,19 @@
    </section>
    {% endif %}
 </div>
+
+{# <!-- Confirmar eliminar publicación --> #}
+<script src="{% static 'js/alertas.js' %}"></script>
+<script>
+   const borrar = document.querySelectorAll('.eliminar_publ');
+
+   borrar.forEach(element => {
+      element.addEventListener('click', () => {
+         let el = element['id'];
+         let url = '/encontrados/borrar/' + el;
+         alertaConfirmar(url);
+      })
+   });
+</script>
+</script>
 {% endblock %}
