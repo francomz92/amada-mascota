@@ -16,5 +16,6 @@ urlpatterns = [
    #path('editar/<id>', editar_publicacion, name='editar_publicacion'),
    #path('resultado-busqueda/', buscar, name='buscar'),
 ]
+ #  path('resultado-busqueda/', buscar, name='buscar'),
 
 
