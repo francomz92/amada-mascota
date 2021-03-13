@@ -43,6 +43,7 @@ def publicar(request):
          enc.id_ubicacion = ubic
          enc.save()
          
+         # Envio de notificación por email a usuarios con una determinada suscripción de encontrados
          user_notificacion = Notificacion.objects.filter(especie=masc.especie, localidad=ubic.localidad, tipo='Encontro')
          to_email = [usuario.id_usuario.email for usuario in user_notificacion if usuario.fecha_hasta >= enc.fecha_publicacion]
          html_content = render_to_string('correo_notificacion_e.html', {'publicacion': enc})
