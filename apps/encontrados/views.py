@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from apps.perdidos.models import Publicacion, Mascota, Ubicacion, Encontro, tiene_notificacion, Notificacion
+from apps.perdidos.models import Publicacion, Mascota, Ubicacion, Encontro, Notificacion
 from .forms import MascotaForm, UbicacionForm, EncontroForm, SearchForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -10,6 +10,7 @@ from datetime import datetime, timedelta
 from django.conf import settings
 from django.core import mail
 from django.core.mail import send_mail
+from django.template.loader import render_to_string
 
 # Create your views here.
 
@@ -44,12 +45,12 @@ def publicar(request):
          
          user_notificacion = Notificacion.objects.filter(especie=masc.especie, localidad=ubic.localidad, tipo='Encontro')
          to_email = [usuario.id_usuario.email for usuario in user_notificacion if usuario.fecha_hasta >= enc.fecha_publicacion]
-         html_content = f'<span>Acaban de encontrar un {masc.especie} {masc.tamaño} de raza {masc.raza} en el barrio {ubic.barrio} de {ubic.localidad}, </span><a href="localhost/encontrados/publicacion/{enc.id}">ve a ver</a>'
+         html_content = render_to_string('correo_notificacion_e.html', {'publicacion': enc})
          
          with mail.get_connection() as conexion:
             send_mail(
                subject = '[Amada Mascota] Suscripción a Encontrados',
-               message = f'Acaban de encontrar un {masc.especie} {masc.tamaño} de raza {masc.raza} en el barrio {ubic.barrio} de {ubic.localidad}, ve a ver localhost/encontrados/publicacion/{enc.id}',
+               message = f'Acaban de encontrar un {masc.especie} {masc.tamaño} de raza {masc.raza} en el barrio {ubic.barrio} de {ubic.localidad}, ve a ver',# localhost/encontrados/publicacion/{enc.id}',
                from_email = settings.EMAIL_HOST_USER,
                recipient_list = to_email,
                fail_silently = False,
@@ -88,7 +89,7 @@ def editar_publicacion(request, id_publicacion):
          messages.success(request, 'Guardado')
          return redirect(to='encontrados:lista_encontrados')
       else:
-         messages.error(request, 'Ups...parece que algo salió mal.!! Vuelve a intentarlo.')
+         messages.error(request, message='Ups...parece que algo salió mal.!! Vuelve a intentarlo.')
    ctx = {
       'mascota': MascotaForm(instance=mascota),
       'ubicacion': UbicacionForm(instance=ubicacion),

@@ -37,7 +37,7 @@
          <span style="padding-bottom: 1em;">Especie: {{ publicacion.id_mascota.especie }}</span>
          <span style="padding-bottom: 1em;">Raza: {{ publicacion.id_mascota.raza }}</span>
       </div>
-      <img src="{{ publicacion.id_mascota.fotos.url }}" alt="" style="max-width: 100%; width: auto; padding-bottom: 0.5em;">
+      <img src="{{ publicacion.id_mascota.fotos.url }}" alt="{{ publicacion.id_mascota.especie }}" style="width: 100%; padding-bottom: 1em;">
       <p style="text-align: center; font-size: 20px;">Caracter&iacute;sticas</p>
       <div style="display: flex; flex-wrap: wrap; justify-content: space-between;">
          <span style="padding-bottom: 1em;">Sexo: {{ publicacion.id_mascota.especie }}</span>
