@@ -7,7 +7,7 @@ from django.contrib.auth import views as auth_views
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import UpdateView
-
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 class RegistroUsuario(generic.CreateView):
@@ -21,6 +21,7 @@ class LoginUsuario(auth_views.LoginView):
     template_name = 'registration/login.html'
     success_url = reverse_lazy('home')
 
+@login_required
 def perfil(request):
     current_user = request.user.id
     perfil = get_object_or_404(User, id=current_user)
@@ -29,6 +30,7 @@ def perfil(request):
     }
     return render(request,'mi_perfil/mis_datos.html', ctx)
 
+@login_required
 def perfilActualizar(request):
     perfil = get_object_or_404(User, id=request.user.id)
     if request.method=="GET":
