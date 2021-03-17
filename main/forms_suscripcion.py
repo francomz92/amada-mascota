@@ -15,7 +15,7 @@ class SusPerdidoForm(forms.ModelForm):
             'tipo': forms.Select(choices= Notificacion.tipo_notificacion, attrs= {'class': 'form-control', 'name': 'tipo'}),
             'especie': forms.Select(choices= lista_especies, attrs= {'class': 'form-control', 'name': 'especie'}),
             'localidad':forms.Select(choices= lista_localidades, attrs= {'class': 'form-control', 'name': 'localidad'}),
-            'fecha_hasta': forms.DateInput(attrs= {'class': 'form-control', 'placeholder': 'mm/dd/aaaa'}), 
+            'fecha_hasta': forms.DateInput(attrs= {'class': 'form-control', 'placeholder': 'dd/mm/aaaa'}), 
         }
       
         labels = {
