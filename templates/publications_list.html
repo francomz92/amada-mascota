@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'app/css/publications_list.css' %}">
+{% endblock head %}
+
+{% block content %}
+<section class="section-1">
+    <h5>{{ header }}</h5>
+    <p>{{ msj }}</p>
+    {% block publish %}{% endblock publish %}
+</section>
+
+<section class="section-2">
+{% block aside %}{% endblock aside %}
+    
+    <div class="section-2__publications-grid">
+        
+    {% for publicacion in publicaciones %}
+        <div class="card">
+                            {# <!-- Iconos editar, borrar, renovar --> #}
+        {% if user.is_authenticated and publicacion.id_usuario == user and request.path != '/perdidos/' and request.path != '/encontrados/' and request.path != '/adopcion/' %}
+            <div class="card__icon-options">
+                                    {# <!-- Icono renovar --> #}
+            {% if today >= publicacion.valido_hasta %}
+                <a class="renovate" href="{% url 'apps:private_renovate_publicacion' publicacion.id %}">
+                    <img src="{% static 'app/img/card/renovate-option.png' %}" title="¿Renovar vigencia?"/>
+                </a>
+            {% endif %}
+                                     {# <!-- Icono editar --> #}
+            {% if 'perdidos' in request.path %}
+                <a href="{% url 'perdidos:private_update_perdidos' publicacion.id %}">
+                    <img src="{% static 'app/img/card/edit-option.png' %}" title="Editar"/>
+                </a>
+            {% elif 'encontrados' in request.path %}
+                <a href="{% url 'encontrados:private_update_encontrados' publicacion.id %}">
+                    <img src="{% static 'app/img/card/edit-option.png' %}" title="Editar"/>
+                </a>
+            {% elif 'adopcion' in request.path %}
+                <a href="{% url 'adopcion:private_update_adopcion' publicacion.id %}">
+                    <img src="{% static 'app/img/card/edit-option.png' %}" title="Editar"/>
+                </a>
+            {% endif %}
+                                     {# <!-- Icono borrar --> #}
+                <a href="{% url href_eliminar publicacion.id %}" id="{{ publicacion.id }}">
+                    <img src="{% static 'app/img/card/trash-option.png' %}" title="Borrar"/>
+                </a>
+            </div>
+        {% else %}
+            <div class="card__icon-options">{{ publicacion.fecha_publicacion }}</div>
+        {% endif %}
+                            {# <!-- Datos importantes de publicación --> #}
+            <div class="card__details">
+               <div class="img-container">
+                {% if 'suscripciones' in request.path %}
+                    {{ publicacion.suscripcion }}
+                {% endif %}
+                {% if publicacion.id_mascota.fotos %}
+                    <img src="{{ publicacion.id_mascota.fotos.url }}">
+                {% elif 'suscripciones' in request.path and publicacion.suscripcion == 'Encontrados' %}
+                    <img src="{% static 'index/img/found.jpg' %}">
+                {% elif 'suscripciones' in request.path and publicacion.suscripcion == 'Perdidos' %}
+                    <img src="{% static 'index/img/lost.jpeg' %}">
+                {% elif 'suscripciones' in request.path and publicacion.suscripcion == 'Adopción' %}
+                    <img src="{% static 'index/img/adopt.jpg' %}">
+                {% else %}
+                    <img src="{% static 'app/img/card/silueta-mascotas.png' %}">
+                {% endif %}
+                </div>    
+                <div class="title">
+                    <span>{{ publicacion.id_mascota.nombre }}</span>
+                </div>
+                <div>
+                    <span>{{ publicacion.id_ubicacion.localidad }}</span> -
+                    <span>{{ publicacion.id_ubicacion.barrio }}</span>
+                </div>
+                <div>
+                {% if 'perdidos' in request.path %}
+                    <a class="btn btn-nav" href="{% url 'perdidos:public_detail_perdidos' publicacion.id %}">Ver</a>
+                {% elif 'encontrados' in request.path %}
+                    <a class="btn btn-nav" href="{% url 'encontrados:public_detail_encontrados' publicacion.id %}">Ver</a>
+                {% elif 'adopcion' in request.path %}
+                    <a class="btn btn-nav" href="{% url 'adopcion:public_detail_adopcion' publicacion.id %}">Ver</a>
+                {% endif %}
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+</section>
+{% endblock content %}

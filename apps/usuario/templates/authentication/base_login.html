@@ -1,0 +1,26 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#FF91B2">
+	<title>{% block title %}{% endblock title %}</title>
+	<link rel="shortcut icon" href="{% static 'img/logo.png' %}">
+	<link rel="stylesheet" href="{% static 'app_usuario/css/login.css' %}" type="text/css">
+	{% block head %}{% endblock head %}
+</head>
+<body>
+	<section class="bg-blk">
+		<div class="card">
+			<a href="{% url 'index:index' %}">
+				<img class="img-form-login" src="{% static 'img/logo.png' %}" alt="Login">
+			</a>
+
+			{% block content %}{% endblock content %}
+		</div>
+	</section>
+
+	{% block javascript %}{% endblock javascript %}
+</body>

@@ -1,0 +1,108 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: Helvetica, Arial, sans-serif;
+}
+
+.bg-blk {
+    width: 100%;
+    min-height: 100vh;
+    background: -moz-radial-gradient(
+        circle,
+        rgba(63, 94, 251, 0) 0%,
+        rgba(229, 62, 106, 0.0984768907563025) 100%
+    );
+    background: -webkit-radial-gradient(
+        circle,
+        rgba(63, 94, 251, 0) 0%,
+        rgba(229, 62, 106, 0.0984768907563025) 100%
+    );
+    background: radial-gradient(
+        circle,
+        rgba(63, 94, 251, 0) 0%,
+        rgba(229, 62, 106, 0.0984768907563025) 100%
+    );
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.card {
+    width: 250px;
+    padding: 5%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+    gap: 10px;
+    background-color: #f8f9fa;
+    box-shadow: #ccc 0 0 10px;
+}
+.img-form-login {
+    width: 100px;
+    margin-bottom: 10px;
+    border-radius: 20px;
+}
+.form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    color: #000;
+}
+.form > label {
+    font-size: 16px;
+    margin-top: 10px;
+    suffix: unset;
+}
+.form input[type='text'],
+.form input[type='number'],
+.form input[type='email'],
+.form input[type='password'] {
+    padding: 8px;
+    border-radius: 5px;
+    border-style: none;
+    text-align: center;
+    background-color: #f8f9fa;
+    box-shadow: #000 0 0 2px;
+}
+.form input[type='text']:hover,
+.form input[type='number']:hover,
+.form input[type='email']:hover,
+.form input[type='password']:hover {
+    background-color: #eee;
+    transition: all 0.2s;
+}
+.form input[type='text']:focus,
+.form input[type='number']:focus,
+.form input[type='email']:focus,
+.form input[type='password']:focus {
+    outline: none;
+    box-shadow: #000 0 0 2px;
+    background-color: #eee;
+}
+.link-login {
+    margin-top: 10px;
+    color: #000;
+    text-decoration: none;
+    font-size: 12px;
+}
+.link-login:hover {
+    color: #e53e6a;
+}
+.errorlist {
+    width: 200px;
+    margin-top: 5px;
+    text-align: center;
+    text-decoration: none;
+    list-style: none;
+    color: #f77;
+}
+.mjs-aviso {
+    margin-top: 20px;
+    text-align: center;
+    color: #ccc;
+}

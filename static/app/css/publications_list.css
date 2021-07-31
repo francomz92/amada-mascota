@@ -1,0 +1,163 @@
+body {
+   font-family: 'Raleway', sans-serif;
+   background-color: #faeded;
+}
+.section-1 {
+   margin-top: 82px;
+   text-align: center;
+   padding: 1.5em 0;
+   background-color: #1b1b1b;
+   color: #fff;
+}
+.section-1 > h5 {
+   font-size: 32px;
+}
+.section-1 > p {
+   margin-top: 10px;
+   font-size: 16px;
+}
+.section-1 > a {
+   position: fixed;
+   top: 10px;
+   left: 25%;
+}
+
+.section-2 {
+   width: 100%;
+   min-height: calc(100vh - 293px);
+   display: flex;
+   padding: 15px;
+   gap: 10px;
+}
+
+.section-2__aside {
+   padding: 5px;
+   width: 200px;
+}
+.form {
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: flex-start;
+   gap: 5px;
+}
+.form > label {
+   font-size: 14px;
+   margin-top: 10px;
+   suffix: unset;
+}
+.form > input[type='text'],
+.form > select {
+   width: 80%;
+   margin-bottom: 5px;
+   padding: 8px;
+   border-radius: 5px;
+   border-style: none;
+   box-shadow: #1b1b1b 0 0 1px;
+   text-align: center;
+   background-color: #fff;
+}
+.form input[type='text']:hover,
+.form select:hover {
+   transition: all 0.2s;
+}
+.form input[type='text']:focus,
+.form select:focus {
+   outline: none;
+   box-shadow: #000 0 0 5px 1px;
+}
+form > input[type='submit'] {
+   width: 80%;
+   border-style: none;
+   cursor: pointer;
+}
+
+.section-2__publications-grid {
+   width: calc(100% - 200px);
+   display: flex;
+   flex-direction: row;
+   flex-wrap: wrap;
+   gap: 1em;
+   justify-content: start;
+}
+.card {
+   padding: 1em;
+   flex-basis: 15em;
+   background-color: #fff;
+   border-radius: 20px;
+   box-shadow: 0 0 5px;
+}
+.card__icon-options {
+   height: 16px;
+   position: relative;
+   display: flex;
+   flex-direction: row;
+   justify-content: flex-end;
+   gap: 5px;
+}
+.card__icon-options > .renovate {
+   z-index: 100;
+   position: absolute;
+   top: 0;
+   left: 0;
+}
+.card__details {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+}
+.card__details > .img-container {
+   display: flex;
+   block-size: 220px;
+   align-items: center;
+   justify-content: center;
+}
+.card__details > .img-container > img {
+   object-fit: cover;
+   width: 100%;
+}
+
+.errorlist {
+   width: 100%;
+   margin-top: 3px;
+   text-decoration: none;
+   list-style: none;
+   color: #f77;
+}
+
+@media (max-width: 500px) {
+   .section-2 {
+      flex-direction: column;
+      align-items: center;
+   }
+   .section-2__aside {
+      margin-bottom: 20px;
+   }
+   .section-2__aside > form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+   }
+   .section-2__aside > form > .form {
+      align-items: center;
+      width: 100%;
+      position: relative;
+   }
+   .section-2__aside > form > .form > input,
+   .section-2__aside > form > .form > Select {
+      width: 100%;
+   }
+
+   .section-2__publications-grid {
+      gap: 0 !important;
+      justify-content: center;
+   }
+   .card {
+      margin-bottom: 24px;
+   }
+
+   .errorlist {
+      text-align: center;
+   }
+}

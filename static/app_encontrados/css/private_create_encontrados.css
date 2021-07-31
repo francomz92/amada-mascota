@@ -1,0 +1,6 @@
+/* extend from app/css/publications_create.ccs */
+
+.div__form:nth-child(16) {
+    grid-column: 1/3;
+    grid-row: 10/12;
+}

@@ -1,21 +1,32 @@
 from django.urls import path
-from .views import publicar, lista_encontrados, editar_publicacion, publicacion, eliminar_publicacion, renovar_publicacion
-from .views import buscar_e
+from .views import PrivateCreateEncontrado, PrivateEncontrados, PrivateUpdateEncontrado, PublicDetailEncontrado, PublicEncontrados
 
 app_name = 'encontrados'
 
 urlpatterns = [
-   path('publicar/', publicar, name='publicar'),
-   path('listar/', lista_encontrados, name='lista_encontrados'),
-   path('editar/<id_publicacion>/', editar_publicacion, name='editar_publicacion'),
-   path('borrar/<id_publicacion>/', eliminar_publicacion, name='eliminar_publicacion'),
-   path('buscar_e/', buscar_e, name='buscar_e'),
-   path('publicacion/<id_publicacion>/', publicacion, name='publicacion'),  
-   path('renovar/<id_publicacion>/', renovar_publicacion, name='renovar_publicacion'),
-   #path('lista_encontrados', lista_encontrados, name='lista_encontrados'),
-   #path('editar/<id>', editar_publicacion, name='editar_publicacion'),
-   #path('resultado-busqueda/', buscar, name='buscar'),
+    path(
+        'encontrados/',
+        PublicEncontrados.as_view(),
+        name='public_encontrados',
+    ),
+    path(
+        'encontrados/mis-publicaciones/',
+        PrivateEncontrados.as_view(),
+        name='private_encontrados',
+    ),
+    path(
+        'encontrados/publicar/',
+        PrivateCreateEncontrado.as_view(),
+        name='private_create_encontrados',
+    ),
+    path(
+        'encontrados/editar/<int:id>/',
+        PrivateUpdateEncontrado.as_view(),
+        name='private_update_encontrados',
+    ),
+    path(
+        'encontrados/<int:id>/',
+        PublicDetailEncontrado.as_view(),
+        name='public_detail_encontrados',
+    ),
 ]
- #  path('resultado-busqueda/', buscar, name='buscar'),
-
-

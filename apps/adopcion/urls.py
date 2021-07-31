@@ -1,15 +1,32 @@
 from django.urls import path
-from . import views
-from django.contrib.auth.decorators import login_required
+from apps.adopcion.views import PrivateAdopcion, PrivateCreateAdopcion, PrivateUpdateAdopcion, PublicAdopcion, PublicDetailAdopcion
 
 app_name = 'adopcion'
+
 urlpatterns = [
-    path('',views.index,name="inicio"),
-    path('listar/',login_required(views.misAdopciones.as_view()),name="adopciones_listar"),
-    path('crear/',login_required(views.AdopcionCrear.as_view()),name="adopcion_crear"),
-    path('editar/<int:pk>/',login_required(views.AdopcionActualizar.as_view()),name="adopcion_editar"),
-    path('eliminar/<int:pk>/',login_required(views.AdopcionEliminar.as_view()),name="adopcion_eliminar"),
-    path('renovar/<int:id>',views.renovar_publicacion,name="adopcion_renovar"),
-    path('ver/<int:id>',views.verAdopcion,name="ver"),
-    path('buscar_a/', views.buscar_a, name='buscar_a'),
+    path(
+        'adopcion/',
+        PublicAdopcion.as_view(),
+        name='public_adopcion',
+    ),
+    path(
+        'adopcion/mis-publicaciones/',
+        PrivateAdopcion.as_view(),
+        name='private_adopcion',
+    ),
+    path(
+        'adopcion/publicar/',
+        PrivateCreateAdopcion.as_view(),
+        name='private_create_adopcion',
+    ),
+    path(
+        'adopcion/editar/<int:id>/',
+        PrivateUpdateAdopcion.as_view(),
+        name='private_update_adopcion',
+    ),
+    path(
+        'adopcion/<int:id>/',
+        PublicDetailAdopcion.as_view(),
+        name='public_detail_adopcion',
+    ),
 ]

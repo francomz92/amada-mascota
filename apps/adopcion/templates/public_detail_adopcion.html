@@ -1,0 +1,18 @@
+{% extends 'publications_detail.html' %}
+
+{% block extra_detail %}
+<span class="subtitle">Datos de la mascota</span>
+<div>
+    <span>Sexo: {{ publicacion.id_mascota.sexo }}</span>
+    <span>Tamaño: {{ publicacion.id_mascota.tamano }}</span>
+</div>
+{% if publicacion.id_mascota.otro_dato %}
+<div>
+    <span>{{ publicacion.id_mascota.otro_dato }}</span>
+</div>
+{% endif %}
+<span class="subtitle">Condiciones</span>
+<div>
+    <span>{{ publicacion.condicion }}</span>
+</div>
+{% endblock extra_detail %}

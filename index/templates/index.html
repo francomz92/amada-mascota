@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %} Amada Mascota {% endblock title %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'index/css/index.css' %}">
+{% endblock head %}
+
+{% block content %}
+<section class="section-1">
+    <div class="section-1__content">
+        <div class="section-1__content__text">
+            <h1 class="logo">
+                <span class="logo__Amada">Amada</span><span class="logo__Mascota">Mascota</span>
+            </h1>
+            <p>Te busco, te encuentro</p>
+            <a class="btn btn-nav" href="#registro-button">Empezá</a>
+        </div>
+        <img src="{% static 'img/logo.png' %}" alt="Amada Mascota">
+    </div>
+</section>
+<section class="section-2">
+    {% for model in data %}
+        <div class="card">
+            <img class="ico" src="{{ model.img }}">
+            <span>{{ model.count }}</span>
+            <span>{{ model.model }}</span>
+        </div>
+    {% endfor %}
+</section>
+<section class="section-3">
+    <div>
+        <span>Amada Mascota</span>
+        <p>Primer paso: registrate como usuario.</p>
+        <br>
+        <div>
+            <span>¡Regístrate!</span>
+            <a class="btn btn-nav" href="{% url 'usuario:sign_up' %}" id="registro-button">Registrar</a>
+        </div>
+    </div>
+</section>
+{% endblock content %}

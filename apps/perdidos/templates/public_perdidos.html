@@ -1,0 +1,15 @@
+{% extends 'publications_list.html' %}
+
+{% block aside %}
+    <aside class="section-2__aside">
+        <form method="get">
+            {% for field in form %}
+            <div class="form">
+                {{ field.label_tag }}
+                {{ field }}
+            </div>
+            {% endfor %}
+            <input class="btn btn-nav" type="submit" value="Filtrar">
+        </form>
+    </aside>
+{% endblock aside %}

@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'app/css/publications_detail.css' %}">
+{% endblock head %}
+
+{% block content %}
+<section class="section-1">
+    <h5>{{ header }}</h5>
+    <p>{{ msj }}</p>
+    {% block publish %}{% endblock publish %}
+</section>
+
+<section class="section-2">
+    <div class="section-2__publications-grid">
+        
+        <form class="card">
+            
+                            {# <!-- Iconos editar, borrar, renovar --> #}
+        {% if user.is_authenticated and publicacion.id_usuario == user and request.path != '/perdidos/' and request.path != '/encontrados/' and request.path != 'adopcion' %}
+            <div class="card__icon-options">
+                                    {# <!-- Icono renovar --> #}
+            {% if today >= publicacion.valido_hasta %}
+                <a class="renovate" href="{% url 'apps:private_renovate_publicacion' publicacion.id %}">
+                    <img src="{% static 'app/img/card/renovate-option.png' %}" title="¿Renovar vigencia?" width="24px"/>
+                </a>
+            {% endif %}
+
+                                     {# <!-- Icono editar --> #}
+            {% if 'perdidos' in request.path %}
+                <a href="{% url 'perdidos:private_update_perdidos' publicacion.id %}">
+                    <img src="{% static 'app/img/card/edit-option.png' %}" title="Editar" width="24x"/>
+                </a>
+            {% elif 'encontrados' in request.path %}
+                <a href="{% url 'encontrados:private_update_encontrados' publicacion.id %}">
+                    <img src="{% static 'app/img/card/edit-option.png' %}" title="Editar" width="24px"/>
+                </a>
+            {% elif 'adopcion' in request.path %}
+                <a href="{% url 'adopcion:private_update_adopcion' publicacion.id %}">
+                    <img src="{% static 'app/img/card/edit-option.png' %}" title="Editar" width="24px"/>
+                </a>
+            {% endif %}
+
+                                     {# <!-- Icono borrar --> #}
+                <a href="{% url 'apps:private_delete_publicacion' publicacion.id %}" class="eliminar_publ" id="{{ publicacion.id }}">
+                    <img src="{% static 'app/img/card/trash-option.png' %}" title="Borrar" width="24px"/>
+                </a>
+            </div>
+        {% else %}
+            <div class="card__icon-options">{{ publicacion.fecha_publicacion }}</div>
+        {% endif %}
+
+                            {# <!-- Datos importantes de publicación --> #}
+            <div class="card__details">
+                <span class="subtitle">Ubicacion</span>
+                <div>
+                    <span>Localidad: {{ publicacion.id_ubicacion.localidad }}</span>
+                    <span>Barrio: {{ publicacion.id_ubicacion.barrio }}</span>
+                </div>
+                <span class="subtitle">Datos del dueño</span>
+                <div>
+                    <span>Dueño: {{ publicacion.id_usuario.first_name }} {{ publicacion.id_usuario.last_name }}</span> 
+                </div>
+                <span class="subtitle">Datos de contacto</span>
+                <div>
+                    <span>Teléfono: {{ publicacion.id_usuario.phone_number }}</span>
+                    <span>Email: {{ publicacion.id_usuario.email }}</span>
+                </div>
+
+                {% block extra_detail %}{% endblock extra_detail %}
+
+                <div class="img-container">
+                {% if publicacion.id_mascota.fotos %}
+                    <img src="{{ publicacion.id_mascota.fotos.url }}">
+                {% else %}
+                    <img src="{% static 'app/img/card/silueta-mascotas.png' %}">
+                {% endif %}
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+{% endblock content %}

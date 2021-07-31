@@ -1,0 +1,26 @@
+{% extends 'publications_list.html' %}
+
+{% load static %}
+
+{% block head %}
+   <link rel="stylesheet" href="{% static 'app/css/publications_list.css' %}">
+   <link rel="stylesheet" href="{% static 'app_suscripcion/css/private_suscripcion.css' %}">
+{% endblock head %}
+
+{% block aside %}
+    <aside class="section-2__aside">
+        <form method="post">
+         {% csrf_token %}
+            {% for field in form %}
+            <div class="form">
+                {{ field.label_tag }}
+                {{ field }}
+            {% if field.errors %}
+                {{ field.errors }}
+            {% endif %}
+            </div>
+            {% endfor %}
+            <input class="btn btn-nav" type="submit" value="Suscribirme">
+        </form>
+    </aside>
+{% endblock aside %}

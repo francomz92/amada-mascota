@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'app/css/publications_create.css' %}">
+
+{% block extra_head %}{% endblock extra_head %}
+
+{% endblock head %}
+
+{% block content %}
+<section class="section-1">
+    <h5>{{ header }}</h5>
+    <p>{{ msj }}</p>
+    {% block publish %}{% endblock publish %}
+</section>
+<section class="section-2">
+<form class="form" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% for field in form_mascota %}
+    <div class="div__form">
+       {{field.label_tag}}
+       {{field}}
+    {% if field.errors %}
+       {{field.errors}}
+    {% endif %}
+      </div>
+      {% endfor %}
+    {% for field in form_class %}
+    <div class="div__form">
+        {{field.label_tag}}
+        {{field}}
+        {% if field.errors %}
+        {{field.errors}}
+        {% endif %}
+    </div>
+    {% endfor %}
+    {% for field in form_ubicacion %}
+    <div class="div__form">
+        {{field.label_tag}}
+        {{field}}
+        {% if field.errors %}
+        {{field.errors}}
+        {% endif %}
+    </div>
+    {% endfor %}
+    <input class="btn" type="submit" value="Publicar">
+</form>
+</section>
+{% endblock content %}

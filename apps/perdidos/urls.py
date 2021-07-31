@@ -1,17 +1,32 @@
 from django.urls import path
-from .views import publicar, lista_perdidos, editar_publicacion, publicacion, eliminar_publicacion, renovar_publicacion
-from .views import buscar_p
+from apps.perdidos.views import PrivateCreatePerdidos, PrivatePerdidos, PrivateUpdatePerdidos, PublicDetailPerodidos, PublicPerdidos
 
 app_name = 'perdidos'
 
 urlpatterns = [
-   path('publicar/', publicar, name='publicar'),
-   path('listar/', lista_perdidos, name='lista_perdidos'),
-   path('editar/<id_publicacion>/', editar_publicacion, name='editar_publicacion'),
-   path('borrar/<id_publicacion>/', eliminar_publicacion, name='eliminar_publicacion'),
-   path('buscar_p/', buscar_p, name='buscar_p'),
-   path('publicacion/<id_publicacion>/', publicacion, name='publicacion'),  
-   path('renovar/<id_publicacion>/', renovar_publicacion, name='renovar_publicacion'),
+    path(
+        'perdidos/',
+        PublicPerdidos.as_view(),
+        name='public_perdidos',
+    ),
+    path(
+        'perdidos/mis-publicaciones/',
+        PrivatePerdidos.as_view(),
+        name='private_perdidos',
+    ),
+    path(
+        'perdidos/publicar/',
+        PrivateCreatePerdidos.as_view(),
+        name='private_create_perdidos',
+    ),
+    path(
+        'perdidos/editar/<int:id>/',
+        PrivateUpdatePerdidos.as_view(),
+        name='private_update_perdidos',
+    ),
+    path(
+        'perdidos/<int:id>/',
+        PublicDetailPerodidos.as_view(),
+        name='public_detail_perdidos',
+    ),
 ]
-
-

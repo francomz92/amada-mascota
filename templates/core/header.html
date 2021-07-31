@@ -1,0 +1,100 @@
+{% load static %}
+<header class="header">
+	<h2 class="logo">
+		<a href="/">
+			<span class="logo__Amada">Amada</span><span class="logo__Mascota">Mascota</span>
+		</a>
+	</h2>
+	<nav class="nav-header">
+		<ul class="nav-header__level-1">
+			<li>
+				<span class="li-tag"><a href="/">Inicio</a></span>
+			</li>
+			<li>
+				<span class="li-tag">Consultas
+					<img src="{% static 'core/img/flecha-hacia-abajo.svg' %}" width="10px">
+				</span>
+				<ul class="nav-header__level-2">
+					<li>
+						<a class="li-tag__link" href="{% url 'perdidos:public_perdidos' %}">
+							Perdidos
+						</a>
+					</li>
+					<li>
+						<a class="li-tag__link" href="{% url 'encontrados:public_encontrados' %}">
+							Encontrados
+						</a>
+					</li>
+					<li>
+						<a class="li-tag__link" href="{% url 'adopcion:public_adopcion' %}">
+							En Adopción
+						</a>
+					</li>
+				</ul>
+			</li>
+			{% if user.is_authenticated %}
+			<li>
+				<span class="li-tag">Mis Publicaciones
+					<img src="{% static 'core/img/flecha-hacia-abajo.svg' %}" width="10px">
+				</span>
+				<ul class="nav-header__level-2">
+					<li>
+						<a class="li-tag__link" href="{% url 'perdidos:private_perdidos' %}">
+							Perdidos
+						</a>
+					</li>
+					<li>
+						<a class="li-tag__link" href="{% url 'encontrados:private_encontrados' %}">
+							Encontrados
+						</a>
+					</li>
+					<li>
+						<a class="li-tag__link" href="{% url 'adopcion:private_adopcion' %}">
+							En Adopción
+						</a>
+					</li>
+				</ul>
+			</li>
+			<li>
+				<span class="li-tag"><a href="{% url 'suscripcion:private_suscripcion' %}">Suscripciones</a></span>
+			</li>
+			{% endif %}
+			<li>
+				<span class="li-tag">Nosotros
+					<img src="{% static 'core/img/flecha-hacia-abajo.svg' %}" width="10px">
+				</span>
+				<ul class="nav-header__level-2">
+					<li><a class="li-tag__link" href="#">Contactanos</a></li>
+					<li><a class="li-tag__link" href="#">Acerca de...</a></li>
+					<li><a class="li-tag__link" href="#">FAQ</a></li>
+				</ul>
+			</li>
+			{% if user.is_authenticated %}
+			<li>
+				<span class="li-tag">Hola, {{ user.first_name }}
+					<img src="{% static 'core/img/flecha-hacia-abajo.svg' %}" width="10px">
+				</span>
+				<ul class="nav-header__level-2 text-r">
+					<li>
+						<a class="li-tag__link" href="{%url 'usuario:private_user_profile' user.username%}">
+							Perfil
+						</a>
+					</li>
+					<li>
+						<a class="li-tag__link" href="{% url 'usuario:private_user_update' user.username %}">
+							Editar perfil
+						</a>
+					</li>
+					<li>
+						<a class="li-tag__link" href="{% url 'usuario:logout' %}">Cerrar sesión</a>
+					</li>
+				</ul>
+			</li>
+			{% else %}
+			<li>
+				<a class="btn btn-nav" href="{% url 'usuario:login' %}">Iniciar</a>
+			</li>
+			{% endif %}
+		</ul>
+	</nav>
+</header>

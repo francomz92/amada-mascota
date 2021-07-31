@@ -1,165 +1,174 @@
-from django.shortcuts import render, redirect, get_object_or_404
-from apps.perdidos.models import Publicacion, Mascota, Ubicacion, Encontro, Notificacion
-from .forms import MascotaForm, UbicacionForm, EncontroForm, SearchForm
-from django.contrib import messages
+from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.cache import never_cache
+from django.utils.decorators import method_decorator
 from django.urls import reverse_lazy
-from django.utils import timezone
-from datetime import datetime, timedelta
-from django.conf import settings
-from django.core import mail
-from django.core.mail import send_mail
-from django.template.loader import render_to_string
+from django.shortcuts import get_object_or_404, redirect, render
+from utils.decorators import contex_data
+from apps.models import Mascota, Ubicacion
+from apps.forms import SearchPerdidosEncontraodsForm, MascotaForm, UbicacionForm
+from .models import Encontro
+from .forms import EncontradoForms
 
 # Create your views here.
 
-@login_required
-def lista_encontrados(request):
-   current_user = request.user
-   publicaciones = Encontro.objects.filter(id_usuario=current_user)
-   ctx = {
-      'publicaciones': publicaciones,
-      'fecha_actual': datetime.now().date(),
-   }
-   return render(request, 'lista_encontrados.html', ctx)
 
-@login_required
-def publicar(request):
-   current_user = request.user
-   mascota = MascotaForm(initial= {'id_dueño': current_user})
-   ubicacion = UbicacionForm()
-   encontro = EncontroForm(initial= {'id_usuario': current_user})
-   if request.method == 'POST':
-      mascota = MascotaForm(data=request.POST, files=request.FILES)
-      ubicacion = UbicacionForm(data=request.POST)
-      encontro = EncontroForm(data=request.POST, initial={'id_usuario': current_user})
-      if mascota.is_valid() and ubicacion.is_valid() and encontro.is_valid():
-         masc = mascota.save()
-         ubic = ubicacion.save()
-         enc = encontro.save(commit=False)
-         enc.id_usuario = current_user
-         enc.id_mascota = masc
-         enc.id_ubicacion = ubic
-         enc.save()
-         
-         # Envio de notificación por email a usuarios con una determinada suscripción de encontrados
-         user_notificacion = Notificacion.objects.filter(especie=masc.especie, localidad=ubic.localidad, tipo='Encontro')
-         to_email = [usuario.id_usuario.email for usuario in user_notificacion if usuario.fecha_hasta >= enc.fecha_publicacion]
-         html_content = render_to_string('correo_notificacion_e.html', {'publicacion': enc})
-         
-         with mail.get_connection() as conexion:
-            send_mail(
-               subject = '[Amada Mascota] Suscripción a Encontrados',
-               message = f'Acaban de encontrar un {masc.especie} {masc.tamaño} de raza {masc.raza} en el barrio {ubic.barrio} de {ubic.localidad}, ve a ver',# localhost/encontrados/publicacion/{enc.id}',
-               from_email = settings.EMAIL_HOST_USER,
-               recipient_list = to_email,
-               fail_silently = False,
-               html_message = html_content,
-               connection = conexion
-            )
-          
-         return redirect(to='encontrados:lista_encontrados')
-      else:
-         messages.error(request, 'Ups...parece que algo salió mal.!! Vuelve a intentarlo.')
-         mascota = MascotaForm(data=request.POST, files=request.FILES)
-         ubicacion = UbicacionForm(data=request.POST)
-         encontro = EncontroForm(data=request.POST)
-   
-   ctx = {
-      'mascota': mascota,
-      'ubicacion': ubicacion,
-      'encontro': encontro,
+@method_decorator(contex_data(title='Encontrados', header='Consulta Encontrados'), name='get_context_data')
+class PublicEncontrados(ListView):
+   model = Encontro
+   template_name = 'public_encontrados.html'
+   form_class = SearchPerdidosEncontraodsForm
+
+   def get(self, request, *args, **kwargs):
+      form = SearchPerdidosEncontraodsForm(request.GET)
+      if form.is_valid():
+         result = self.model.objects.all().filter(
+             id_mascota__especie__icontains=request.GET.get('especie', ''),
+             id_ubicacion__localidad__icontains=request.GET.get('localidad', ''),
+             id_ubicacion__barrio__icontains=request.GET.get('barrio', ''),
+         ).order_by('fecha_publicacion')
+         data = self.get_context_data()
+         data['form'] = form
+         data['publicaciones'] = result
+         return render(request, self.template_name, data)
+      return super().get(request, *args, **kwargs)
+
+   def get_context_data(self, **kwargs):
+      data = {
+          'form': self.form_class(),
+          'msj': 'Estas mascotas se encuentran sin dueño.',
       }
-   return render(request, 'publicar_e.html', ctx)
+      return data
 
-@login_required
-def editar_publicacion(request, id_publicacion):
-   current_user = request.user
-   encontro = get_object_or_404(Encontro, id=id_publicacion, id_usuario=current_user)
-   mascota = get_object_or_404(Mascota, id=encontro.id_mascota.id)
-   ubicacion = get_object_or_404(Ubicacion, id=encontro.id_ubicacion.id)
-   if request.method == 'POST':
-      mascota = MascotaForm(data=request.POST, files=request.POST, instance=mascota)
-      ubicacion = UbicacionForm(data=request.POST, instance=ubicacion)
-      encontro = EncontroForm(data=request.POST, instance=encontro)
-      if mascota.is_valid() and ubicacion.is_valid() and encontro.is_valid():
-         mascota.save()
-         ubicacion.save()
-         encontro.save()
-         messages.success(request, 'Guardado')
-         return redirect(to='encontrados:lista_encontrados')
+
+@method_decorator(login_required(), name='dispatch')
+@method_decorator(contex_data(title='Mis Publicaciones', header='Encontrados'), name='get_context_data')
+class PrivateEncontrados(ListView):
+   model = Encontro
+   template_name = 'private_encontrados.html'
+   context_object_name = 'publicaciones'
+
+   def get_queryset(self):
+      self.object = self.model.objects.filter(id_usuario=self.request.user)\
+                                      .order_by('fecha_publicacion')
+      return self.object
+
+   def get_context_data(self, **kwargs):
+      data = super().get_context_data(**kwargs)
+      data['msj'] = 'Estas mascotas se encuentran sin dueño.'
+      data['href_eliminar'] = 'apps:private_delete_publicacion'
+      return data
+
+
+@method_decorator([never_cache, login_required()], name='dispatch')
+@method_decorator(csrf_exempt, name='post')
+@method_decorator(contex_data(title='Nueva Publicación', header='Nueva Publicación'), name='get_context_data')
+class PrivateCreateEncontrado(CreateView):
+   model = Encontro
+   form_class = EncontradoForms
+   form_mascota = MascotaForm
+   form_ubicacion = UbicacionForm
+   template_name = 'private_create_encontrado.html'
+   success_url = reverse_lazy('encontrados:private_encontrados')
+
+   def post(self, request, *args, **kwargs):
+      form_encontrado = self.form_class(request.POST)
+      form_mascota = self.form_mascota(request.POST, files=request.FILES)
+      form_ubicacion = self.form_ubicacion(request.POST)
+      if form_encontrado.is_valid() and form_mascota.is_valid() and form_ubicacion.is_valid():
+         try:
+            mascota = form_mascota.save()
+            ubicacion = form_ubicacion.save()
+            encontrado = form_encontrado.save(commit=False)
+            encontrado.id_usuario = self.request.user
+            encontrado.id_mascota = mascota
+            encontrado.id_ubicacion = ubicacion
+            encontrado.save()
+            return redirect(to=self.success_url)
+         except Exception as err:
+            print('¡Ocurrió un error!', str(err))
       else:
-         messages.error(request, message='Ups...parece que algo salió mal.!! Vuelve a intentarlo.')
-   ctx = {
-      'mascota': MascotaForm(instance=mascota),
-      'ubicacion': UbicacionForm(instance=ubicacion),
-      'encontro': EncontroForm(instance=encontro),
-   }
-   return render(request, 'editar_publicacion_e.html', ctx)
+         data = {
+             'form_class': self.form_class(request.POST),
+             'form_mascota': self.form_mascota(request.POST),
+             'form_ubicacion': self.form_ubicacion(request.POST),
+         }
+      return render(request, self.template_name, data)
 
-def publicacion(request, id_publicacion):
-   publicacion = get_object_or_404(Encontro, id=id_publicacion)
-   ctx = {
-      'publicacion': publicacion,
-      'fecha_actual': datetime.now().date(),
-   }
-   return render(request, 'publicacion_e.html', ctx)
+   def get_context_data(self, **kwargs):
+      data = super().get_context_data(**kwargs)
+      data['msj'] = 'Publica una mascota encontrada.'
+      data['form_class'] = self.form_class()
+      data['form_mascota'] = self.form_mascota()
+      data['form_ubicacion'] = self.form_ubicacion()
+      return data
 
-@login_required
-def eliminar_publicacion(request, id_publicacion):
-   current_user = request.user
-   publicacion = get_object_or_404(Encontro, id=id_publicacion, id_usuario=current_user)
-   mascota = Mascota.objects.get(id=publicacion.id_mascota.id)
-   ubicacion = Ubicacion.objects.get(id=publicacion.id_ubicacion.id)
-   publicacion.delete()
-   mascota.delete()
-   ubicacion.delete()
-   return redirect(to='encontrados:lista_encontrados')
 
-@login_required
-def renovar_publicacion(request, id_publicacion):
-   current_user = request.user
-   fecha_actual = datetime.now().date()
-   publicacion = get_object_or_404(Encontro, id=id_publicacion, id_usuario=current_user)
-   if fecha_actual > publicacion.valido_hasta:
-      publicacion.valido_hasta = fecha_actual + timedelta(days=7)
-      publicacion.save()
-   return redirect(to='encontrados:lista_encontrados')
+@method_decorator([never_cache, login_required()], name='dispatch')
+@method_decorator(csrf_exempt, name='post')
+@method_decorator(contex_data(title='Editar Publiación', header='Editar Publicación'),
+                  name='get_context_data')
+class PrivateUpdateEncontrado(UpdateView):
+   model = Encontro
+   template_name = 'private_update_encontrado.html'
+   success_url = reverse_lazy('encontrados:private_encontrados')
+   pk_url_kwarg = 'id'
+   form_class = EncontradoForms
+   form_mascota = MascotaForm
+   form_ubicacion = UbicacionForm
 
-def buscar_e(request):
-   if request.GET:
-      search_form = SearchForm(request.GET)
-   else:
-      search_form = SearchForm()
+   def dispatch(self, request, *args, **kwargs):
+      self.object = get_object_or_404(self.model, id=self.kwargs['id'])
+      self.mascota = get_object_or_404(Mascota, id=self.object.id_mascota.id)
+      self.ubicacion = get_object_or_404(Ubicacion, id=self.object.id_ubicacion.id)
+      return super().dispatch(request, *args, **kwargs)
 
-   barrio = request.GET.get("barrio", "") ## recibe barrio
-   especie = request.GET.get("especie","")
-   orden_post = request.GET.get("orden", None)
-   localidad = request.GET.get("localidad","")
-   #param_comentarios_habilitados = request.GET.get("permitir_comentarios", None)
-   #param_categorias = request.GET.getlist("barrio")
+   def post(self, request, *args, **kwargs):
+      form_encontrado = self.form_class(request.POST, instance=self.object)
+      form_mascota = self.form_mascota(request.POST, files=request.FILES, instance=self.mascota)
+      form_ubicacion = self.form_ubicacion(request.POST, instance=self.ubicacion)
+      if form_encontrado.is_valid() and form_mascota.is_valid() and form_ubicacion.is_valid():
+         try:
+            self.mascota = form_mascota.save()
+            self.ubicacion = form_ubicacion.save()
+            self.object = form_encontrado.save(commit=False)
+            self.object.id_usuario = self.request.user
+            self.object.id_mascota = self.mascota
+            self.object.id_ubicacion = self.ubicacion
+            self.object.save()
+            return redirect(to=self.success_url)
+         except Exception as err:
+            print('¡Ocurrió un error!', str(err))
+      else:
+         data = self.get_context_data()
+         data['msj'] = self.object.id_mascota.especie
+         data['form_class'] = self.form_class(request.POST)
+         data['form_mascota'] = self.form_mascota(request.POST, files=request.FILES)
+         data['form_ubicacion'] = self.form_ubicacion(request.POST)
+         return render(request, self.template_name, data)
+      return super().post(request, *args, **kwargs)
 
-   publicaciones=Encontro.objects.all().filter(id_ubicacion__barrio__icontains = barrio, valido_hasta__gt = timezone.now()).order_by("-fecha_evento")
-   publicaciones.exclude(fecha_entrega__isnull=False)
-   if especie and especie != "sin":
-      publicaciones = publicaciones.filter(id_mascota__especie__icontains = especie)
-  
-   if localidad and localidad !="sin":
-      publicaciones = publicaciones.filter(id_ubicacion__localidad__icontains = localidad)
-   #posts = Ubicacion.objects.filter(barrio__icontains = filtro_barrio).values_list('barrio')
-   
-   if orden_post == "sin":
-      publicaciones = publicaciones.order_by()
-   elif orden_post == "antiguo":
-      publicaciones = publicaciones.order_by("fecha_evento")
-   elif orden_post == "nuevo":
-      print('pasa nuevo')
-      publicaciones = publicaciones.order_by("-fecha_evento")
+   def get_context_data(self, **kwargs):
+      data = super().get_context_data(**kwargs)
+      data['msj'] = self.object.id_mascota.especie
+      data['form_class'] = self.form_class(instance=self.object)
+      data['form_mascota'] = self.form_mascota(instance=self.mascota)
+      data['form_ubicacion'] = self.form_ubicacion(instance=self.ubicacion)
+      return data
 
-   #print(publicaciones)
-   contexto = {"publicaciones":publicaciones,
-              "search_form":search_form,
-               }
-   return render(request, "index_encontrados.html",contexto)
-   
+
+@method_decorator(contex_data(title='Detalle de la publicación'), name='get_context_data')
+class PublicDetailEncontrado(DetailView):
+   model = Encontro
+   template_name = 'public_detail_encontrado.html'
+   context_object_name = 'publicacion'
+   pk_url_kwarg = 'id'
+   query_pk_and_slug = 'id'
+
+   def get_context_data(self, **kwargs):
+      data = super().get_context_data(**kwargs)
+      data['msj'] = self.object.id_mascota.especie
+      data['header'] = self.object.id_mascota.nombre
+      data['href_eliminar'] = 'apps:private_delete_publicacion'
+      return data

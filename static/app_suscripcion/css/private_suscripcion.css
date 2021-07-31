@@ -1,0 +1,15 @@
+.section-2__publications-grid {
+   justify-content: space-evenly;
+}
+
+.img-container {
+   width: 100px;
+   flex-direction: column;
+   font-family: 'Pacifico';
+   font-size: 1.5em;
+}
+
+.img-container > img {
+   margin-top: 10px;
+   border-radius: 50%;
+}

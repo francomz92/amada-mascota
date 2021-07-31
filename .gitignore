@@ -4,22 +4,13 @@
 __pycache__
 
 # Env
-.env
-venv/
-apps/perdidos/migrations/
+env
+
 media/
 
 # Database
 db.sqlite3
 
-# Static folder at project root
-#/static/
-
-# macOS
-._*
-.DS_Store
-.fseventsd
-.Spotlight-V100
 
 # Windows
 Thumbs.db*
